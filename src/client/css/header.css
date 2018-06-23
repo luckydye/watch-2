@@ -1,0 +1,27 @@
+
+w2-header {
+	padding: 0 10px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+w2-header button.holo-button {
+    background: transparent;
+    border: 1px solid currentColor;
+    color: rgba(255, 255, 255, 0.3);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: background .15s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    user-select: none;
+}
+
+w2-header button.holo-button:hover {
+	background: currentColor;
+}

@@ -1,0 +1,20 @@
+
+.video-queue .title {
+    height: 40px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #444;
+    font-weight: 600;
+    background: #303030;
+}
+
+w2-queue {
+    width: 180px;
+    display: block;
+    box-sizing: content-box;
+    padding: 10px;
+    overflow: auto;
+    max-height: calc(100% - 50px);
+}

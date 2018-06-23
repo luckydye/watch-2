@@ -1,0 +1,34 @@
+
+w2-notifications {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: block;
+    margin: 5px 15px;
+}
+
+w2-notification {
+    padding: 10px 20px;
+    background: #484848;
+    box-shadow: 1px 2px 5px hsla(0, 0%, 0%, 0.3);
+    display: block;
+    color: #a2a2a2;
+    border-radius: 5px;
+	opacity: 0.8;
+	min-width: 180px;
+	margin-bottom: 10px;
+	animation: slide-in .3s ease;
+}
+
+@keyframes slide-in {
+	from {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+}
+
+@keyframes fade-out {
+	to {
+		opacity: 0;
+	}
+}

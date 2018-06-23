@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" loading>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Watch 2</title>
+
+	<link preload href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link preload href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
+
+	<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+	<script src="js/helpers.js"></script>
+	
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/notifications.css">
+	<link rel="stylesheet" href="css/header.css">
+	<link rel="stylesheet" href="css/placeholders.css">
+	<link rel="stylesheet" href="css/video-queue.css">
+	<link rel="stylesheet" href="css/userlist.css">
+	
+    <script>
+		window.addEventListener("load", function() {
+			document.documentElement.removeAttribute("loading");
+		});
+	</script>
+
+	<script>
+
+		function getPreferences() {
+			let preferences = localStorage.getItem("preferences");
+			if(!preferences) {
+				preferences = {};
+			} else {
+				preferences = JSON.parse(preferences);
+			}
+			return preferences;
+		}
+
+		function setPreference(key, val) {
+			let preferences = getPreferences();
+			preferences[key] = val;
+			localStorage.setItem("preferences", JSON.stringify(preferences));
+		}
+
+	</script>
+
+</head>
+<body userlist-open="false">
+	
+	<div class="app-main">
+
+		<w2-header>
+
+			<button class="holo-button toggle-userlist">
+				<i class="material-icons">
+					keyboard_arrow_left
+				</i>
+				<script>
+					(function() {
+						document.querySelector(".toggle-userlist").onclick = () => {
+							setUserlistState(
+								document.body.getAttribute("userlist-open") == "true" ? false : true
+							);
+						}
+						
+						function setUserlistState(state) {
+							document.body.setAttribute("userlist-open", state);
+						}
+					})();
+				</script>
+			</button>
+
+		</w2-header>
+
+		<div class="video-queue">
+			<div class="title">Queue</div>
+			<w2-queue>
+				<div class="placeholder"></div>
+				<div class="placeholder"></div>
+				<div class="placeholder"></div>
+				<div class="placeholder"></div>
+			</w2-queue>
+		</div>
+
+		<w2-player>
+			<div class="placeholder"></div>
+		</w2-player>
+
+		<w2-userlist>
+			<div class="placeholder"></div>
+			<div class="placeholder"></div>
+			<div class="placeholder"></div>
+		</w2-userlist>
+
+	</div>
+
+	<w2-notifications>
+		<script async>
+			window.onload = () => {
+				createNotification("Connected", 1000);
+			}
+		</script>
+	</w2-notifications>
+
+</body>
+</html>

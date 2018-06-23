@@ -1,0 +1,22 @@
+
+w2-userlist {
+	transition: transform .15s ease;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+w2-header {
+	transition: margin .15s ease;
+}
+
+[userlist-open="true"] w2-header {
+	margin-right: 200px;
+}
+
+[userlist-open="true"] w2-header button.toggle-userlist i {
+	transform: rotate(180deg);
+}
+
+[userlist-open="true"] w2-userlist {
+	transform: translateX(-100%);
+}
