@@ -18,6 +18,8 @@ w2-notification {
 	min-width: 180px;
 	margin-bottom: 10px;
 	animation: slide-in .3s ease;
+	user-select: none;
+	cursor: pointer;
 }
 
 @keyframes slide-in {

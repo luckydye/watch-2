@@ -8,6 +8,8 @@
 
 	<link preload href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link preload href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
+	
+	<script src="https://www.youtube.com/iframe_api"></script>
 
 	<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 	<script src="js/helpers.js"></script>
@@ -78,13 +80,28 @@
 			<w2-queue>
 				<div class="placeholder"></div>
 				<div class="placeholder"></div>
-				<div class="placeholder"></div>
-				<div class="placeholder"></div>
 			</w2-queue>
 		</div>
 
 		<w2-player>
-			<div class="placeholder"></div>
+			<div class="placeholder" id="ytplayer"></div>
+
+			<script id="ytp_api" type="text/javascript">
+			
+				function onYouTubeIframeAPIReady() {}
+
+				let ytplayer = new YT.Player('ytplayer', {
+					height: '100%',
+					width: '100%',
+					events: {
+						'onStateChange': (e) => {},
+						'onReady': (e) => {
+							ytplayer.cueVideoById("UFfYzyWkSCA");
+						}
+					}
+				});
+				
+			</script>
 		</w2-player>
 
 		<w2-userlist>
@@ -98,7 +115,9 @@
 	<w2-notifications>
 		<script async>
 			window.onload = () => {
-				createNotification("Connected", 1000);
+				displayNotification("Connected", 1000, note => {
+					console.log("Clicked on notification!");
+				});
 			}
 		</script>
 	</w2-notifications>
