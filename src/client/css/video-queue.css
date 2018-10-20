@@ -52,12 +52,16 @@ w2-queue {
 w2-queueitem {
     display: block;
     width: 100%;
-    height: 100px;
+    height: 90px;
     background: #333;
     animation: slideIn .15s;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
+}
+
+w2-queueitem:first-child .controls {
+    display: none;
 }
 
 w2-queueitem img {

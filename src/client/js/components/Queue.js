@@ -8,50 +8,31 @@ export default class Queue extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML = "";
 		this.render();
-
-		this.addVideo("UFfYzyWkSCA");
-
-		setTimeout(() => {
-			this.addVideo("01OtZZs4Pus");
-		}, 200);
 	}
 
 	addVideo(vidId) {
-		const item = document.createElement("w2-queueitem");
-		item.vidid = vidId;
-		item.onPlay = () => {
-			this.playVideo(this.queue.indexOf(item));
-		}
-		item.onDelete = () => {
-			this.removeVideo(this.queue.indexOf(item));
-		}
-
-		this.queue.push(item);
+		this.queue.push(vidId);
 		this.render();
-		return item;
-	}
-
-	removeVideo(index) {
-		const item = this.queue.splice(index, 1);
-		this.render();
-		return item;
-	}
-
-	playVideo(index) {
-		if(index > 0) {
-			const item = this.queue.splice(index, 1)[0];
-			this.queue.unshift(item);
-			this.render();
-			return item;
-		}
 	}
 
 	render() {
 		this.innerHTML = "";
-		for(let item of this.queue) {
+		for(let id of this.queue) {
+			const item = document.createElement("w2-queueitem");
+			item.vidid = id;
+			item.onPlay = () => {
+				this.playVideo(this.queue.indexOf(id), id);
+			}
+			item.onDelete = () => {
+				this.removeVideo(this.queue.indexOf(id), id);
+			}
 			this.appendChild(item);
 		}
 	}
+
+	removeVideo(index, id) { /* hook */ }
+
+	playVideo(index, id) { /* hook */ }
 }
 
 class QueueItem extends HTMLElement {

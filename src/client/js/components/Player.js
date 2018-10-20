@@ -1,10 +1,5 @@
 export default class Player extends HTMLElement {
 
-	constructor() {
-		super();
-		console.log("Player init ...");
-	}
-
 	connectedCallback() {
 		// insert api lib
 		const script = document.createElement("script");
@@ -13,16 +8,6 @@ export default class Player extends HTMLElement {
 		}
 		script.src = "https://www.youtube.com/iframe_api";
 		this.appendChild(script);
-	}
-
-	onStateChange(state) {
-		console.log(state.data);
-	}
-
-	onReady() {
-		console.log("YT Player ready ...");
-		// Testing
-		this.play("hypoh_d5zOA");
 	}
 
 	setupPlayer() {
@@ -37,28 +22,12 @@ export default class Player extends HTMLElement {
 		})
 	}
 
-	play(id) {
-		this.player.cueVideoById(id);
+	onReady() {
+		// ready hook
 	}
 
-	pause() {
-		this.player.pauseVideo();
-	}
-
-	stop() {
-		this.player.stopVideo();
-	}
-
-	currentVideo() {
-		this.player.getVideoData();
-	}
-
-	seekTo(sec) {
-		this.player.seekTo(sec);
-	}
-
-	loaded() {
-		return this.player.getVideoLoadedFraction();
+	onStateChange(state) {
+		// State hook
 	}
 }
 
