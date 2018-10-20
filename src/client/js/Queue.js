@@ -69,14 +69,15 @@ class QueueItem extends HTMLElement {
 		overlay.className = "controls";
 		
 		const pbtn = document.createElement("button");
-		pbtn.innerHTML = "P";
+		pbtn.innerHTML = "play_arrow";
 		pbtn.title = "Play this video";
-		pbtn.className = "playbtn";
+		pbtn.className = "playbtn material-icons";
 		pbtn.onclick = this.onPlay.bind(this);
+
 		const dbtn = document.createElement("button");
-		dbtn.innerHTML = "D";
+		dbtn.innerHTML = "remove_circle";
 		dbtn.title = "Remove this video";
-		dbtn.className = "delbtn";
+		dbtn.className = "delbtn material-icons";
 		dbtn.onclick = this.onDelete.bind(this);
 
 		overlay.appendChild(pbtn);

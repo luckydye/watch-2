@@ -74,16 +74,33 @@ w2-queueitem .controls {
     height: 32px;
     background: rgba(0, 0, 0, 0.42);
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     height: 50%;
 }
 
 w2-queueitem .playbtn,
 w2-queueitem .delbtn {
-    width: 20px;
-    height: 20px;
     cursor: pointer;
+    color: white;
+    background: transparent;
+    border: none;
+    opacity: 0.75;
+    padding: 0;
+}
+
+w2-queueitem .playbtn {
+    font-size: 30px;
+}
+
+w2-queueitem .delbtn {
+    font-size: 25px;
+}
+
+w2-queueitem .playbtn:hover,
+w2-queueitem .delbtn:hover {
+    transform: scale(1.15);
+    opacity: 1;
 }
 
 @keyframes slideIn {
