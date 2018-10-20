@@ -1,16 +1,35 @@
-
 w2-userlist {
 	transition: transform .15s ease;
     padding: 15px;
-    box-sizing: border-box;
+	box-sizing: border-box;
+	box-shadow: -4px 0px 10px rgba(0, 0, 0, 0.4);
 }
 
-w2-header {
-	transition: margin .15s ease;
+w2-userlist .headline {
+    color: rgba(238, 238, 238, 0.5);
+    padding: 5px 10px;
+    margin: 0 -5px;
+    background: #313131;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+w2-userlist .row {
+    margin: 15px 0;
+}
+
+w2-itemlist {
+    display: block;
+}
+
+w2-itemlist .item {
+	margin-bottom: 5px;
 }
 
 [userlist-open="true"] w2-header {
-	margin-right: 200px;
+	margin-right: 240px;
 }
 
 [userlist-open="true"] w2-header button.toggle-userlist i {
@@ -19,4 +38,22 @@ w2-header {
 
 [userlist-open="true"] w2-userlist {
 	transform: translateX(-100%);
+}
+
+w2-preferences input {
+    padding: 8px 10px;
+    font-size: 14px;
+    margin: 5px 0 10px 0;
+    background: #313131;
+    border: 1px solid #1c1c1c;
+    border-radius: 3px;
+    color: #eee;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+w2-preferences label {
+	opacity: 0.8;
+    font-size: 12px;
+    text-transform: uppercase;
 }

@@ -5,7 +5,7 @@
 	animation-fill-mode: both;
 }
 
-.placeholder:last-child {
+.placeholder:last-child:not(:first-child) {
 	opacity: 0.5;
 }
 

@@ -6,6 +6,14 @@ w2-header {
 	align-items: center;
 }
 
+w2-header {
+	transition: margin .15s ease;
+}
+
+w2-header {
+	transition: margin .15s ease;
+}
+
 w2-header button.holo-button {
     background: transparent;
     border: 1px solid currentColor;

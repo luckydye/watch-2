@@ -7,12 +7,17 @@
 	<title>Watch 2</title>
 
 	<link preload href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link preload href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
+	<link preload href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
 	
-	<script src="https://www.youtube.com/iframe_api"></script>
-
 	<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
 	<script src="js/helpers.js"></script>
+
+	<script type="module" src="js/Preferences.js"></script>
+	<script type="module" src="js/Player.js"></script>
+	<script type="module" src="js/Queue.js"></script>
+	<script type="module" src="js/Userlist.js"></script>
+	<script type="module" src="js/Socket.js"></script>
 	
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/notifications.css">
@@ -22,57 +27,16 @@
 	<link rel="stylesheet" href="css/userlist.css">
 	
     <script>
-		window.addEventListener("load", function() {
-			document.documentElement.removeAttribute("loading");
-		});
+		window.addEventListener("load", () => 
+			document.documentElement.removeAttribute("loading"));
 	</script>
-
-	<script>
-
-		function getPreferences() {
-			let preferences = localStorage.getItem("preferences");
-			if(!preferences) {
-				preferences = {};
-			} else {
-				preferences = JSON.parse(preferences);
-			}
-			return preferences;
-		}
-
-		function setPreference(key, val) {
-			let preferences = getPreferences();
-			preferences[key] = val;
-			localStorage.setItem("preferences", JSON.stringify(preferences));
-		}
-
-	</script>
-
 </head>
 <body userlist-open="false">
-	
 	<div class="app-main">
-
 		<w2-header>
-
 			<button class="holo-button toggle-userlist">
-				<i class="material-icons">
-					keyboard_arrow_left
-				</i>
-				<script>
-					(function() {
-						document.querySelector(".toggle-userlist").onclick = () => {
-							setUserlistState(
-								document.body.getAttribute("userlist-open") == "true" ? false : true
-							);
-						}
-						
-						function setUserlistState(state) {
-							document.body.setAttribute("userlist-open", state);
-						}
-					})();
-				</script>
+				<i class="material-icons">keyboard_arrow_left</i>
 			</button>
-
 		</w2-header>
 
 		<div class="video-queue">
@@ -81,46 +45,35 @@
 				<div class="placeholder"></div>
 				<div class="placeholder"></div>
 			</w2-queue>
+			<div class="addVideo">+</div>
 		</div>
 
 		<w2-player>
 			<div class="placeholder" id="ytplayer"></div>
-
-			<script id="ytp_api" type="text/javascript">
-			
-				function onYouTubeIframeAPIReady() {}
-
-				let ytplayer = new YT.Player('ytplayer', {
-					height: '100%',
-					width: '100%',
-					events: {
-						'onStateChange': (e) => {},
-						'onReady': (e) => {
-							ytplayer.cueVideoById("UFfYzyWkSCA");
-						}
-					}
-				});
-				
-			</script>
 		</w2-player>
 
 		<w2-userlist>
-			<div class="placeholder"></div>
-			<div class="placeholder"></div>
-			<div class="placeholder"></div>
-		</w2-userlist>
+			<div class="headline">
+				<a>Settings</a>
+			</div>
 
+			<div class="row">
+				<w2-preferences>
+					<label>Username</label><br/>
+					<w2-preference key="username" placeholder="Username">
+				</w2-preferences>
+			</div>
+
+			<div class="headline">
+				<a>Userlist</a>
+			</div>
+
+			<div class="row">
+				<w2-itemlist class="userlist"></w2-itemlist>
+			</div>
+		</w2-userlist>
 	</div>
 
-	<w2-notifications>
-		<script async>
-			window.onload = () => {
-				displayNotification("Connected", 1000, note => {
-					console.log("Clicked on notification!");
-				});
-			}
-		</script>
-	</w2-notifications>
-
+	<w2-notifications></w2-notifications>
 </body>
 </html>

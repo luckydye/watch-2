@@ -1,8 +1,8 @@
-const proxy = require('express-http-proxy');
+const path = require('path');
 const express = require('express');
 const app = express();
 
-const PORT = process.env.PORT || 3031;
+const PORT = process.env.PORT || 8080;
 
 const api = require('./api.js');
 
@@ -14,6 +14,11 @@ app.use(function(req, res, next) {
 
 app.use('/api', api);
 
-app.use('/', proxy(`http://localhost:8081/src/client`));
+app.use('/node_modules', express.static('node_modules'));
+
+app.use('/', express.static('./src/client/'));
+app.use('/', (req, res) => {
+	res.sendFile(path.resolve("./src/client/index.html"));
+});
 
 app.listen(PORT, () => console.log('App listening on port ' + PORT));
