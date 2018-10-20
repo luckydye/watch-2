@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 module.exports = router;
@@ -19,6 +20,6 @@ function jsonResponse(data) {
 
 // Routs
 
-router.get('/v1', (req, res) => {
+router.get('/', (req, res) => {
 	res.send(jsonResponse());
 });

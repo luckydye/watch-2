@@ -65,6 +65,8 @@ class QueueItem extends HTMLElement {
 	}
 
 	connectedCallback() {
+		this.innerHTML = "";
+		
 		const overlay = document.createElement("div");
 		overlay.className = "controls";
 		

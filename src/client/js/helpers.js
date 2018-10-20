@@ -1,27 +1,3 @@
-window.addEventListener("DOMContentLoaded", () => {
-
-	// Userlist toggle button
-	document.querySelector(".toggle-userlist").onclick = () => bindButton("userlist-open");
-
-	// testing noteifications
-	displayNotification("Connected", 10000, note => {
-		console.log("Clicked on notification!");
-	});
-
-	// video add button
-	document.querySelector(".video-queue .addVideo").addEventListener("click", () => {
-		const link = prompt("YouTube Video Link");
-		const parsed = parseYoutubeUrl(link);
-
-		if(parsed) {
-			const queue = document.querySelector("w2-queue");
-			queue.addVideo(parsed.id);
-		} else {
-			displayNotification("Inavlid URL", 2000);
-		}
-	})
-})
-
 function bindButton(attr) {
 	const state = document.body.getAttribute(attr) == "true" ? false : true;
 	document.body.setAttribute(attr, state);
@@ -33,11 +9,6 @@ function parseYoutubeUrl(url) {
 		return { id: videoid[1] };
 	}
 	return null;
-}
-
-function service(path) {
-	const api = `${location.origin}${constants.API_PATH}`;
-	return fetch(api + path).then(res => res.json());
 }
 
 // Notifications api
