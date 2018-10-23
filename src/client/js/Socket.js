@@ -81,6 +81,7 @@ export class Socket {
 					videoId: msg.id,
 					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0)
 				});
+				lastState = null;
 			}
 			
 			if(msg.state == 1) {
@@ -103,6 +104,7 @@ export class Socket {
 			const player = document.querySelector("w2-player");
 			const ytplayer = player.player;
 
+			lastState = null;
 			ytplayer.loadVideoById({
 				videoId: msg.id,
 				startSeconds: 0
