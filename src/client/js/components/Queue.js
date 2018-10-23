@@ -17,14 +17,15 @@ export default class Queue extends HTMLElement {
 
 	render() {
 		this.innerHTML = "";
-		for(let id of this.queue) {
+		for(let i = 0; i < this.queue.length; i++) {
+			const id = this.queue[i];
 			const item = document.createElement("w2-queueitem");
 			item.vidid = id;
 			item.onPlay = () => {
-				this.playVideo(this.queue.indexOf(id), id);
+				this.playVideo(i, id);
 			}
 			item.onDelete = () => {
-				this.removeVideo(this.queue.indexOf(id), id);
+				this.removeVideo(i, id);
 			}
 			this.appendChild(item);
 		}

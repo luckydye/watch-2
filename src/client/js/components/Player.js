@@ -25,7 +25,7 @@ export default class Player extends HTMLElement {
 	}
 
 	onReady() {
-		// ready hook
+		console.log("player ready");
 	}
 
 	onStateChange(state) {

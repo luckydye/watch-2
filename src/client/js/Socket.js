@@ -13,6 +13,8 @@ export class Socket {
 
 		this.initListeners();
 		this.connect();
+
+		this.updaterate = 500;
 	}
 
 	initListeners() {
@@ -22,6 +24,7 @@ export class Socket {
 		const ytplayer = player.player;
 
 		let lastState = null;
+		let lastPlayState = 1;
 		player.onStateChange = state => {
 			if(lastState !== 1) {
 				lastState = state.data;
@@ -29,18 +32,22 @@ export class Socket {
 			}
 
 			switch(state.data) {
-				case 1:
+				case YT.PlayerState.PLAYING:
 					socket.emit('play video');
+					if(lastPlayState == YT.PlayerState.PAUSED) {
+						socket.emit('seek video', { time: ytplayer.getCurrentTime() });
+					}
 					break;
-				case 2:
+				case YT.PlayerState.PAUSED:
 					socket.emit('pause video');
+					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
 					break;
-				case 3:
-					socket.emit('seek video', {
-						time: ytplayer.getCurrentTime()
-					});
+				case YT.PlayerState.BUFFERING:
+					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
 					break;
 			}
+
+			lastPlayState = state;
 		}
 
 		setInterval(() => {
@@ -49,9 +56,10 @@ export class Socket {
 					time: ytplayer.getCurrentTime(),
 					id: ytplayer.getVideoData().video_id,
 					timestamp: Date.now(),
+					ended: ytplayer.getPlayerState() == 0
 				});
 			}
-		}, 500);
+		}, this.updaterate);
 
 		socket.on('disconnect', msg => displayNotification("ERROR: Disconnected", 20000));
 		
@@ -75,21 +83,11 @@ export class Socket {
 			const player = document.querySelector("w2-player");
 			const ytplayer = player.player;
 
-			const currentVid = ytplayer.getVideoData().video_id;
-			if(currentVid != msg.id) {
-				ytplayer.loadVideoById({
-					videoId: msg.id,
-					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0)
-				});
-				lastState = null;
-			}
-			
-			if(msg.state == 1) {
-				ytplayer.playVideo();
-				ytplayer.playVideo();
-			} else {
-				ytplayer.pauseVideo();
-			}
+			ytplayer.loadVideoById({
+				videoId: msg.id,
+				startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
+			});
+			lastState = null;
 		})
 		
 		socket.on('play video', msg => {
@@ -149,6 +147,9 @@ export class Socket {
 	}
 
 	playVideo(video) {
-		this.socket.emit('play video');
+		this.socket.emit('queue play', {
+			index: video.index,
+			id: video.id,
+		});
 	}
 }

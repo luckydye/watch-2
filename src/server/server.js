@@ -17,6 +17,7 @@ app.use((req, res, next) => {
 app.use('/node_modules/@webcomponents', express.static('node_modules/@webcomponents'));
 app.use('/js', express.static('./src/client/js'));
 app.use('/css', express.static('./src/client/css'));
+app.use('/res', express.static('./src/client/res'));
 
 app.use('/api/v1', require('./api.js'));
 
@@ -123,7 +124,7 @@ io.on('connection', socket => {
 		room.queue.push(id);
 
 		broadcastToAll('queue list', room.queue);
-		broadcastToAll('message', { message: id + " added by " + username });
+		broadcast('message', { message: id + " added by " + username });
 
 		if(room.queue.length < 2) {
 			broadcastToAll('queue play', { id });
@@ -136,50 +137,62 @@ io.on('connection', socket => {
 		room.queue.splice(index, 1);
 
 		broadcastToAll('queue list', room.queue);
-		broadcastToAll('message', { message: username + " removed " + msg.id });
+		broadcast('message', { message: username + " removed " + msg.id });
 	});
 
 	socket.on('queue play', msg => {
 		if(!room) return;
 		const index = msg.index;
+		room.queue.unshift(room.queue.splice(index, 1));
 
-		// move vid to the top
-		
 		socket.emit('player state', {
 			id: msg.id,
 			time: 0,
 			state: room.state.video.state,
 		});
+
+		broadcastToAll('queue list', room.queue);
 	});
 
 	socket.on('play video', msg => {
 		if(!room) return;
 		room.state.video.state = 0;
 		broadcastToAll('play video');
-		broadcastToAll('message', { message: username + " pressed play" });
+		broadcast('message', { message: username + " pressed play" });
 	});
 
 	socket.on('pause video', msg => {
 		if(!room) return;
 		room.state.video.state = 1;
 		broadcastToAll('pause video');
-		broadcastToAll('message', { message: username + " pressed pause" });
+		broadcast('message', { message: username + " pressed pause" });
 	});
 
 	socket.on('seek video', msg => {
 		if(!room) return;
 		broadcastToAll('seek video', { time: msg.time });
-		broadcastToAll('message', { message: username + " is scrubbing" });
 	});
 
 	socket.on('player state', msg => {
 		if(!room) return;
-		room.state.video.time = msg.time;
-		room.state.video.id = msg.id;
-		room.state.video.timestamp = msg.timestamp;
-
-		// TODO: next video if veryone is on state "0" (ended)
+		if(socket.id === room.hostId) {
+			room.state.video.time = msg.time;
+			room.state.video.id = msg.id;
+			room.state.video.timestamp = msg.timestamp;
+		}
 	});
+
+	function skipToVideo(index) {
+		room.queue.shift();
+		const next = room.queue[0];
+
+		broadcastToAll('queue list', room.queue);
+		broadcastToAll('player state', {
+			id: next,
+			time: 0,
+			state: 2,
+		});
+	}
 });
 
 http.listen(8080, () => console.log('App listening on port ' + 8080));
