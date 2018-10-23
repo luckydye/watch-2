@@ -16,7 +16,9 @@ export default class Player extends HTMLElement {
 			height: '100%',
 			width: '100%',
 			events: {
-				'onStateChange': player.onStateChange.bind(player),
+				'onStateChange': state => {
+					player.onStateChange(state);
+				},
 				'onReady': player.onReady.bind(player),
 			}
 		})
