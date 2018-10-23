@@ -21,18 +21,37 @@ export class Socket {
 		const player = document.querySelector("w2-player");
 		const ytplayer = player.player;
 
+		let lastState = null;
+		player.onStateChange = state => {
+			if(lastState !== 1) {
+				lastState = state.data;
+				return;
+			}
+
+			switch(state.data) {
+				case 1:
+					socket.emit('play video');
+					break;
+				case 2:
+					socket.emit('pause video');
+					break;
+				case 3:
+					socket.emit('seek video', {
+						time: ytplayer.getCurrentTime()
+					});
+					break;
+			}
+		}
+
 		setInterval(() => {
 			if(ytplayer.getPlayerState() == 1) {
 				socket.emit('player state', {
-					state: ytplayer.getPlayerState(),
+					time: ytplayer.getCurrentTime(),
+					id: ytplayer.getVideoData().video_id,
+					timestamp: Date.now(),
 				});
 			}
 		}, 500);
-		
-		socket.on('player sync', msg => {
-			// set playert state
-			console.log("msg");
-		});
 
 		socket.on('disconnect', msg => displayNotification("ERROR: Disconnected", 20000));
 		
@@ -51,12 +70,57 @@ export class Socket {
 			queue.queue = msg;
 			queue.render();
 		});
-		
-		socket.on('play video', msg => {
+
+		socket.on('player state', msg => {
 			const player = document.querySelector("w2-player");
 			const ytplayer = player.player;
-			ytplayer.cueVideoById(msg.id);
+
+			const currentVid = ytplayer.getVideoData().video_id;
+			if(currentVid != msg.id) {
+				ytplayer.loadVideoById({
+					videoId: msg.id,
+					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0)
+				});
+			}
+			
+			if(msg.state == 1) {
+				ytplayer.playVideo();
+				ytplayer.playVideo();
+			} else {
+				ytplayer.pauseVideo();
+			}
+		})
+		
+		socket.on('play video', msg => {
+			// seperate play video and player state
+			const player = document.querySelector("w2-player");
+			const ytplayer = player.player;
 			ytplayer.playVideo();
+		});
+		
+		socket.on('queue play', msg => {
+			// seperate play video and player state
+			const player = document.querySelector("w2-player");
+			const ytplayer = player.player;
+
+			ytplayer.loadVideoById({
+				videoId: msg.id,
+				startSeconds: 0
+			});
+			ytplayer.playVideo();
+			ytplayer.playVideo();
+		});
+		
+		socket.on('pause video', msg => {
+			const player = document.querySelector("w2-player");
+			const ytplayer = player.player;
+			ytplayer.pauseVideo();
+		});
+		
+		socket.on('seek video', msg => {
+			const player = document.querySelector("w2-player");
+			const ytplayer = player.player;
+			ytplayer.seekTo(msg.time);
 		});
 	}
 
@@ -83,9 +147,6 @@ export class Socket {
 	}
 
 	playVideo(video) {
-		this.socket.emit('play video', {
-			index: video.index,
-			id: video.id
-		});
+		this.socket.emit('play video');
 	}
 }

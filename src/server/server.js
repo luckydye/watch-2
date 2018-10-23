@@ -82,11 +82,18 @@ io.on('connection', socket => {
 
 		socket.emit('queue list', room.queue);
 
+		if(room.state.video.id) {
+			socket.emit('player state', {
+				id: room.state.video.id,
+				time: room.state.video.time,
+				timestamp: room.state.video.timestamp,
+				state: 1,
+			});
+		}
+
 		if(!room.hostId) {
 			// set host to first user
 			room.hostId = socket.id;
-		} else {
-			socket.emit('sync', room.state.video);
 		}
 	});
 
@@ -119,7 +126,7 @@ io.on('connection', socket => {
 		broadcastToAll('message', { message: id + " added by " + username });
 
 		if(room.queue.length < 2) {
-			broadcastToAll('play video', { id });
+			broadcastToAll('queue play', { id });
 		}
 	});
 
@@ -132,30 +139,47 @@ io.on('connection', socket => {
 		broadcastToAll('message', { message: username + " removed " + msg.id });
 	});
 
+	socket.on('queue play', msg => {
+		if(!room) return;
+		const index = msg.index;
+
+		// move vid to the top
+		
+		socket.emit('player state', {
+			id: msg.id,
+			time: 0,
+			state: room.state.video.state,
+		});
+	});
+
 	socket.on('play video', msg => {
 		if(!room) return;
+		room.state.video.state = 0;
+		broadcastToAll('play video');
+		broadcastToAll('message', { message: username + " pressed play" });
+	});
 
-		const vid = room.queue.splice(msg.index, 1);
-		room.queue.unshift(vid);
+	socket.on('pause video', msg => {
+		if(!room) return;
+		room.state.video.state = 1;
+		broadcastToAll('pause video');
+		broadcastToAll('message', { message: username + " pressed pause" });
+	});
 
-		broadcastToAll('queue list', room.queue);
-		broadcastToAll('play video', msg);
-		broadcastToAll('message', { message: "Playing " + msg.id });
+	socket.on('seek video', msg => {
+		if(!room) return;
+		broadcastToAll('seek video', { time: msg.time });
+		broadcastToAll('message', { message: username + " is scrubbing" });
 	});
 
 	socket.on('player state', msg => {
 		if(!room) return;
-		const stateQueue = room.stateQueue;
-		stateQueue.push(msg.state);
-	});
+		room.state.video.time = msg.time;
+		room.state.video.id = msg.id;
+		room.state.video.timestamp = msg.timestamp;
 
-	setInterval(() => {
-		if(!room) return;
-		const stateQueue = room.stateQueue;
-		if(stateQueue.length > 0) {
-			broadcast('player sync', stateQueue.shift());
-		}
-	}, 500);
+		// TODO: next video if veryone is on state "0" (ended)
+	});
 });
 
 http.listen(8080, () => console.log('App listening on port ' + 8080));
