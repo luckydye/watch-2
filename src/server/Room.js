@@ -84,7 +84,8 @@ module.exports = class Room {
 	}
 
 	playFromQueue(index) {
-		const id = this.queue.unshift(this.queue.splice(index, 1));
+		const id = this.queue[index];
+		this.queue.unshift(this.queue.splice(index, 1));
 		this.broadcast('player state', {
 			id: id,
 			time: 0,
