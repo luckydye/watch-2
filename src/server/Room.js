@@ -32,7 +32,10 @@ module.exports = class Room {
 	socketDisconnected(socketId) {
 		this.userlist.delete(socketId);
 		if(this.userlist.size == 0) {
-			this.delete();
+			// save rooms with "saved" in id
+			if(!this.id.match('saved')) {
+				this.delete();
+			}
 		}
 		this.resolveHost(socketId);
 	}
