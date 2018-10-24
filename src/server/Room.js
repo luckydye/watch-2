@@ -1,6 +1,10 @@
 const rooms = new Map();
 
 module.exports = class Room {
+
+	static getRoomStore() {
+		return rooms;
+	}
 	
 	static resolve(socket, id) {
 		if(rooms.has(id))
@@ -36,8 +40,9 @@ module.exports = class Room {
 			if(!this.id.match('saved')) {
 				this.delete();
 			}
+		} else {
+			this.resolveHost(socketId);
 		}
-		this.resolveHost(socketId);
 	}
 
 	resolveHost(socketId) {

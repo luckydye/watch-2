@@ -5,6 +5,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 const Room = require('./Room.js');
+const { watchApi } = require('./api.js');
 
 function randomRoomId() {
 	return "r" + Math.floor(Math.random() * 10000);
@@ -23,7 +24,7 @@ app.use('/js', express.static('./src/client/js'));
 app.use('/css', express.static('./src/client/css'));
 app.use('/res', express.static('./src/client/res'));
 
-app.use('/api/v1', require('./api.js'));
+app.use('/api/v1', watchApi(Room.getRoomStore()));
 
 app.get('/', (req, res) => res.redirect("/r/" + randomRoomId()));
 
