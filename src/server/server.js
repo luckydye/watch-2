@@ -65,17 +65,19 @@ io.on('connection', socket => {
 
 		socket.join(room.id);
 		socket.emit('queue list', room.queue);
+
+		const videoid = room.state.video.id || room.queue[1];
 		
-		if(room.state.video.id) {
+		if(videoid) {
 			socket.emit('player state', {
-				id: room.state.video.id,
-				time: room.state.video.time,
-				timestamp: room.state.video.timestamp,
+				id: videoid,
+				time: room.state.video.time || 0,
+				timestamp: room.state.video.timestamp || 0,
 				state: 1,
 			});
 		}
 		
-		if(!room.hostId) {
+		if(!room.hostId || room.userlist.size < 1) {
 			// set host to first user
 			room.hostId = socket.id;
 		}
