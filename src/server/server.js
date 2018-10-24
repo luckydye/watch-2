@@ -4,7 +4,11 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const randomRoomId = () => "r" + Math.floor(Math.random() * 10000);
+const Room = require('./Room.js');
+
+function randomRoomId() {
+	return "r" + Math.floor(Math.random() * 10000);
+}
 
 // Server
 
@@ -29,60 +33,31 @@ app.get('/r/:roomId', (req, res) => {
 
 // Socket
 
-const rooms = new Map();
-
-class Room {
-	constructor(id) {
-		rooms.set(id, this);
-
-		this.id = id;
-		this.queue = [];
-		this.stateQueue = [];
-		this.userlist = new Map();
-		this.state = {
-			video: {}
-		}
-	}
-
-	delete() {
-		rooms.delete(this.id);
-	}
-
-	static resolve(id) {
-		if(rooms.has(id))
-			return rooms.get(id);
-		return new Room(id);
-	}
-}
-
 io.on('connection', socket => {
 
 	let room, 
 		username = "unknown";
-
-	function broadcastToAll(eventName, msg) {
-		if(!room) return;
-		io.to(room.id).emit(eventName, msg);
-	}
 
 	function broadcast(eventName, msg) {
 		if(!room) return;
 		socket.broadcast.to(room.id).emit(eventName, msg);
 	}
 
-	socket.on('join', msg => {
+	function listenOn(eventName) {
+		return new Promise((resolve, reject) => {
+			socket.on(eventName, msg => resolve(msg));
+		})
+	}
+
+	listenOn('join').then(msg => {
 		// User joined room
 		username = msg.username;
-		room = Room.resolve(msg.room);
+		room = Room.resolve(io, msg.room);
 		room.userlist.set(socket.id, username);
 
 		socket.join(room.id);
-
-		broadcast('message', { message: username + " joined" });
-		broadcastToAll('user list', [...room.userlist]);
-
 		socket.emit('queue list', room.queue);
-
+		
 		if(room.state.video.id) {
 			socket.emit('player state', {
 				id: room.state.video.id,
@@ -91,108 +66,57 @@ io.on('connection', socket => {
 				state: 1,
 			});
 		}
-
+		
 		if(!room.hostId) {
 			// set host to first user
 			room.hostId = socket.id;
 		}
+		
+		broadcast('message', { message: username + " joined" });
+		room.broadcastUserlist();
 	});
-
-	socket.on('disconnect', function() {
+	
+	listenOn('disconnect').then(() => {
 		// User left room
 		if(!room) return;
-
-		room.userlist.delete(socket.id);
-		if(room.userlist.size == 0) {
-			room.delete();
-		}
-
+		room.socketDisconnected(socket.id);
+		room.broadcastUserlist();
 		broadcast('message', { message: username + " left" });
-		broadcastToAll('user list', [...room.userlist]);
-
-		if(room.hostId == socket.id) {
-			// find another host
-			room.hostId == room.userlist.values().next().value;
-			console.log("Found new host: " + room.hostId + " for " + room.id);
-		}
 	});
 
-	// Queue stuff
-	socket.on('queue add', msg => {
-		if(!room) return;
-		const id = msg.id;
-		room.queue.push(id);
+	listenOn('queue add').then(msg => {
+		room.addToQueue(msg.id);
+		broadcast('message', { message: msg.id + " added by " + username });
+	})
 
-		broadcastToAll('queue list', room.queue);
-		broadcast('message', { message: id + " added by " + username });
-
-		if(room.queue.length < 2) {
-			broadcastToAll('queue play', { id });
-		}
-	});
-
-	socket.on('queue remove', msg => {
-		if(!room) return;
-		const index = msg.index;
-		room.queue.splice(index, 1);
-
-		broadcastToAll('queue list', room.queue);
+	listenOn('queue remove').then(msg => {
+		room.removeFromQueue(msg.index);
 		broadcast('message', { message: username + " removed " + msg.id });
 	});
 
-	socket.on('queue play', msg => {
-		if(!room) return;
-		const index = msg.index;
-		room.queue.unshift(room.queue.splice(index, 1));
-
-		socket.emit('player state', {
-			id: msg.id,
-			time: 0,
-			state: room.state.video.state,
-		});
-
-		broadcastToAll('queue list', room.queue);
+	listenOn('queue play').then(msg => {
+		room.playFromQueue(msg.index, msg.id);
 	});
 
-	socket.on('play video', msg => {
-		if(!room) return;
-		room.state.video.state = 0;
-		broadcastToAll('play video');
+	listenOn('play video').then(msg => {
+		room.playVideo();
 		broadcast('message', { message: username + " pressed play" });
 	});
 
-	socket.on('pause video', msg => {
-		if(!room) return;
-		room.state.video.state = 1;
-		broadcastToAll('pause video');
+	listenOn('pause video').then(msg => {
+		room.pauseVideo();
 		broadcast('message', { message: username + " pressed pause" });
 	});
 
-	socket.on('seek video', msg => {
-		if(!room) return;
-		broadcastToAll('seek video', { time: msg.time });
+	listenOn('seek video').then(msg => {
+		room.seekToVideo(msg.time);
 	});
 
-	socket.on('player state', msg => {
-		if(!room) return;
+	listenOn('player state').then(msg => {
 		if(socket.id === room.hostId) {
-			room.state.video.time = msg.time;
-			room.state.video.id = msg.id;
-			room.state.video.timestamp = msg.timestamp;
+			room.syncPlayerState(msg);
 		}
 	});
-
-	function skipToVideo(index) {
-		room.queue.shift();
-		const next = room.queue[0];
-
-		broadcastToAll('queue list', room.queue);
-		broadcastToAll('player state', {
-			id: next,
-			time: 0,
-			state: 2,
-		});
-	}
 });
 
 http.listen(8080, () => console.log('App listening on port ' + 8080));
