@@ -26,7 +26,6 @@ module.exports = class Room {
 		this.socket = socket;
 		this.id = id;
 		this.queue = [];
-		this.stateQueue = [];
 		this.userlist = new Map();
 		this.state = {
 			video: {}
@@ -94,6 +93,7 @@ module.exports = class Room {
 
 	playFromQueue(index) {
 		const id = this.queue[index];
+		// RODO: this might be wrong:
 		this.queue.unshift(this.queue.splice(index, 1));
 		this.broadcast('player state', {
 			id: id,
