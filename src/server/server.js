@@ -61,7 +61,6 @@ io.on('connection', socket => {
 		// User joined room
 		username = msg.username;
 		room = Room.resolve(io, msg.room);
-		room.userlist.set(socket.id, username);
 
 		socket.join(room.id);
 		socket.emit('queue list', room.queue);
@@ -79,6 +78,10 @@ io.on('connection', socket => {
 			// set host to first user
 			room.hostId = socket.id;
 		}
+
+		room.userlist.set(socket.id, {
+			username: username
+		});
 		
 		broadcast('message', { message: username + " joined" });
 		room.broadcastUserlist();

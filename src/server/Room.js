@@ -40,8 +40,9 @@ module.exports = class Room {
 	resolveHost(socketId) {
 		// find another host
 		if(this.hostId == socketId) {
-			this.hostId == this.userlist.values().next().value;
-			console.log("Found new host: " + this.hostId + " for " + this.id);
+			const next = this.userlist.keys().next().value;
+			console.log("Found new host from " + socketId + " to " + next + " for " + this.id);
+			this.hostId = next;
 		}
 	}
 
@@ -99,6 +100,13 @@ module.exports = class Room {
 	}
 
 	broadcastUserlist() {
-		this.broadcast('user list', [...this.userlist]);
+		const list = [];
+		for(let user of this.userlist) {
+			list.push({
+				username: user[1].username,
+				host: user[0] == this.hostId
+			})
+		}
+		this.broadcast('user list', list);
 	}
 }

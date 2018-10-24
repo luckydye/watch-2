@@ -67,8 +67,11 @@ export class Socket {
 		
 		socket.on('user list', msg => {
 			const userlist = document.querySelector("w2-itemlist.userlist");
-			let users = msg.map(x => {
-				return x[1];
+			let users = msg.map(user => {
+				const a = document.createElement("a");
+				a.innerText = user.username;
+				const tag = user.host ? "host" : "";
+				return `${a.innerText} <span class="usertag ${tag}" title="${tag}"></span>`;
 			})
 			userlist.display(users);
 		});
@@ -124,7 +127,7 @@ export class Socket {
 			const currentTime = ytplayer.getCurrentTime();
 			const diff = msg.time - currentTime;
 
-			if(diff > 0.5) {
+			if(diff > 0.5 || diff < -0.5) {
 				ytplayer.seekTo(msg.time);
 				displayNotification(`Resynced ${Math.floor(diff)} seconds`, 2000);
 			}

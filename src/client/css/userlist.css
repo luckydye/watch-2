@@ -20,12 +20,25 @@ w2-userlist .row {
     margin: 15px 0;
 }
 
+w2-userlist .usertag {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.usertag.host {
+    background: red;
+}
+
 w2-itemlist {
     display: block;
 }
 
 w2-itemlist .item {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 [userlist-open="true"] w2-header {

@@ -20,7 +20,7 @@ class Itemlist extends HTMLElement {
 		for(let item of this.list) {
 			const ele = document.createElement("div");
 			ele.className = "item";
-			ele.innerText = item;
+			ele.innerHTML = item;
 			this.appendChild(ele);
 		}
 	}
