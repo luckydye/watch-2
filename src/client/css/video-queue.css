@@ -23,9 +23,47 @@
     color: rgba(255, 255, 255, 0.85);
 }
 
+.video-queue .addVideo::before {
+    content: "Add";
+    text-transform: none;
+    font-size: 13px;
+    background: inherit;
+    height: 100%;
+    padding: 0 10px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    overflow: hidden;
+    width: 20px;
+    opacity: 1;
+    max-width: 100px;
+    transition: border .3s ease, 
+                padding .3s ease, 
+                width .3s ease, 
+                opacity .1s ease;
+}
+
+.video-queue .addVideo:not(:hover)::before {
+    padding: 0;
+    width: 0;
+    opacity: 0;
+    max-width: 0;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
 .video-queue .addVideo:hover {
     opacity: 1;
     border-radius: 25%;
+}
+
+.video-queue .addVideo:active {
+    opacity: 0.8;
+    transition-duration: .05s;
 }
 
 .video-queue .title {
@@ -36,8 +74,6 @@
     align-items: center;
     color: rgba(238, 238, 238, 0.5);
     text-transform: uppercase;
-    /* border-bottom: 1px solid #000000;
-    background: var(--backgroundColor); */
 }
 
 w2-queue {
