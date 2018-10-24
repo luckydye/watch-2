@@ -39,13 +39,15 @@ io.on('connection', socket => {
 		username = "unknown";
 
 	function broadcast(eventName, msg) {
-		if(!room) return;
 		socket.broadcast.to(room.id).emit(eventName, msg);
 	}
 
 	function listenOn(eventName) {
 		return new Promise((resolve, reject) => {
-			socket.on(eventName, msg => resolve(msg));
+			socket.on(eventName, msg => {
+				if(!room && eventName != "join") return;
+				resolve(msg);
+			});
 		})
 	}
 
@@ -77,8 +79,6 @@ io.on('connection', socket => {
 	});
 	
 	listenOn('disconnect').then(() => {
-		// User left room
-		if(!room) return;
 		room.socketDisconnected(socket.id);
 		room.broadcastUserlist();
 		broadcast('message', { message: username + " left" });

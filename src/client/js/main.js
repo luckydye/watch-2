@@ -2,6 +2,9 @@ import { Socket } from './Socket.js';
 
 window.addEventListener("DOMContentLoaded", () => {
 
+	// Set room name
+	document.querySelector(".room-title").innerText = location.pathname.split("/").reverse()[0];
+
 	let socket;
 
 	const player = document.querySelector("w2-player");
@@ -16,6 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	// video add button
 	document.querySelector(".video-queue .addVideo").addEventListener("click", () => {
 		const link = prompt("YouTube Video Link");
+		if(!link) return;
 		const parsed = parseYoutubeUrl(link);
 		if(parsed) {
 			socket.addVideoToQueue(parsed.id);

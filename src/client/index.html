@@ -36,18 +36,21 @@
 <body userlist-open="false">
 	<div class="app-main">
 		<w2-header>
+			<div class="room-title">Room </div>
 			<button class="holo-button toggle-userlist">
 				<i class="material-icons">keyboard_arrow_left</i>
 			</button>
 		</w2-header>
 
 		<div class="video-queue">
-			<div class="title">Queue</div>
+			<div class="title">
+				<a>Queue</a>				
+				<div class="addVideo">+</div>
+			</div>
 			<w2-queue>
 				<div class="placeholder"></div>
 				<div class="placeholder"></div>
 			</w2-queue>
-			<div class="addVideo">+</div>
 		</div>
 
 		<w2-player>

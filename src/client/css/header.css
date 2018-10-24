@@ -1,16 +1,16 @@
-
 w2-header {
 	padding: 0 10px;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	align-items: center;
+	background: var(--backgroundColor);
 }
 
 w2-header {
 	transition: margin .15s ease;
 }
 
-w2-header {
+w2-header .room-title {
 	transition: margin .15s ease;
 }
 
