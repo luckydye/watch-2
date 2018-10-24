@@ -50,7 +50,9 @@ io.on('connection', socket => {
 			} 
 		};
 		socket.on(eventName, msg => {
-			callback(msg);
+			if(room || eventName == "join" || eventName == "dic") {
+				callback(msg);
+			}
 		});
 		return res;
 	}

@@ -120,7 +120,14 @@ export class Socket {
 		socket.on('seek video', msg => {
 			const player = document.querySelector("w2-player");
 			const ytplayer = player.player;
-			ytplayer.seekTo(msg.time);
+
+			const currentTime = ytplayer.getCurrentTime();
+			const diff = msg.time - currentTime;
+
+			if(diff > 0.5) {
+				ytplayer.seekTo(msg.time);
+				displayNotification(`Resynced ${Math.floor(diff)} seconds`, 2000);
+			}
 		});
 	}
 
