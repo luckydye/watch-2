@@ -2,10 +2,10 @@ const rooms = new Map();
 
 module.exports = class Room {
 	
-	static resolve(id) {
+	static resolve(socket, id) {
 		if(rooms.has(id))
 			return rooms.get(id);
-		return new Room(id);
+		return new Room(socket, id);
 	}
 
 	delete() {
@@ -57,7 +57,7 @@ module.exports = class Room {
 	}
 
 	seekToVideo(time) {
-		this.broadcast('seek video', { time: msg.time });
+		this.broadcast('seek video', { time });
 	}
 
 	playVideo() {

@@ -23,15 +23,15 @@ export class Socket {
 		const player = document.querySelector("w2-player");
 		const ytplayer = player.player;
 
-		let lastState = null;
+		let initState = null;
 		let lastPlayState = 1;
 		player.onStateChange = state => {
-			if(lastState !== 1) {
-				lastState = state.data;
+			if(initState !== 1) {
+				initState = state;
 				return;
 			}
 
-			switch(state.data) {
+			switch(state) {
 				case YT.PlayerState.PLAYING:
 					socket.emit('play video');
 					if(lastPlayState == YT.PlayerState.PAUSED) {
@@ -87,7 +87,7 @@ export class Socket {
 				videoId: msg.id,
 				startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
 			});
-			lastState = null;
+			initState = null;
 		})
 		
 		socket.on('play video', msg => {
@@ -102,7 +102,7 @@ export class Socket {
 			const player = document.querySelector("w2-player");
 			const ytplayer = player.player;
 
-			lastState = null;
+			initState = null;
 			ytplayer.loadVideoById({
 				videoId: msg.id,
 				startSeconds: 0

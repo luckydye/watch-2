@@ -42,16 +42,20 @@ io.on('connection', socket => {
 		socket.broadcast.to(room.id).emit(eventName, msg);
 	}
 
-	function listenOn(eventName) {
-		return new Promise((resolve, reject) => {
-			socket.on(eventName, msg => {
-				if(!room && eventName != "join") return;
-				resolve(msg);
-			});
-		})
+	function on(eventName) {
+		let callback = () => {};
+		const res = {
+			then(cb) {
+				callback = cb;
+			} 
+		};
+		socket.on(eventName, msg => {
+			callback(msg);
+		});
+		return res;
 	}
 
-	listenOn('join').then(msg => {
+	on('join').then(msg => {
 		// User joined room
 		username = msg.username;
 		room = Room.resolve(io, msg.room);
@@ -78,45 +82,46 @@ io.on('connection', socket => {
 		room.broadcastUserlist();
 	});
 	
-	listenOn('disconnect').then(() => {
+	on('disconnect').then(() => {
 		room.socketDisconnected(socket.id);
 		room.broadcastUserlist();
 		broadcast('message', { message: username + " left" });
 	});
 
-	listenOn('queue add').then(msg => {
+	on('queue add').then(msg => {
 		room.addToQueue(msg.id);
 		broadcast('message', { message: msg.id + " added by " + username });
-	})
+	});
 
-	listenOn('queue remove').then(msg => {
+	on('queue remove').then(msg => {
 		room.removeFromQueue(msg.index);
 		broadcast('message', { message: username + " removed " + msg.id });
 	});
 
-	listenOn('queue play').then(msg => {
+	on('queue play').then(msg => {
 		room.playFromQueue(msg.index, msg.id);
 	});
 
-	listenOn('play video').then(msg => {
+	on('play video').then(msg => {
 		room.playVideo();
 		broadcast('message', { message: username + " pressed play" });
 	});
 
-	listenOn('pause video').then(msg => {
+	on('pause video').then(msg => {
 		room.pauseVideo();
 		broadcast('message', { message: username + " pressed pause" });
 	});
 
-	listenOn('seek video').then(msg => {
+	on('seek video').then(msg => {
 		room.seekToVideo(msg.time);
 	});
 
-	listenOn('player state').then(msg => {
+	on('player state').then(msg => {
 		if(socket.id === room.hostId) {
 			room.syncPlayerState(msg);
 		}
 	});
+
 });
 
 http.listen(8080, () => console.log('App listening on port ' + 8080));
