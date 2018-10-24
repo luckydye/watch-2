@@ -64,6 +64,13 @@ class QueueItem extends HTMLElement {
 		dbtn.className = "delbtn material-icons";
 		dbtn.onclick = this.onDelete.bind(this);
 
+		const openbtn = document.createElement("button");
+		openbtn.innerHTML = "open_in_new";
+		openbtn.title = "Open video on YouTube";
+		openbtn.className = "openbtn material-icons";
+		openbtn.onclick = this.onOpen.bind(this);
+
+		overlay.appendChild(openbtn);
 		overlay.appendChild(pbtn);
 		overlay.appendChild(dbtn);
 
@@ -80,6 +87,13 @@ class QueueItem extends HTMLElement {
 
 	onDelete() {
 		console.log("delete", this.vidid);
+	}
+
+	onOpen() {
+		const a = document.createElement("a");
+		a.href = "https://www.youtube.com/watch?v=" + this.vidid;
+		a.target = "blank";
+		a.click();
 	}
 
 }

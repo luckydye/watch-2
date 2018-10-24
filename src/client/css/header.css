@@ -16,20 +16,23 @@ w2-header .room-title {
 
 w2-header button.holo-button {
     background: transparent;
-    border: 1px solid currentColor;
-    color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: var(--accentColor);
+    color: rgba(255, 255, 255, 0.85);
     width: 24px;
     height: 24px;
     cursor: pointer;
-    transition: background .15s ease;
+    transition: .15s ease;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
     overflow: hidden;
     user-select: none;
+    opacity: 0.75;
+    outline: none;
 }
 
 w2-header button.holo-button:hover {
-	background: currentColor;
+    opacity: 1;
 }

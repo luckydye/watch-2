@@ -92,15 +92,36 @@ w2-queueitem {
     width: 100%;
     height: 100px;
     background: #333;
-    animation: slideIn .15s;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    box-shadow: -5px 0px 5px rgba(0, 0, 0, 0.25);
+}
+
+w2-queueitem:last-child {
+    animation: slideIn .15s;
 }
 
 w2-queueitem:first-child .controls {
     display: none;
+}
+
+w2-queueitem:first-child {
+    height: 64px;
+    box-shadow: none;
+    opacity: 0.75;
+}
+
+w2-queueitem:first-child:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 64px;
+    height: 64px;
+    transform: translateX(85%) rotate(45deg);
+    background: #1c1c1c;
 }
 
 w2-queueitem img {
@@ -113,34 +134,42 @@ w2-queueitem img {
 w2-queueitem .controls {
     position: absolute;
     bottom: 0;
+    top: 0;
     left: 0;
-    right: 0;
-    height: 32px;
-    background: rgba(0, 0, 0, 0.42);
+    background: rgba(0, 0, 0, 0.75);
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    height: 50%;
+    height: auto;
+    padding: 0 7px;
 }
 
+w2-queueitem .openbtn,
 w2-queueitem .playbtn,
 w2-queueitem .delbtn {
     cursor: pointer;
     color: white;
     background: transparent;
     border: none;
-    opacity: 0.75;
+    opacity: 0.95;
     padding: 0;
+    transition: .05s ease;
+}
+
+w2-queueitem .openbtn {
+    font-size: 18px;
 }
 
 w2-queueitem .playbtn {
-    font-size: 30px;
-}
-
-w2-queueitem .delbtn {
     font-size: 25px;
 }
 
+w2-queueitem .delbtn {
+    font-size: 18px;
+}
+
+w2-queueitem .openbtn:hover,
 w2-queueitem .playbtn:hover,
 w2-queueitem .delbtn:hover {
     transform: scale(1.15);
@@ -148,5 +177,45 @@ w2-queueitem .delbtn:hover {
 }
 
 @keyframes slideIn {
-    from { transform: translateX(-50%) }
+    from { transform: translateY(-50%); opacity: 0; }
+}
+
+body:not([queue-add-dialog="true"]) .addToQueueDialog {
+    display: none;
+}
+
+.addToQueueDialog {
+    position: absolute;
+    top: 50px;
+    left: 210px;
+    background: #1c1c1c;
+    box-shadow: 1px 2px 7px rgba(0, 0, 0, 0.35);
+    min-width: 400px;
+    z-index: 100;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px 10px;
+}
+
+.addToQueueDialog .row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.addToQueueDialog label {
+    font-size: 14px;
+}
+
+.addToQueueDialog input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.addToQueueDialog input {
+    padding: 8px 55px 8px 10px;
+}
+
+.addToQueueDialog button {
+    margin-left: -45px;
 }

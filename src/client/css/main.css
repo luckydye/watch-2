@@ -11,6 +11,36 @@ body {
     background: var(--backdropColor);
 }
 
+button {
+	border: none;
+    background: var(--accentColor);
+    color: white;
+    padding: 8px 10px;
+    display: block;
+    transition: .25s ease;
+    z-index: 100;
+}
+
+button:hover {
+    filter: brightness(1.1);
+}
+
+button:active {
+	transition: .01s ease;
+    filter: brightness(0.9);
+}
+
+input {
+    padding: 8px 10px;
+    font-size: 14px;
+    background: #313131;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    color: #eee;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 button, input {
 	outline-color: var(--accentColor);
 }

@@ -55,15 +55,7 @@ w2-itemlist .item {
 }
 
 w2-preferences input {
-    padding: 8px 10px;
-    font-size: 14px;
     margin: 5px 0 10px 0;
-    background: #313131;
-    border: 1px solid #000000;
-    border-radius: 3px;
-    color: #eee;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 w2-preferences label {

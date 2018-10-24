@@ -33,7 +33,7 @@
 		window.addEventListener("load", () => document.documentElement.removeAttribute("loading"));
 	</script>
 </head>
-<body userlist-open="false">
+<body userlist-open="false" queue-add-dialog="false">
 	<div class="app-main">
 		<w2-header>
 			<div class="room-title">Room </div>
@@ -46,6 +46,15 @@
 			<div class="title">
 				<a>Queue</a>				
 				<div class="addVideo">+</div>
+				<div class="addToQueueDialog">
+					<div class="row">
+						<input placeholder="YouTube URL"><button>Add</button>
+					</div>
+					<!-- <div class="row">
+						<input id="importVideos" name="importVideos" type="checkbox"/>
+						<label for="importVideos">Import Videos in Playlist</label>
+					</div> -->
+				</div>
 			</div>
 			<w2-queue>
 				<div class="placeholder"></div>

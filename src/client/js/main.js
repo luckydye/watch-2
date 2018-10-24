@@ -17,15 +17,31 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.querySelector(".toggle-userlist").onclick = () => bindButton("userlist-open");
 
 	// video add button
+	const input = document.querySelector(".addToQueueDialog input");
+
 	document.querySelector(".video-queue .addVideo").addEventListener("click", () => {
-		const link = prompt("YouTube Video Link");
+		document.body.setAttribute("queue-add-dialog", "true");
+		input.focus();
+	})
+
+	input.onblur = () => {
+		setTimeout(() => {
+			document.body.setAttribute("queue-add-dialog", "false");
+		}, 150);
+	}
+
+	document.querySelector(".addToQueueDialog button").addEventListener("click", () => {
+		const link = input.value;
 		if(!link) return;
+
 		const parsed = parseYoutubeUrl(link);
 		if(parsed) {
 			socket.addVideoToQueue(parsed.id);
 		} else {
 			displayNotification("Inavlid URL", 2000);
 		}
+		document.body.setAttribute("queue-add-dialog", "false");
+		input.value = "";
 	})
 
 	document.querySelector(".video-queue w2-queue").removeVideo = (index, id) => {
