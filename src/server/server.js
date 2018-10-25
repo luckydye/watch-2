@@ -32,6 +32,10 @@ app.get('/r/:roomId', (req, res) => {
 	res.sendFile(path.resolve("./src/client/index.html"));
 });
 
+app.get('/rooms', (req, res) => {
+	res.sendFile(path.resolve("./src/client/rooms.html"));
+});
+
 // Socket
 
 io.on('connection', socket => {
