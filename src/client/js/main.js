@@ -16,6 +16,9 @@ window.addEventListener("DOMContentLoaded", () => {
 	// Userlist toggle button
 	document.querySelector(".toggle-userlist").onclick = () => bindButton("userlist-open");
 
+	// Video Queue toggle button
+	document.querySelector(".toggle-video-queue").onclick = () => bindButton("video-queue-open");
+
 	// video add button
 	const input = document.querySelector(".addToQueueDialog input");
 

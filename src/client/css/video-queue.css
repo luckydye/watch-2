@@ -176,6 +176,51 @@ w2-queueitem .delbtn:hover {
     opacity: 1;
 }
 
+@media (min-width: 740px) {
+    w2-header button.toggle-video-queue {
+        display: none;
+    }
+}
+
+@media (max-width: 740px) {
+    w2-queue {
+        width: 120px;
+    }
+    w2-queueitem {
+        height: 65px;
+    }
+    w2-queueitem .controls {
+        right: 0;
+        flex-direction: row;
+    }
+    w2-queueitem .openbtn {
+        display: none;
+    }
+    w2-queueitem .playbtn {
+        font-size: 40px;
+    }
+    w2-queueitem .delbtn {
+        font-size: 30px;
+    }
+    .video-queue {
+        margin-left: -140px;
+        transition: margin .15s ease;
+    }
+    .video-queue .title {
+        font-size: 14px;
+    }
+    [video-queue-open="true"] .video-queue {
+        margin-left: 0;
+    }
+    .video-queue .addToQueueDialog {
+        position: fixed;
+        top: 40%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+    }
+}
+
 @keyframes slideIn {
     from { transform: translateY(-50%); opacity: 0; }
 }
