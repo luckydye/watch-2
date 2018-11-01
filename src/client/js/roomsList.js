@@ -8,6 +8,10 @@ window.addEventListener("DOMContentLoaded", () => {
 		container.className = "room-container";
 		container.innerHTML = `
 			<div class="thumbnail-container">
+				<div class="thumbnail-overlay">
+					<span class="${data.saved ? 'saved' : ''}"></span>
+					<span class="user-count">watching ${data.userCount}</span>
+				</div>
 				<img src="${ytidToThumbnailUrl(data.videoId)}"/>
 			</div>
 			<div class="details-container">
@@ -38,6 +42,8 @@ window.addEventListener("DOMContentLoaded", () => {
 			const ele = createRoomContainer({
 				id: room.id,
 				videoId: room.state.video.id,
+				saved: room.state.saved,
+				userCount: room.userCount
 			});
 			listContainer.appendChild(ele);
 		}

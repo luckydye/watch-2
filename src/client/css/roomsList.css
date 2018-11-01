@@ -23,7 +23,36 @@
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+.thumbnail-overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background: linear-gradient(rgba(0, 0, 0, 0.25), transparent);
+}
+
+.thumbnail-overlay .saved {
+    width: 10px;
+    height: 10px;
+    background: #1dbb1d;
+    border-radius: 50%;
+}
+
+.thumbnail-overlay .user-count {
+    font-family: sans-serif;
+    color: white;
+    font-family: sans-serif;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
 .thumbnail-container {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;

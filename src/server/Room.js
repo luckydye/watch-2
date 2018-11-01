@@ -28,28 +28,55 @@ module.exports = class Room {
 		this.queue = [];
 		this.userlist = new Map();
 		this.state = {
-			video: {}
+			video: {},
+			saved: false,
 		}
 	}
 
-	socketDisconnected(socketId) {
-		this.userlist.delete(socketId);
+	getRoomState() { return this.state; }
+
+	socketConnected(socket) {
+		this.userlist.set(socket.id, {
+			username: socket.username,
+			socket: socket,
+		});
+
+		if(!this.hostId || this.userlist.size < 1) {
+			this.hostId = socket.id;
+		}
+
+		socket.emit('room state', {
+			host: this.hostId == socket.id,
+			saved: this.state.saved
+		});
+
+		this.resolveHost(socket);
+	}
+
+	socketDisconnected(socket) {
+		this.userlist.delete(socket.id);
 		if(this.userlist.size == 0) {
-			// save rooms with "saved" in id
-			if(!this.id.match('saved')) {
+			if(!this.state.saved) {
 				this.delete();
 			}
 		} else {
-			this.resolveHost(socketId);
+			this.resolveHost(socket);
 		}
 	}
 
-	resolveHost(socketId) {
+	resolveHost(socket) {
 		// find another host
-		if(this.hostId == socketId) {
+		const currentHost = this.userlist.get(this.hostId);
+		if(!currentHost) {
 			const next = this.userlist.keys().next().value;
-			console.log("Found new host from " + socketId + " to " + next + " for " + this.id);
+			console.log("Found new host from " + socket.id + " to " + next + " for " + this.id);
 			this.hostId = next;
+
+			const hostSocket = this.userlist.get(this.hostId).socket;
+			hostSocket.emit('room state', {
+				host: true,
+				saved: this.state.saved
+			});
 		}
 	}
 

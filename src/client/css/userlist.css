@@ -54,6 +54,12 @@ w2-itemlist .item {
     box-shadow: -4px 0px 10px rgba(0, 0, 0, 0.4);
 }
 
+w2-preferences.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 w2-preferences input {
     margin: 5px 0 10px 0;
 }
@@ -62,4 +68,68 @@ w2-preferences label {
 	opacity: 0.8;
     font-size: 12px;
     text-transform: uppercase;
+}
+
+w2-preference-switch {
+    display: block;
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 5px 0;
+    position: relative;
+
+    --onColor: #0aa00a;
+    --offColor: #980e0e;
+    --handleColor: #e8e8e8;
+}
+
+w2-preference-switch[disabled] {
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+w2-preference-switch input {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    z-index: 100;
+    cursor: pointer;
+}
+
+w2-preference-switch input[type="checkbox"]:checked ~ .handle {
+    left: 50%;
+}
+
+w2-preference-switch .handle {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: var(--handleColor);
+    border-radius: 50%;
+    position: relative;
+    left: 0;
+    transition: left .1s ease;
+}
+
+w2-preference-switch .handle::before,
+w2-preference-switch .handle::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 200%;
+    height: 20px;
+}
+
+w2-preference-switch .handle::before {
+    right: 50%;
+    background: var(--onColor);
+}
+
+w2-preference-switch .handle::after {
+    left: 50%;
+    background: var(--offColor);
 }

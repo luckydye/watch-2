@@ -15,6 +15,7 @@ export class Socket {
 		this.connect();
 
 		this.updaterate = 500;
+		this.host = false;
 	}
 
 	initListeners() {
@@ -64,6 +65,19 @@ export class Socket {
 		socket.on('disconnect', msg => displayNotification("ERROR: Disconnected", 20000));
 		
 		socket.on('message', msg => displayNotification(msg.message, 2500));
+		
+		socket.on('room state', msg => {
+			if(msg.host) {
+				this.host = true;
+				document.querySelector("#saveRoom").removeAttribute("disabled");
+			} else {
+				this.host = false;
+				document.querySelector("#saveRoom").setAttribute("disabled", "");
+			}
+			if(msg.saved != null) {
+				document.querySelector("#saveRoom input").checked = msg.saved;
+			}
+		});
 		
 		socket.on('user list', msg => {
 			const userlist = document.querySelector("w2-itemlist.userlist");
@@ -132,6 +146,10 @@ export class Socket {
 				displayNotification(`Resynced ${Math.floor(diff)} seconds`, 2000);
 			}
 		});
+	}
+
+	setRoomState(obj) {
+		this.socket.emit('room state', obj);
 	}
 
 	connect() {

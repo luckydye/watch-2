@@ -32,6 +32,7 @@ module.exports = {
 					queue: room.queue,
 					state: room.state,
 					currentHost: room.hostId,
+					userCount: room.userlist.size,
 				})
 				if(results >= maxResult) {
 					break;

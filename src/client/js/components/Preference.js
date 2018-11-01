@@ -1,9 +1,13 @@
 import Preferences from '../Preferences.js';
 
+function randomUsername() {
+	return "User" + Math.floor(Math.random() * 1000);
+}
+
 class Preference extends HTMLElement {
 
 	static get observedAttributes() {
-		return ['placeholder', 'key', 'type'];
+		return ['placeholder', 'key', 'type', 'checked'];
 	}
 
 	constructor() {
@@ -25,6 +29,9 @@ class Preference extends HTMLElement {
 	set type(val) { this.input.type = val; }
 	get type() { return this.input.type; }
 
+	set checked(val) { this.input.checked = val; }
+	get checked() { return this.input.checked; }
+
 	onChange(value) {
 		if(value.length > 2) {
 			Preferences.set(this.key, value);
@@ -40,12 +47,32 @@ class Preference extends HTMLElement {
 			// gen random username
 			value = Preferences.set(this.key, randomUsername());
 		}
-		this.input.value = value;
+		if(value) {
+			this.input.value = value;
+		}
 	}
 }
 
-function randomUsername() {
-	return "User" + Math.floor(Math.random() * 1000);
+class PreferenceSwitch extends Preference {
+	constructor() {
+		super();
+		this.type = "checkbox";
+		this.input.checked = false;
+		this.input.onblur = () => {};
+		this.input.onchange = () => this.onChange(this.input.checked);
+	}
+
+	onChange(value) {
+		this.input.checked = value;
+	}
+	
+	connectedCallback() {
+		super.connectedCallback();
+		const handle = document.createElement("span");
+		handle.className = "handle";
+		this.appendChild(handle);
+	}
 }
 
 customElements.define("w2-preference", Preference);
+customElements.define("w2-preference-switch", PreferenceSwitch);

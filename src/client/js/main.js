@@ -54,4 +54,12 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.querySelector(".video-queue w2-queue").playVideo = (index, id) => {
 		socket.playVideo({ index, id });
 	}
+
+	// Room state
+
+	document.querySelector("w2-preference-switch#saveRoom").onChange = (value) => {
+		socket.setRoomState({
+			saved: value
+		})
+	}
 })

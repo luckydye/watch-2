@@ -67,6 +67,7 @@ io.on('connection', socket => {
 		username = msg.username;
 		room = Room.resolve(io, msg.room);
 
+		socket.username = username;
 		socket.join(room.id);
 		socket.emit('queue list', room.queue);
 
@@ -81,21 +82,21 @@ io.on('connection', socket => {
 			});
 		}
 		
-		if(!room.hostId || room.userlist.size < 1) {
-			// set host to first user
-			room.hostId = socket.id;
-		}
+		room.socketConnected(socket);
 
-		room.userlist.set(socket.id, {
-			username: username
-		});
-		
 		broadcast('message', { message: username + " joined" });
 		room.broadcastUserlist();
 	});
 	
+	on('room state').then(msg => {
+		if(room.hostId == socket.id) {
+			room.state.saved = msg.saved;
+		}
+		broadcast('room state', room.getRoomState());
+	});
+	
 	on('disconnect').then(() => {
-		room.socketDisconnected(socket.id);
+		room.socketDisconnected(socket);
 		room.broadcastUserlist();
 		broadcast('message', { message: username + " left" });
 	});
