@@ -1,5 +1,8 @@
-cd /srv/www/watch-2
-git checkout master
-git reset --hard origin/master
+## arg1 = path
+## arg2 = branch
+
+cd $1
+git checkout $2
+git reset --hard origin/$2
 git pull
 pm2 restart 0
