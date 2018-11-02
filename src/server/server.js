@@ -102,7 +102,7 @@ io.on('connection', socket => {
 	});
 
 	on('queue add').then(msg => {
-		room.addToQueue(msg.id);
+		room.addToQueue(msg.service, msg.id);
 		broadcast('message', { message: msg.id + " added by " + username });
 	});
 

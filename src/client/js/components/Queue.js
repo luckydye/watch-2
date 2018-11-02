@@ -10,15 +10,10 @@ export default class Queue extends HTMLElement {
 		this.render();
 	}
 
-	addVideo(vidId) {
-		this.queue.push(vidId);
-		this.render();
-	}
-
 	render() {
 		this.innerHTML = "";
 		for(let i = 0; i < this.queue.length; i++) {
-			const id = this.queue[i];
+			const id = this.queue[i].id;
 			const item = document.createElement("w2-queueitem");
 			item.vidid = id;
 			item.onPlay = () => {

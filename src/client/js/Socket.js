@@ -164,7 +164,8 @@ export class Socket {
 	}
 
 	addVideoToQueue(id) {
-		this.socket.emit('queue add', { id });
+		const service = "youtube.com";
+		this.socket.emit('queue add', { service, id });
 	}
 
 	removeVideoFromQueue(video) {

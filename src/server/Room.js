@@ -28,6 +28,7 @@ module.exports = class Room {
 		this.queue = [];
 		this.userlist = new Map();
 		this.state = {
+			service: null,
 			video: {},
 			saved: false,
 		}
@@ -87,8 +88,8 @@ module.exports = class Room {
 		this.state.video.timestamp = timestamp;
 	}
 
-	loadVideo(id) {
-		this.broadcast('queue play', { id });
+	loadVideo(service, id) {
+		this.broadcast('queue play', { service, id });
 	}
 
 	seekToVideo(time) {
@@ -105,11 +106,11 @@ module.exports = class Room {
 		this.broadcast('pause video');
 	}
 
-	addToQueue(id) {
-		this.queue.push(id);
+	addToQueue(service, id) {
+		this.queue.push({service, id});
         this.broadcast('queue list', this.queue);
 		if(this.queue.length < 2) {
-            this.loadVideo(id);
+            this.loadVideo(service, id);
 		}
 	}
 
@@ -119,10 +120,12 @@ module.exports = class Room {
 	}
 
 	playFromQueue(index) {
-		const id = this.queue[index];
-		// RODO: this might be wrong:
-		this.queue.unshift(this.queue.splice(index, 1));
+		const service = this.queue[index].service;
+		const id = this.queue[index].id;
+		const temp = this.queue.splice(index, 1)[0];
+		this.queue.unshift(temp);
 		this.broadcast('player state', {
+			service: service,
 			id: id,
 			time: 0,
 			state: 1,
