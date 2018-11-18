@@ -3,24 +3,19 @@ w2-userlist {
     padding: 15px;
 	box-sizing: border-box;
     background: var(--backdropColor);
-}
-
-w2-userlist .headline {
-    color: rgba(238, 238, 238, 0.5);
-    padding: 5px 10px;
-    margin: 0 -5px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 5px;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
+	position: absolute;
+	left: 100%;
+	top: 0;
+	height: 100%;
+    min-width: 240px;
+    z-index: 100;
 }
 
 w2-userlist .row {
     margin: 15px 0;
 }
 
-w2-userlist .usertag {
+.usertag {
     width: 12px;
     height: 12px;
     border-radius: 3px;
@@ -39,14 +34,6 @@ w2-itemlist .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-[userlist-open="true"] w2-header {
-	margin-right: 240px;
-}
-
-[userlist-open="true"] w2-header button.toggle-userlist i {
-	transform: rotate(180deg);
 }
 
 [userlist-open="true"] w2-userlist {
@@ -85,7 +72,7 @@ w2-preference-switch {
 }
 
 w2-preference-switch[disabled] {
-    opacity: 0.75;
+    opacity: 0.5;
     pointer-events: none;
 }
 

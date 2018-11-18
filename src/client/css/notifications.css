@@ -1,9 +1,10 @@
 w2-notifications {
-    position: fixed;
+	position: absolute;
     bottom: 50px;
     right: 0;
     display: block;
     margin: 5px 0;
+    z-index: 1000;
 }
 
 w2-notification {

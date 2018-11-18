@@ -25,8 +25,11 @@ module.exports = class Room {
 
 		this.socket = socket;
 		this.id = id;
+
 		this.queue = [];
+		this.history = new Set();
 		this.userlist = new Map();
+
 		this.state = {
 			service: null,
 			video: {},
@@ -89,7 +92,14 @@ module.exports = class Room {
 	}
 
 	loadVideo(service, id) {
-		this.broadcast('queue play', { service, id });
+		this.broadcast('player state', {
+			service: service,
+			id: id,
+			time: 0,
+			state: 1,
+		});
+		// add to history
+		this.addToHistory({ service, id });
 	}
 
 	seekToVideo(time) {
@@ -104,6 +114,14 @@ module.exports = class Room {
 	pauseVideo() {
 		this.state.video.state = 1;
 		this.broadcast('pause video');
+	}
+
+	addToHistory(video) {
+		for(let item of this.history) {
+			if(item.id === video.id) return;
+		}
+		this.history.add(video);
+		this.broadcast('history list', [...this.history]);
 	}
 
 	addToQueue(service, id) {
@@ -122,15 +140,12 @@ module.exports = class Room {
 	playFromQueue(index) {
 		const service = this.queue[index].service;
 		const id = this.queue[index].id;
+		// move next vid up and play it
 		const temp = this.queue.splice(index, 1)[0];
 		this.queue.unshift(temp);
-		this.broadcast('player state', {
-			service: service,
-			id: id,
-			time: 0,
-			state: 1,
-		});
-		this.broadcastQueue();
+		this.loadVideo(service, id);
+
+		this.removeFromQueue(1);
 	}
 
 	broadcastQueue() {

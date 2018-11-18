@@ -47,19 +47,22 @@ window.addEventListener("DOMContentLoaded", () => {
 		input.value = "";
 	})
 
-	document.querySelector(".video-queue w2-queue").removeVideo = (index, id) => {
+	document.querySelector(".video-queue w2-videolist#queue").removeVideo = (index, id) => {
 		socket.removeVideoFromQueue({ index, id });
 	}
 
-	document.querySelector(".video-queue w2-queue").playVideo = (index, id) => {
+	document.querySelector(".video-queue w2-videolist").playVideo = (index, id) => {
 		socket.playVideo({ index, id });
+	}
+
+	document.querySelector(".history w2-videolist").playVideo = (index, id) => {
+		const q = socket.addVideoToQueue(id);
+		socket.playVideo({ index: q.length, id });
 	}
 
 	// Room state
 
 	document.querySelector("w2-preference-switch#saveRoom").onChange = (value) => {
-		socket.setRoomState({
-			saved: value
-		})
+		socket.setRoomState({ saved: value });
 	}
 })

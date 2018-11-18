@@ -91,9 +91,15 @@ export class Socket {
 		});
 		
 		socket.on('queue list', msg => {
-			const queue = document.querySelector("w2-queue");
-			queue.queue = msg;
+			const queue = document.querySelector("w2-videolist#queue");
+			queue.list = msg;
 			queue.render();
+		});
+		
+		socket.on('history list', msg => {
+			const history = document.querySelector("w2-videolist#history");
+			history.list = msg.reverse();
+			history.render();
 		});
 
 		socket.on('player state', msg => {
@@ -111,20 +117,6 @@ export class Socket {
 			// seperate play video and player state
 			const player = document.querySelector("w2-player");
 			const ytplayer = player.player;
-			ytplayer.playVideo();
-		});
-		
-		socket.on('queue play', msg => {
-			// seperate play video and player state
-			const player = document.querySelector("w2-player");
-			const ytplayer = player.player;
-
-			initState = null;
-			ytplayer.loadVideoById({
-				videoId: msg.id,
-				startSeconds: 0
-			});
-			ytplayer.playVideo();
 			ytplayer.playVideo();
 		});
 		
@@ -166,6 +158,9 @@ export class Socket {
 	addVideoToQueue(id) {
 		const service = "youtube.com";
 		this.socket.emit('queue add', { service, id });
+		
+		const queue = document.querySelector("w2-videolist#queue");
+		return queue.list;
 	}
 
 	removeVideoFromQueue(video) {

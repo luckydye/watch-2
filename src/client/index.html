@@ -6,17 +6,16 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="shortcut icon" href="/res/favicon.png" type="image/x-icon">
 	<title>Watch 2</title>
-
-	<script src="/socket.io/socket.io.js"></script>
-
+	
 	<link preload href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link preload href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
 	
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
 	<script type="module" src="/js/components/Preference.js"></script>
 	<script type="module" src="/js/components/Player.js"></script>
-	<script type="module" src="/js/components/Queue.js"></script>
+	<script type="module" src="/js/components/VideoList.js"></script>
 	<script type="module" src="/js/components/Userlist.js"></script>
 
 	<script src="/js/helpers.js"></script>
@@ -24,27 +23,18 @@
 	
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="stylesheet" href="/css/notifications.css">
-	<link rel="stylesheet" href="/css/header.css">
 	<link rel="stylesheet" href="/css/placeholders.css">
-	<link rel="stylesheet" href="/css/video-queue.css">
+	<link rel="stylesheet" href="/css/video-list.css">
 	<link rel="stylesheet" href="/css/userlist.css">
+	<link rel="stylesheet" href="/css/content.css">
 	
     <script>
 		window.addEventListener("load", () => document.documentElement.removeAttribute("loading"));
 	</script>
 </head>
 <body userlist-open="false" queue-add-dialog="false">
-	<div class="app-main">
-		<w2-header>
-			<button class="holo-button toggle-video-queue">
-				<i class="material-icons">keyboard_arrow_right</i>
-			</button>
-			<div class="room-title">Room </div>
-			<button class="holo-button toggle-userlist">
-				<i class="material-icons">keyboard_arrow_left</i>
-			</button>
-		</w2-header>
-
+	
+	<main>
 		<div class="video-queue">
 			<div class="title">
 				<a>Queue</a>				
@@ -53,56 +43,77 @@
 					<div class="row">
 						<input placeholder="YouTube URL"><button>Add</button>
 					</div>
-					<!-- <div class="row">
-						<input id="importVideos" name="importVideos" type="checkbox"/>
-						<label for="importVideos">Import Videos in Playlist</label>
-					</div> -->
 				</div>
 			</div>
-			<w2-queue>
+			<w2-videolist id="queue">
 				<div class="placeholder"></div>
 				<div class="placeholder"></div>
-			</w2-queue>
+			</w2-videolist>
 		</div>
 
-		<w2-player>
-			<div class="placeholder" id="ytplayer"></div>
-		</w2-player>
-
-		<w2-userlist>
-
-			<div class="headline">
-				<a>User</a>
+		<div class="content">
+			<div class="navigation">
+				<button class="holo-button toggle-video-queue">
+					<i class="material-icons">keyboard_arrow_right</i>
+				</button>
+	
+				<button class="holo-button toggle-userlist">
+					<i class="material-icons">keyboard_arrow_left</i>
+				</button>
 			</div>
 			
-			<div class="row">
-				<w2-preferences>
-					<label>Username</label><br/>
-					<w2-preference key="username" placeholder="Username">
-				</w2-preferences>
-			</div>
+			<w2-player>
+				<w2-notifications></w2-notifications>
+				<div class="placeholder" id="ytplayer"></div>
+			</w2-player>
 
-			<div class="headline">
-				<a>Room</a>
-			</div>
+			<div class="room-details">
 			
-			<div class="row">
-				<w2-preferences class="row">
-					<label>Save Room</label><br/>
-					<w2-preference-switch id="saveRoom" disabled>
-				</w2-preferences>
-			</div>
+				<div class="room-title">Room </div>
+				
+				<div class="history">
+					<div class="headline">
+						<a>History</a>
+					</div>
+					<w2-videolist id="history"></w2-videolist>
+				</div>
+				
+				<div class="settings">
+					<div class="headline">
+						<a>Settings</a>
+					</div>
+	
+					<w2-preferences class="row">
+						<label>Save Room</label><br/>
+						<w2-preference-switch id="saveRoom" disabled>
+					</w2-preferences>
 
-			<div class="headline">
-				<a>Userlist</a>
-			</div>
+					<div class="headline">
+						<a>Userlist</a>
+					</div>
+			
+					<div class="row">
+						<w2-itemlist class="userlist"></w2-itemlist>
+					</div>
+				</div>
 
-			<div class="row">
-				<w2-itemlist class="userlist"></w2-itemlist>
 			</div>
-		</w2-userlist>
-	</div>
+		</div>
+	</main>
 
-	<w2-notifications></w2-notifications>
+	<w2-userlist>
+
+		<div class="headline">
+			<a>User Settings</a>
+		</div>
+		
+		<div class="row">
+			<w2-preferences>
+				<label>Username</label><br/>
+				<w2-preference key="username" placeholder="Username">
+			</w2-preferences>
+		</div>
+	</w2-userlist>
+
 </body>
 </html>

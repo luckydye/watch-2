@@ -70,6 +70,7 @@ io.on('connection', socket => {
 		socket.username = username;
 		socket.join(room.id);
 		socket.emit('queue list', room.queue);
+		socket.emit('history list', [...room.history]);
 
 		const videoid = room.state.video.id || room.queue[1];
 		

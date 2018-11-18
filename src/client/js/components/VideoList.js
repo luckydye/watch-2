@@ -1,8 +1,12 @@
-export default class Queue extends HTMLElement {
+export class VideoList extends HTMLElement {
+
+	get Item() {
+		return VideoListItem;
+	}
 
 	constructor() {
 		super();
-		this.queue = [];
+		this.list = [];
 	}
 
 	connectedCallback() {
@@ -12,9 +16,9 @@ export default class Queue extends HTMLElement {
 
 	render() {
 		this.innerHTML = "";
-		for(let i = 0; i < this.queue.length; i++) {
-			const id = this.queue[i].id;
-			const item = document.createElement("w2-queueitem");
+		for(let i = 0; i < this.list.length; i++) {
+			const id = this.list[i].id;
+			const item = new this.Item();
 			item.vidid = id;
 			item.onPlay = () => {
 				this.playVideo(i, id);
@@ -31,7 +35,11 @@ export default class Queue extends HTMLElement {
 	playVideo(index, id) { /* hook */ }
 }
 
-class QueueItem extends HTMLElement {
+export class VideoListItem extends HTMLElement {
+
+	constructor() {
+		super();
+	}
 
 	set vidid(val) {
 		this.setAttribute("vidid", val);
@@ -76,14 +84,6 @@ class QueueItem extends HTMLElement {
 		this.append(thumbnail);
 	}
 
-	onPlay() {
-		console.log("play", this.vidid);
-	}
-
-	onDelete() {
-		console.log("delete", this.vidid);
-	}
-
 	onOpen() {
 		const a = document.createElement("a");
 		a.href = "https://www.youtube.com/watch?v=" + this.vidid;
@@ -93,5 +93,5 @@ class QueueItem extends HTMLElement {
 
 }
 
-customElements.define("w2-queue", Queue);
-customElements.define("w2-queueitem", QueueItem);
+customElements.define("w2-videolist", VideoList);
+customElements.define("w2-videolist-item", VideoListItem);
