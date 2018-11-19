@@ -1,5 +1,3 @@
-import Preferences from '../Preferences.js';
-
 function randomUsername() {
 	return "User" + Math.floor(Math.random() * 1000);
 }

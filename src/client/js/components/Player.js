@@ -31,6 +31,17 @@ export default class Player extends HTMLElement {
 		return null;
 	}
 
+	static get template() {
+		return `
+			<div class="active player" id="ytplayer"></div>
+			<div class="player" id="twitchplayer"></div>
+		`;
+	}
+
+	connectedCallback() {
+		this.innerHTML = this.constructor.template;
+	}
+
 	constructor() {
 		super();
 

@@ -46,6 +46,11 @@
     margin: 15px 0;
 }
 
+.player-container {
+    position: relative;
+    background: black;
+}
+
 w2-player {
     box-sizing: border-box;
     display: block;

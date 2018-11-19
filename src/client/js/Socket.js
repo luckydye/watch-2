@@ -1,5 +1,3 @@
-import Preferences from './Preferences.js';
-
 export class Socket {
 
 	get username() { return Preferences.get("username"); }
@@ -9,50 +7,100 @@ export class Socket {
 			reconnection: true,
 		});
 
-		this.roomid = location.pathname.replace("/r/", "");
-
-		this.initListeners();
-		this.connect();
-
 		this.updaterate = 500;
 		this.host = false;
+
+		this.connected = false;
+
+		this.initState = null;
 	}
 
-	initListeners() {
-		const socket = this.socket;
-
+	init() {
 		const player = document.querySelector("w2-player");
 		const ytplayer = player.player;
 
-		let initState = null;
-		let lastPlayState = 1;
+		this.events = {
 
-		player.addEventListener("statechange", () => {
-			const state = player.state;
-			
-			if(initState !== 1) {
-				initState = state;
-				return;
-			}
+			'disconnect': () => {
+				displayNotification("ERROR: Disconnected", 20000)
+			},
 
-			switch(state) {
-				case 1:
-					socket.emit('play video');
-					if(lastPlayState == 2) {
-						socket.emit('seek video', { time: ytplayer.getCurrentTime() });
-					}
-					break;
-				case 2:
-					socket.emit('pause video');
-					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
-					break;
-				case 3:
-					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
-					break;
-			}
+			'message': msg => {
+				displayNotification(msg.message, 2500)
+			},
 
-			lastPlayState = state;
-		})
+			'room state': msg => {
+				if(msg.host) {
+					this.host = true;
+					document.querySelector("#saveRoom").removeAttribute("disabled");
+				} else {
+					this.host = false;
+					document.querySelector("#saveRoom").setAttribute("disabled", "");
+				}
+				if(msg.saved != null) {
+					document.querySelector("#saveRoom input").checked = msg.saved;
+				}
+			},
+
+			'user list': msg => {
+				const userlist = document.querySelector("w2-itemlist.userlist");
+				let users = msg.map(user => {
+					const a = document.createElement("a");
+					a.innerText = user.username;
+					const tag = user.host ? "host" : "";
+					return `${a.innerText} <span class="usertag ${tag}" title="${tag}"></span>`;
+				})
+				userlist.display(users);
+			},
+
+			'queue list': msg=> {
+				const queue = document.querySelector("w2-videolist#queue");
+				queue.list = msg;
+				queue.render();
+			},
+
+			'history list': msg => {
+				const history = document.querySelector("w2-videolist#history");
+				history.list = msg.reverse();
+				history.render();
+			},
+
+			'player state': msg => {
+				ytplayer.loadVideoById({
+					videoId: msg.id,
+					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
+				});
+				this.initState = null;
+			},
+
+			'play video': () => {
+				ytplayer.playVideo();
+			},
+
+			'pause video': () => {
+				ytplayer.pauseVideo();
+			},
+
+			'seek video': msg => {
+				const currentTime = ytplayer.getCurrentTime();
+				const diff = msg.time - currentTime;
+
+				if(diff > 0.5 || diff < -0.5) {
+					ytplayer.seekTo(msg.time);
+					displayNotification(`Resynced ${Math.floor(diff)} seconds`, 2000);
+				}
+			},
+		}
+		
+		this.initListeners(this.events);
+	}
+
+	initListeners(events) {
+
+		const player = document.querySelector("w2-player");
+		const ytplayer = player.player;
+		
+		const socket = this.socket;
 
 		setInterval(() => {
 			if(ytplayer == null || !ytplayer.getPlayerState) return;
@@ -66,97 +114,28 @@ export class Socket {
 			}
 		}, this.updaterate);
 
-		socket.on('disconnect', msg => displayNotification("ERROR: Disconnected", 20000));
-		
-		socket.on('message', msg => displayNotification(msg.message, 2500));
-		
-		socket.on('room state', msg => {
-			if(msg.host) {
-				this.host = true;
-				document.querySelector("#saveRoom").removeAttribute("disabled");
-			} else {
-				this.host = false;
-				document.querySelector("#saveRoom").setAttribute("disabled", "");
-			}
-			if(msg.saved != null) {
-				document.querySelector("#saveRoom input").checked = msg.saved;
-			}
-		});
-		
-		socket.on('user list', msg => {
-			const userlist = document.querySelector("w2-itemlist.userlist");
-			let users = msg.map(user => {
-				const a = document.createElement("a");
-				a.innerText = user.username;
-				const tag = user.host ? "host" : "";
-				return `${a.innerText} <span class="usertag ${tag}" title="${tag}"></span>`;
-			})
-			userlist.display(users);
-		});
-		
-		socket.on('queue list', msg => {
-			const queue = document.querySelector("w2-videolist#queue");
-			queue.list = msg;
-			queue.render();
-		});
-		
-		socket.on('history list', msg => {
-			const history = document.querySelector("w2-videolist#history");
-			history.list = msg.reverse();
-			history.render();
-		});
-
-		socket.on('player state', msg => {
-			const player = document.querySelector("w2-player");
-			const ytplayer = player.player;
-
-			ytplayer.loadVideoById({
-				videoId: msg.id,
-				startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
+		for(let event in events) {
+			socket.on(event, msg => {
+				events[event](msg);
 			});
-			initState = null;
-		})
-		
-		socket.on('play video', msg => {
-			// seperate play video and player state
-			const player = document.querySelector("w2-player");
-			const ytplayer = player.player;
-			ytplayer.playVideo();
-		});
-		
-		socket.on('pause video', msg => {
-			const player = document.querySelector("w2-player");
-			const ytplayer = player.player;
-			ytplayer.pauseVideo();
-		});
-		
-		socket.on('seek video', msg => {
-			const player = document.querySelector("w2-player");
-			const ytplayer = player.player;
-
-			const currentTime = ytplayer.getCurrentTime();
-			const diff = msg.time - currentTime;
-
-			if(diff > 0.5 || diff < -0.5) {
-				ytplayer.seekTo(msg.time);
-				displayNotification(`Resynced ${Math.floor(diff)} seconds`, 2000);
-			}
-		});
+		}
 	}
 
 	setRoomState(obj) {
 		this.socket.emit('room state', obj);
 	}
 
-	connect() {
+	connect(roomId) {
 		const socket = this.socket;
 
 		socket.emit('join', {
-			room: this.roomid,
+			room: roomId,
 			username: this.username
 		});
 
 		displayNotification("Connected", 2500);
+
+		this.connected = true;
 	}
 
 	addVideoToQueue(id) {
