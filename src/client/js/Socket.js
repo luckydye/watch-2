@@ -11,13 +11,10 @@ export class Socket {
 		this.host = false;
 
 		this.connected = false;
-
-		this.initState = null;
 	}
 
 	init() {
 		const player = document.querySelector("w2-player");
-		const ytplayer = player.player;
 
 		this.events = {
 
@@ -66,27 +63,26 @@ export class Socket {
 			},
 
 			'player state': msg => {
-				ytplayer.loadVideoById({
-					videoId: msg.id,
+				player.loadVideo({
+					id: msg.id,
 					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
-				});
-				this.initState = null;
+				})
 			},
 
 			'play video': () => {
-				ytplayer.playVideo();
+				player.play();
 			},
 
 			'pause video': () => {
-				ytplayer.pauseVideo();
+				player.pause();
 			},
 
 			'seek video': msg => {
-				const currentTime = ytplayer.getCurrentTime();
+				const currentTime = player.getCurrentTime();
 				const diff = msg.time - currentTime;
 
 				if(diff > 0.5 || diff < -0.5) {
-					ytplayer.seekTo(msg.time);
+					player.seekTo(msg.time);
 					displayNotification(`Resynced ${Math.floor(diff)} seconds`, 2000);
 				}
 			},
@@ -96,26 +92,21 @@ export class Socket {
 	}
 
 	initListeners(events) {
-
 		const player = document.querySelector("w2-player");
-		const ytplayer = player.player;
-		
-		const socket = this.socket;
 
 		setInterval(() => {
-			if(ytplayer == null || !ytplayer.getPlayerState) return;
-			if(ytplayer.getPlayerState() == 1) {
-				socket.emit('player state', {
-					time: ytplayer.getCurrentTime(),
-					id: ytplayer.getVideoData().video_id,
+			if(player.state == 1) {
+				this.socket.emit('player state', {
+					time: player.getCurrentTime(),
+					id: player.currentVideoId,
 					timestamp: Date.now(),
-					ended: ytplayer.getPlayerState() == 0
+					ended: player.state == 0
 				});
 			}
 		}, this.updaterate);
 
 		for(let event in events) {
-			socket.on(event, msg => {
+			this.socket.on(event, msg => {
 				events[event](msg);
 			});
 		}

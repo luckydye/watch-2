@@ -26,11 +26,11 @@ export class Room {
 		const socket = this.socket.socket;
 		
 		this.player.addEventListener("statechange", () => {
-			const ytplayer = this.player.player;
-			const state = this.player.state;
+			const player = this.player;
+			const state = player.state;
 			
-			if(this.socket.initState !== 1) {
-				this.socket.initState = state;
+			if(player.initState !== 1) {
+				player.initState = state;
 				return;
 			}
 
@@ -38,15 +38,15 @@ export class Room {
 				case 1:
 					socket.emit('play video');
 					if(lastPlayState == 2) {
-						socket.emit('seek video', { time: ytplayer.getCurrentTime() });
+						socket.emit('seek video', { time: player.getCurrentTime() });
 					}
 					break;
 				case 2:
 					socket.emit('pause video');
-					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
+					socket.emit('seek video', { time: player.getCurrentTime() });
 					break;
 				case 3:
-					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
+					socket.emit('seek video', { time: player.getCurrentTime() });
 					break;
 			}
 

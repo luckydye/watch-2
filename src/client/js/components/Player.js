@@ -8,27 +8,39 @@ export default class Player extends HTMLElement {
 	}}
 
 	play() {
-
+		this.player.playVideo();
 	}
 
 	pause() {
-
+		this.player.pauseVideo();
 	}
 
-	get currentTime() {
-
+	loadVideo({id, startSeconds}) {
+		this.player.loadVideoById({
+			videoId: id,
+			startSeconds: startSeconds,
+		});
+		this.initState = null;
 	}
 
-	set currentTime(v) {
-
-	}
-
-	loadVideo() {
-
+	seekTo(t) {
+		this.player.seekTo(t);
 	}
 
 	get activePlayer() {
 		return null;
+	}
+
+	getCurrentTime() {
+		return this.player.getCurrentTime();
+	}
+
+	get state() {
+		return this.player.getPlayerState();
+	}
+
+	get currentVideoId() {
+		return this.player.getVideoData().video_id;
 	}
 
 	static get template() {
@@ -38,15 +50,15 @@ export default class Player extends HTMLElement {
 		`;
 	}
 
-	connectedCallback() {
-		this.innerHTML = this.constructor.template;
-	}
-
 	constructor() {
 		super();
-
+		
+		this.initState = null;
 		this.player = null;
-		this.state = 0;
+	}
+
+	connectedCallback() {
+		this.innerHTML = this.constructor.template;
 	}
 
 	setupPlayer() {
@@ -71,7 +83,6 @@ export default class Player extends HTMLElement {
 	}
 
 	onStateChange(state) {
-		this.state = state;
 		this.dispatchEvent(new Event("statechange"));
 	}
 }
