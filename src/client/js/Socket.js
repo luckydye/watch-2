@@ -63,6 +63,7 @@ export class Socket {
 			},
 
 			'player state': msg => {
+				// decide which player to use for the service in msg
 				player.loadVideo({
 					id: msg.id,
 					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
@@ -129,8 +130,7 @@ export class Socket {
 		this.connected = true;
 	}
 
-	addVideoToQueue(id) {
-		const service = "youtube.com";
+	addVideoToQueue(service, id) {
 		this.socket.emit('queue add', { service, id });
 		
 		const queue = document.querySelector("w2-videolist#queue");

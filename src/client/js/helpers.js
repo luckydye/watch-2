@@ -3,10 +3,20 @@ function bindButton(attr) {
 	document.body.setAttribute(attr, state);
 }
 
-function parseYoutubeUrl(url) {
-	const videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-	if(videoid != null) {
-		return { id: videoid[1] };
+function parseVideoUrl(url) {
+	const youtubeId = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+	const twithcId = url.match(/(?:twitch.tv\/videos\/)([^\s&]+)/);
+
+	if(youtubeId != null) {
+		return {
+			id: youtubeId[1],
+			service: "youtube.com",
+		};
+	} else if(twithcId != null) {
+		return {
+			id: twithcId[1],
+			service: "twitch.tv",
+		};
 	}
 	return null;
 }

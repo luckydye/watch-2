@@ -17,28 +17,33 @@ export class VideoList extends HTMLElement {
 	render() {
 		this.innerHTML = "";
 		for(let i = 0; i < this.list.length; i++) {
-			const id = this.list[i].id;
-			const item = new this.Item();
-			item.vidid = id;
+			const vid = this.list[i];
+			const item = new this.Item({
+				id: vid.id,
+				service: vid.service,
+			});
 			item.onPlay = () => {
-				this.playVideo(i, id);
+				this.playVideo(i, vid);
 			}
 			item.onDelete = () => {
-				this.removeVideo(i, id);
+				this.removeVideo(i, vid);
 			}
 			this.appendChild(item);
 		}
 	}
 
-	removeVideo(index, id) { /* hook */ }
+	removeVideo(index, vid) { /* hook */ }
 
-	playVideo(index, id) { /* hook */ }
+	playVideo(index, vid) { /* hook */ }
 }
 
 export class VideoListItem extends HTMLElement {
 
-	constructor() {
+	constructor({ id, service }) {
 		super();
+
+		this.vidid = id;
+		this.service = service;
 	}
 
 	set vidid(val) {
@@ -80,13 +85,37 @@ export class VideoListItem extends HTMLElement {
 		this.appendChild(overlay);
 
 		const thumbnail = new Image();
-		thumbnail.src = `https://i1.ytimg.com/vi/${this.vidid}/hqdefault.jpg`;
+		switch(this.service) {
+			case "youtube.com":
+				thumbnail.src = `https://i1.ytimg.com/vi/${this.vidid}/hqdefault.jpg`;
+				break;
+			case "twitch.tv":
+				this.getTwitchThumbnail(this.vidid).then(url => {
+					thumbnail.src = url;
+				})
+				break;
+		}
 		this.append(thumbnail);
+	}
+
+	getTwitchThumbnail(id) {
+		const clientId = "mdn23u65h8g1mxrg0kr9yaw51vivmj";
+		const url = `https://api.twitch.tv/kraken/videos/${id}?client_id=${clientId}`;
+		return fetch(url).then(res => res.json().then(json => {
+			return json.thumbnails[0].url;
+		}));
 	}
 
 	onOpen() {
 		const a = document.createElement("a");
-		a.href = "https://www.youtube.com/watch?v=" + this.vidid;
+		switch(this.service) {
+			case "youtube.com":
+				a.href = "https://www.youtube.com/watch?v=" + this.vidid;
+				break;
+			case "twitch.tv":
+				a.href = "https://www.twitch.tv/videos/" + this.vidid;
+				break;
+		}
 		a.target = "blank";
 		a.click();
 	}

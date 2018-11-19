@@ -64,9 +64,9 @@ export class Room {
 			const link = input.value;
 			if(!link) return;
 
-			const parsed = parseYoutubeUrl(link);
+			const parsed = parseVideoUrl(link);
 			if(parsed) {
-				socket.addVideoToQueue(parsed.id);
+				socket.addVideoToQueue(parsed.service, parsed.id);
 			} else {
 				displayNotification("Inavlid URL", 2000);
 			}
@@ -74,17 +74,17 @@ export class Room {
 			input.value = "";
 		})
 
-		document.querySelector(".video-queue w2-videolist#queue").removeVideo = (index, id) => {
-			socket.removeVideoFromQueue({ index, id });
+		document.querySelector(".video-queue w2-videolist#queue").removeVideo = (index, vid) => {
+			socket.removeVideoFromQueue({ index, id: vid.id });
 		}
 
-		document.querySelector(".video-queue w2-videolist").playVideo = (index, id) => {
-			socket.playVideo({ index, id });
+		document.querySelector(".video-queue w2-videolist").playVideo = (index, vid) => {
+			socket.playVideo({ index, id: vid.id });
 		}
 
-		document.querySelector(".history w2-videolist").playVideo = (index, id) => {
-			const q = socket.addVideoToQueue(id);
-			socket.playVideo({ index: q.length, id });
+		document.querySelector(".history w2-videolist").playVideo = (index, vid) => {
+			const q = socket.addVideoToQueue(vid.service, vid.id);
+			socket.playVideo({ index: q.length, id: vid.id });
 		}
 
 		// Room state
