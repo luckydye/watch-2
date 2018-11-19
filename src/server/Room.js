@@ -91,7 +91,8 @@ module.exports = class Room {
 	}
 
 	syncPlayerState(state) {
-		const { timestamp, time, id } = state;
+		const { timestamp, time, id, service } = state;
+		this.state.video.service = service;
 		this.state.video.id = id;
 		this.state.video.time = time;
 		this.state.video.timestamp = timestamp;

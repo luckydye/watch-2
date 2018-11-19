@@ -16,6 +16,7 @@ export default class Player extends HTMLElement {
 	}
 
 	loadVideo({service, id, startSeconds}) {
+		this.service = service;
 		if(service == "youtube.com") {
 			this.player.loadVideoById({
 				videoId: id,
@@ -58,6 +59,7 @@ export default class Player extends HTMLElement {
 	constructor() {
 		super();
 		
+		this.service = "";
 		this.initState = null;
 		this.player = null;
 	}

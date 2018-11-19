@@ -102,6 +102,7 @@ export class Socket {
 		setInterval(() => {
 			if(player.state == 1) {
 				this.socket.emit('player state', {
+					service: player.service,
 					time: player.getCurrentTime(),
 					id: player.currentVideoId,
 					timestamp: Date.now(),

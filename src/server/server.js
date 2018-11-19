@@ -73,6 +73,7 @@ io.on('connection', socket => {
 		
 		if(videoid) {
 			socket.emit('player state', {
+				service: room.state.video.service,
 				id: videoid,
 				time: room.state.video.time || 0,
 				timestamp: room.state.video.timestamp || 0,
