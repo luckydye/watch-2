@@ -89,7 +89,9 @@ export class Room {
 
 		// Room state
 		document.querySelector("w2-preference-switch#saveRoom").onChange = (value) => {
-			socket.setRoomState({ saved: value });
+			socket.setRoomState({
+				saved: value
+			});
 		}
 
 		socket.connect(this.id);

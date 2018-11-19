@@ -13,6 +13,10 @@ export class Socket {
 		this.connected = false;
 	}
 
+	isHost() {
+		return this.host;
+	}
+
 	init() {
 		const player = document.querySelector("w2-player");
 
