@@ -46,6 +46,41 @@
     margin: 15px 0;
 }
 
+w2-player {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(100% - 10px);
+    position: relative;
+    z-index: 10;
+}
+
+w2-player::after {
+    content: "";
+    padding-bottom: 56.3%;
+    width: 100%;
+    display: block;
+}
+
+w2-player iframe {
+    width: 100%;
+    height: 100%;
+}
+
+w2-player .player {
+    position: absolute;
+    z-index: 10;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+
+.player.active {
+    z-index: 100;
+}
+
 .room-details {
     position: relative;
     padding: 20px 40px 40px 40px;

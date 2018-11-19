@@ -26,32 +26,36 @@ export class Socket {
 
 		let initState = null;
 		let lastPlayState = 1;
-		player.onStateChange = state => {
+
+		player.addEventListener("statechange", () => {
+			const state = player.state;
+			
 			if(initState !== 1) {
 				initState = state;
 				return;
 			}
 
 			switch(state) {
-				case YT.PlayerState.PLAYING:
+				case 1:
 					socket.emit('play video');
-					if(lastPlayState == YT.PlayerState.PAUSED) {
+					if(lastPlayState == 2) {
 						socket.emit('seek video', { time: ytplayer.getCurrentTime() });
 					}
 					break;
-				case YT.PlayerState.PAUSED:
+				case 2:
 					socket.emit('pause video');
 					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
 					break;
-				case YT.PlayerState.BUFFERING:
+				case 3:
 					socket.emit('seek video', { time: ytplayer.getCurrentTime() });
 					break;
 			}
 
 			lastPlayState = state;
-		}
+		})
 
 		setInterval(() => {
+			if(ytplayer == null || !ytplayer.getPlayerState) return;
 			if(ytplayer.getPlayerState() == 1) {
 				socket.emit('player state', {
 					time: ytplayer.getCurrentTime(),

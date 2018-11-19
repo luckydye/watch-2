@@ -1,17 +1,8 @@
 import { Socket } from './Socket.js';
 
-window.addEventListener("DOMContentLoaded", () => {
+function onDomReady() {
 
-	// Set room name
 	document.querySelector(".room-title").innerText = location.pathname.split("/").reverse()[0];
-
-	let socket;
-
-	const player = document.querySelector("w2-player");
-	player.onReady = () => {
-		// Init socket
-		socket = new Socket();
-	}
 
 	// Userlist toggle button
 	document.querySelector(".toggle-userlist").onclick = () => bindButton("userlist-open");
@@ -32,6 +23,19 @@ window.addEventListener("DOMContentLoaded", () => {
 			document.body.setAttribute("queue-add-dialog", "false");
 		}, 150);
 	}
+}
+
+function onLoad() {
+	const player = document.querySelector("w2-player");
+	player.setupPlayer();
+
+	let socket;
+
+	player.addEventListener("ready", () => {
+		socket = new Socket();
+	})
+
+	const input = document.querySelector(".addToQueueDialog input");
 
 	document.querySelector(".addToQueueDialog button").addEventListener("click", () => {
 		const link = input.value;
@@ -65,4 +69,11 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.querySelector("w2-preference-switch#saveRoom").onChange = (value) => {
 		socket.setRoomState({ saved: value });
 	}
-})
+}
+
+window.addEventListener("DOMContentLoaded", onDomReady);
+window.addEventListener("load", onLoad);
+
+function onYouTubeIframeAPIReady() {
+	onLoad();
+}

@@ -94,30 +94,6 @@ button.holo-button:hover {
     letter-spacing: 1px;
 }
 
-w2-player {
-    box-sizing: border-box;
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: calc(100% - 10px);
-    position: relative;
-}
-
-w2-player::after {
-    content: "";
-    padding-bottom: 56.3%;
-    width: 100%;
-    display: block;
-}
-
-w2-player iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
 /* Placeholders */
 
 .placeholder {

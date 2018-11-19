@@ -1,35 +1,67 @@
 export default class Player extends HTMLElement {
 
-	connectedCallback() {
-		// insert api lib
-		const script = document.createElement("script");
-		script.onload = () => {
-			window.onYouTubeIframeAPIReady = () => this.setupPlayer();
-		}
-		script.src = "https://www.youtube.com/iframe_api";
-		this.appendChild(script);
+	static get State() { return {
+		EMPTY: 0,
+		PLAYING: 1,
+		PAUSED: 2,
+		SEEKING: 3,
+	}}
+
+	play() {
+
+	}
+
+	pause() {
+
+	}
+
+	get currentTime() {
+
+	}
+
+	set currentTime(v) {
+
+	}
+
+	loadVideo() {
+
+	}
+
+	get activePlayer() {
+		return null;
+	}
+
+	constructor() {
+		super();
+
+		this.player = null;
+		this.state = 0;
 	}
 
 	setupPlayer() {
-		const player = this;
 		this.player = new YT.Player('ytplayer', {
-			height: '100%',
-			width: '100%',
 			events: {
 				'onStateChange': state => {
-					player.onStateChange(state.data);
+					this.onStateChange(state.data);
 				},
-				'onReady': player.onReady.bind(player),
+				'onReady': () => {
+					this.onReady();
+				}
 			}
 		})
+
+		const twitchplayer = new Twitch.Player("twitchplayer", {
+			
+		});
 	}
 
 	onReady() {
-		console.log("player ready");
+		this.dispatchEvent(new Event("ready"));
 	}
 
 	onStateChange(state) {
-		// State hook
+		this.state = state;
+		this.dispatchEvent(new Event("statechange"));
 	}
 }
 
