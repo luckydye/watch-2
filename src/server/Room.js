@@ -6,10 +6,10 @@ module.exports = class Room {
 		return rooms;
 	}
 	
-	static resolve(socket, id) {
+	static resolve(io, id) {
 		if(rooms.has(id))
 			return rooms.get(id);
-		return new Room(socket, id);
+		return new Room(io, id);
 	}
 
 	delete() {
@@ -40,6 +40,12 @@ module.exports = class Room {
 	getRoomState() { return this.state; }
 
 	socketConnected(socket) {
+		if(this.userlist.size < 1 && this.queue.length > 0) {
+			console.log(this.queue.length);
+			const vid = this.queue[0];
+			this.loadVideo(vid.service, vid.id);
+		}
+
 		this.userlist.set(socket.id, {
 			username: socket.username,
 			socket: socket,
@@ -98,6 +104,8 @@ module.exports = class Room {
 			time: 0,
 			state: 1,
 		});
+		// set video state
+		this.syncPlayerState({ id, time: 0, timestamp: 0, });
 		// add to history
 		this.addToHistory({ service, id });
 	}

@@ -66,8 +66,8 @@ w2-preference-switch {
     margin: 5px 0;
     position: relative;
 
-    --onColor: #0aa00a;
-    --offColor: #980e0e;
+    --onColor: #0d6f20;
+    --offColor: #3c3c3c;
     --handleColor: #e8e8e8;
 }
 

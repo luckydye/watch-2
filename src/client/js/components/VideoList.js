@@ -16,6 +16,7 @@ export class VideoList extends HTMLElement {
 
 	render() {
 		this.innerHTML = "";
+
 		for(let i = 0; i < this.list.length; i++) {
 			const vid = this.list[i];
 			const item = new this.Item({

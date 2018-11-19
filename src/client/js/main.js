@@ -1,7 +1,5 @@
 import { Room } from './Room.js';
 
-let room = null;
-
 window.addEventListener("DOMContentLoaded", onDomReady);
 window.addEventListener("load", onLoad);
 
@@ -10,7 +8,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onLoad() {
-	room = new Room();
+	const room = new Room();
 }
 
 function onDomReady() {
