@@ -15,11 +15,16 @@ export default class Player extends HTMLElement {
 		this.player.pauseVideo();
 	}
 
-	loadVideo({id, startSeconds}) {
-		this.player.loadVideoById({
-			videoId: id,
-			startSeconds: startSeconds,
-		});
+	loadVideo({service, id, startSeconds}) {
+		if(service == "youtube.com") {
+			this.player.loadVideoById({
+				videoId: id,
+				startSeconds: startSeconds,
+			});
+		} else if(service == "twitch.tv") {
+			console.log(service);
+		}
+		
 		this.initState = null;
 	}
 
