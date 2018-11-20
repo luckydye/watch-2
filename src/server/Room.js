@@ -1,4 +1,5 @@
 const rooms = new Map();
+const presets = require("./presets.js");
 
 module.exports = class Room {
 
@@ -34,6 +35,18 @@ module.exports = class Room {
 			service: null,
 			video: {},
 			saved: false,
+		}
+
+		const preset = this.getPreset(this.id);
+		if(preset) {
+			presets[this.id].onCreate(this);
+		}
+	}
+
+	getPreset(id) {
+		if(presets[id]) {
+			const preset = presets[id];
+			return preset;
 		}
 	}
 
@@ -138,6 +151,11 @@ module.exports = class Room {
         this.broadcast('queue list', this.queue);
 		if(this.queue.length < 2) {
             this.loadVideo(service, id);
+		}
+
+		const preset = this.getPreset(this.id);
+		if(preset) {
+			presets[this.id].onNewVideo({service, id});
 		}
 	}
 
