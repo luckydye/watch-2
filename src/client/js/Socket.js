@@ -2,6 +2,10 @@ export class Socket {
 
 	get username() { return Preferences.get("username"); }
 
+	isHost() {
+		return this.host;
+	}
+
 	constructor() {
 		this.socket = io({
 			reconnection: true,
@@ -9,16 +13,23 @@ export class Socket {
 
 		this.updaterate = 500;
 		this.host = false;
-
 		this.connected = false;
-	}
-
-	isHost() {
-		return this.host;
 	}
 
 	init() {
 		const player = document.querySelector("w2-player");
+
+		setInterval(() => {
+			if(player.state == 1) {
+				this.socket.emit('player state', {
+					service: player.service,
+					time: player.getCurrentTime(),
+					id: player.currentVideoId,
+					timestamp: Date.now(),
+					ended: player.state == 0
+				});
+			}
+		}, this.updaterate);
 
 		this.events = {
 
@@ -97,20 +108,6 @@ export class Socket {
 	}
 
 	initListeners(events) {
-		const player = document.querySelector("w2-player");
-
-		setInterval(() => {
-			if(player.state == 1) {
-				this.socket.emit('player state', {
-					service: player.service,
-					time: player.getCurrentTime(),
-					id: player.currentVideoId,
-					timestamp: Date.now(),
-					ended: player.state == 0
-				});
-			}
-		}, this.updaterate);
-
 		for(let event in events) {
 			this.socket.on(event, msg => {
 				events[event](msg);
@@ -118,8 +115,8 @@ export class Socket {
 		}
 	}
 
-	setRoomState(obj) {
-		this.socket.emit('room state', obj);
+	emit(event, msg) {
+		this.socket.emit(event, msg);
 	}
 
 	connect(roomId) {
@@ -149,7 +146,7 @@ export class Socket {
 		});
 	}
 
-	playVideo(video) {
+	loadVideo(video) {
 		this.socket.emit('queue play', {
 			index: video.index,
 			id: video.id,

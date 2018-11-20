@@ -21,36 +21,56 @@ export class Room {
 	initPlayer() {
 		this.player.setupPlayer();
 
-		let lastPlayState = 1;
+		const socket = this.socket;
+		const player = this.player;
+		
+		let lastState = 0;
+		let lastPlayerTime = 0;
 
-		const socket = this.socket.socket;
+		const tick = () => {
+			if(lastState) {
+				const currentTime = player.getCurrentTime();
+				const diff = currentTime - lastPlayerTime;
+
+				if(diff > 1) {
+					socket.emit('seek video', { 
+						time: player.getCurrentTime() 
+					});
+					console.log(diff);
+				}
+	
+				lastPlayerTime = currentTime;
+			}
+
+			requestAnimationFrame(tick);
+		}
 		
 		this.player.addEventListener("statechange", () => {
-			const player = this.player;
 			const state = player.state;
-			
+
 			if(player.initState !== 1) {
 				player.initState = state;
+				lastState = state;
+				tick();
 				return;
 			}
 
 			switch(state) {
-				case 1:
+				case Player.State.PLAYING:
 					socket.emit('play video');
-					if(lastPlayState == 2) {
+					break;
+				case Player.State.PAUSED:
+					if(lastState !== Player.State.SEEKING) {
+						socket.emit('pause video');
 						socket.emit('seek video', { time: player.getCurrentTime() });
 					}
 					break;
-				case 2:
+				case Player.State.SEEKING:
 					socket.emit('pause video');
-					socket.emit('seek video', { time: player.getCurrentTime() });
-					break;
-				case 3:
-					socket.emit('seek video', { time: player.getCurrentTime() });
 					break;
 			}
 
-			lastPlayState = state;
+			lastState = state;
 		})
 	}
 
@@ -79,22 +99,26 @@ export class Room {
 		}
 
 		document.querySelector(".video-queue w2-videolist").playVideo = (index, vid) => {
-			socket.playVideo({ index, id: vid.id });
+			socket.loadVideo({ index, id: vid.id });
 		}
 
 		document.querySelector(".history w2-videolist").playVideo = (index, vid) => {
 			const q = socket.addVideoToQueue(vid.service, vid.id);
-			socket.playVideo({ index: q.length, id: vid.id });
+			socket.loadVideo({ index: q.length, id: vid.id });
 		}
 
 		// Room state
 		document.querySelector("w2-preference-switch#saveRoom").onChange = (value) => {
-			socket.setRoomState({
+			this.setRoomState({
 				saved: value
-			});
+			})
 		}
 
 		socket.connect(this.id);
+	}
+
+	setRoomState(obj) {
+		this.socket.emit('room state', obj);
 	}
 
 }
