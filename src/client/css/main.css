@@ -119,12 +119,6 @@ button.holo-button:hover {
 	background: black;
 }
 
-[loading] w2-userlist .placeholder {
-	width: 100%;
-	height: 20px;
-	margin-bottom: 10px;
-}
-
 @keyframes fade-in {
 	from { opacity: 0 }
 }

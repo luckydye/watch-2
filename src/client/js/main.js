@@ -16,8 +16,6 @@ function onDomReady() {
 
 	document.querySelector(".room-title").innerText = location.pathname.split("/").reverse()[0];
 
-	// Userlist toggle button
-	document.querySelector(".toggle-userlist").onclick = () => bindButton("userlist-open");
 	// Video Queue toggle button
 	document.querySelector(".toggle-video-queue").onclick = () => bindButton("video-queue-open");
 

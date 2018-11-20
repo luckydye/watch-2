@@ -59,10 +59,6 @@
 				<button class="holo-button toggle-video-queue">
 					<i class="material-icons">keyboard_arrow_right</i>
 				</button>
-	
-				<button class="holo-button toggle-userlist">
-					<i class="material-icons">keyboard_arrow_left</i>
-				</button>
 			</div>
 			
 			<div class="player-container">
@@ -81,14 +77,6 @@
 				</div>
 				
 				<div class="settings">
-					<div class="headline">
-						<a>Settings</a>
-					</div>
-	
-					<w2-preferences class="row">
-						<label>Save Room</label><br/>
-						<w2-preference-switch id="saveRoom" disabled>
-					</w2-preferences>
 
 					<div class="headline">
 						<a>Userlist</a>
@@ -97,25 +85,31 @@
 					<div class="row">
 						<w2-itemlist class="userlist"></w2-itemlist>
 					</div>
+
+					<div class="headline">
+						<a>Room Settings</a>
+					</div>
+	
+					<w2-preferences class="row">
+						<label>Save Room</label><br/>
+						<w2-preference-switch id="saveRoom" disabled>
+					</w2-preferences>
+
+					<div class="headline">
+						<a>User Settings</a>
+					</div>
+						
+					<div class="row">
+						<w2-preferences>
+							<label>Username</label><br/>
+							<w2-preference key="username" placeholder="Username">
+						</w2-preferences>
+					</div>
 				</div>
 
 			</div>
 		</div>
 	</main>
-
-	<w2-userlist>
-
-		<div class="headline">
-			<a>User Settings</a>
-		</div>
-		
-		<div class="row">
-			<w2-preferences>
-				<label>Username</label><br/>
-				<w2-preference key="username" placeholder="Username">
-			</w2-preferences>
-		</div>
-	</w2-userlist>
 
 </body>
 </html>
