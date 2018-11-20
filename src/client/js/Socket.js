@@ -99,7 +99,7 @@ export class Socket {
 
 				if(diff > 0.5 || diff < -0.5) {
 					player.seekTo(msg.time);
-					displayNotification(`Resynced ${Math.floor(diff)} seconds`, 2000);
+					displayNotification(`Seeked ${Math.floor(diff)} seconds`, 2000);
 				}
 			},
 		}

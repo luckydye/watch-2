@@ -27,6 +27,7 @@ export class Room {
 		let lastState = 0;
 		let lastPlayerTime = 0;
 
+		// check for seeking differences
 		const tick = () => {
 			if(lastState) {
 				const currentTime = player.getCurrentTime();
@@ -36,7 +37,6 @@ export class Room {
 					socket.emit('seek video', { 
 						time: player.getCurrentTime() 
 					});
-					console.log(diff);
 				}
 	
 				lastPlayerTime = currentTime;
@@ -45,6 +45,7 @@ export class Room {
 			requestAnimationFrame(tick);
 		}
 		
+		// match player state to socket
 		this.player.addEventListener("statechange", () => {
 			const state = player.state;
 
