@@ -1,5 +1,12 @@
 export default class Player extends HTMLElement {
 
+	static get template() {
+		return `
+			<div class="player" id="ytplayer"></div>
+			<div class="active player" id="twitchplayer"></div>
+		`;
+	}
+
 	static get State() { return {
 		EMPTY: 0,
 		PLAYING: 1,
@@ -37,6 +44,10 @@ export default class Player extends HTMLElement {
 	}
 
 	loadVideo({service, id, startSeconds}) {
+
+		if(this.initState)
+			this.pause();
+			
 		this.service = service;
 		this.currentService = service;
 
@@ -58,21 +69,12 @@ export default class Player extends HTMLElement {
 	}
 
 	seekTo(t) {
-		switch(this.currentService) {
-			case "youtube.com": return this.player.seekTo(t);
-			case "twitch.tv": return this.player.seek(t);
-		}
+		const seek = this.player.seekTo || this.player.seek;
+		seek(t);
 	}
 
 	getCurrentTime() {
 		return this.player.getCurrentTime();
-	}
-
-	static get template() {
-		return `
-			<div class="player" id="ytplayer"></div>
-			<div class="active player" id="twitchplayer"></div>
-		`;
 	}
 
 	constructor() {
@@ -104,7 +106,6 @@ export default class Player extends HTMLElement {
 		})
 
 		this.twitchplayer = new Twitch.Player("twitchplayer", {
-			channel: 'luckydye',
 			height: 300,
 			width: 400,
 		});
