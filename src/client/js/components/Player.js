@@ -44,10 +44,12 @@ export default class Player extends HTMLElement {
 		}
 	}
 
-	loadVideo({service, id, startSeconds}) {
+	loadVideo({service, id, startSeconds}, state) {
 		if(this.loaded) {
 			this.pause();
 		}
+		
+		this.loaded = false;
 			
 		this.service = service;
 		this.currentService = service;
@@ -66,10 +68,12 @@ export default class Player extends HTMLElement {
 			this.querySelector("#twitchplayer").classList.add("active");
 		}
 
+		if(state == Player.State.PAUSED) {
+			this.pause();
+		}
+
 		this.video.id = id;
 		this.video.service = service;
-		
-		this.initState = null;
 	}
 
 	seekTo(t) {
@@ -130,13 +134,15 @@ export default class Player extends HTMLElement {
 		let lastPlayerTime = 0;
 
 		const tick = () => {
+			const currentTime = this.getCurrentTime();
 			if(this.loaded) {
-				const currentTime = this.getCurrentTime();
-				const diff = currentTime - lastPlayerTime;
-				if(Math.abs(diff) > 1) {
-					this.dispatchEvent(new CustomEvent("seek", {
-						detail: { time: currentTime }
-					}));
+				if(lastPlayerTime > 1) {
+					const diff = currentTime - lastPlayerTime;
+					if(Math.abs(diff) > 1) {
+						this.dispatchEvent(new CustomEvent("seek", {
+							detail: { time: currentTime }
+						}));
+					}
 				}
 				lastPlayerTime = currentTime;
 			}
@@ -161,14 +167,14 @@ export default class Player extends HTMLElement {
 					this.dispatchEvent(new CustomEvent("pause"));
 					break;
 			}
-		}
 
-		if(!this.loaded && state !== 1) {
-			this.loaded = true;
-		} else {
 			this.dispatchEvent(new CustomEvent("statechange", {
 				detail: { state: state }
 			}));
+		}
+
+		if(state == Player.State.PLAYING) {
+			this.loaded = true;
 		}
 	}
 }

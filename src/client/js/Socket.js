@@ -20,13 +20,13 @@ export class Socket {
 		const player = document.querySelector("w2-player");
 
 		setInterval(() => {
-			if(player.state == 1) {
+			if(player.loaded) {
 				this.socket.emit('player state', {
 					service: player.service,
 					time: player.getCurrentTime(),
 					id: player.currentVideoId,
 					timestamp: Date.now(),
-					ended: player.state == 0
+					state: player.state
 				});
 			}
 		}, this.updaterate);
@@ -82,7 +82,7 @@ export class Socket {
 					service: msg.service,
 					id: msg.id,
 					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
-				})
+				}, msg.state);
 			},
 
 			'play video': () => {

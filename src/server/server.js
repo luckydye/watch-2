@@ -77,7 +77,7 @@ io.on('connection', socket => {
 				id: videoid,
 				time: room.state.video.time || 0,
 				timestamp: room.state.video.timestamp || 0,
-				state: 1,
+				state: room.state.video.state,
 			});
 		}
 		
