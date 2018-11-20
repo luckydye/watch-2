@@ -83,7 +83,7 @@ w2-player .player {
 
 .room-details {
     position: relative;
-    padding: 20px 40px 40px 40px;
+    padding: 20px 40px 0px 40px;
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 2fr 1fr;
@@ -101,4 +101,22 @@ w2-player .player {
 
 .room-details .headline {
     margin-bottom: 10px;
+}
+
+footer {
+    max-width: 1000px;
+    margin: 0 auto 40px auto;
+}
+
+footer p {
+    color: #cacaca;
+    opacity: 0.35;
+    font-size: 14px;
+    text-align: right;
+}
+
+a[href] {
+    text-transform: none;
+    text-decoration: underline;
+    color: inherit;
 }
