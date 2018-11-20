@@ -14,12 +14,7 @@
     pointer-events: all;
 }
 
-[userlist-open="true"] .navigation {
-	margin-right: 240px;
-}
-
-[video-queue-open="true"] .navigation button.toggle-video-queue i,
-[userlist-open="true"] .navigation button.toggle-userlist i {
+[video-queue-open="true"] .navigation button.toggle-video-queue i {
 	transform: rotate(180deg);
 }
 
@@ -56,7 +51,7 @@ w2-player {
     display: block;
     width: 100%;
     height: auto;
-    max-height: calc(100% - 10px);
+    max-height: calc(100vh - 10px);
     position: relative;
     z-index: 10;
 }
