@@ -24,7 +24,7 @@ export default class Player extends HTMLElement {
 
 	play() {
 		switch(this.currentService) {
-			case "youtube.com": return this.player.playVideo();;
+			case "youtube.com": return this.player.playVideo();
 			case "twitch.tv": return this.player.play();
 		}
 	}
@@ -70,8 +70,8 @@ export default class Player extends HTMLElement {
 
 	static get template() {
 		return `
-			<div class="active player" id="ytplayer"></div>
-			<div class="player" id="twitchplayer"></div>
+			<div class="player" id="ytplayer"></div>
+			<div class="active player" id="twitchplayer"></div>
 		`;
 	}
 
@@ -103,11 +103,18 @@ export default class Player extends HTMLElement {
 			}
 		})
 
-		this.twitchplayer = new Twitch.Player("twitchplayer");
+		this.twitchplayer = new Twitch.Player("twitchplayer", {
+			channel: 'luckydye',
+			height: 300,
+			width: 400,
+		});
 		this.twitchplayer.addEventListener(Twitch.Player.PAUSE, () => {
 			this.onStateChange(Player.State.PAUSED);
 		})
 		this.twitchplayer.addEventListener(Twitch.Player.PLAY, () => {
+			this.onStateChange(Player.State.PLAYING);
+		})
+		this.twitchplayer.addEventListener(Twitch.Player.PLAYING, () => {
 			this.onStateChange(Player.State.PLAYING);
 		})
 	}
