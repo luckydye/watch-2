@@ -25,53 +25,25 @@ export class Room {
 		const player = this.player;
 		
 		let lastState = 0;
-		let lastPlayerTime = 0;
-
-		// check for seeking differences
-		const tick = () => {
-			if(lastState) {
-				const currentTime = player.getCurrentTime();
-				const diff = currentTime - lastPlayerTime;
-
-				if(diff > 1) {
-					socket.emit('seek video', { 
-						time: player.getCurrentTime() 
-					});
-				}
-	
-				lastPlayerTime = currentTime;
-			}
-
-			requestAnimationFrame(tick);
-		}
 		
-		// match player state to socket
-		this.player.addEventListener("statechange", () => {
-			const state = player.state;
+		// player events
+		this.player.addEventListener("statechange", (e) => {
+			lastState = e.detail.state;
+		})
 
-			if(player.initState !== 1) {
-				player.initState = state;
-				lastState = state;
-				tick();
-				return;
+		this.player.addEventListener("seek", (e) => {
+			socket.emit('seek video', { time: e.detail.time });
+		})
+
+		this.player.addEventListener("play", () => {
+			socket.emit('play video');
+		})
+
+		this.player.addEventListener("pause", () => {
+			if(lastState !== Player.State.SEEKING) {
+				socket.emit('pause video');
+				socket.emit('seek video', { time: player.getCurrentTime() });
 			}
-
-			switch(state) {
-				case Player.State.PLAYING:
-					socket.emit('play video');
-					break;
-				case Player.State.PAUSED:
-					if(lastState !== Player.State.SEEKING) {
-						socket.emit('pause video');
-						socket.emit('seek video', { time: player.getCurrentTime() });
-					}
-					break;
-				case Player.State.SEEKING:
-					socket.emit('pause video');
-					break;
-			}
-
-			lastState = state;
 		})
 	}
 

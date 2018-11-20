@@ -130,12 +130,10 @@ module.exports = class Room {
 
 	playVideo() {
 		this.state.video.state = 0;
-		this.broadcast('play video');
 	}
 
 	pauseVideo() {
 		this.state.video.state = 1;
-		this.broadcast('pause video');
 	}
 
 	addToHistory(video) {

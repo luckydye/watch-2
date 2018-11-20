@@ -116,11 +116,13 @@ io.on('connection', socket => {
 
 	on('play video').then(msg => {
 		room.playVideo();
+		broadcast('play video');
 		broadcast('message', { message: username + " pressed play" });
 	});
 
 	on('pause video').then(msg => {
 		room.pauseVideo();
+		broadcast('pause video');
 		broadcast('message', { message: username + " pressed pause" });
 	});
 
