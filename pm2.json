@@ -1,0 +1,8 @@
+{
+	"apps" : [{
+		"name"       : "watch-2",
+		"script"     : "./src/server/server.js",
+		"instances"  : 1,
+		"exec_mode"  : "cluster"
+	}]
+}
