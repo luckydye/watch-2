@@ -47,28 +47,22 @@ export class Room {
 			}
 		})
 	}
+	
+	addVideo(link) {
+		const parsed = parseVideoUrl(link);
+		if(parsed) {
+			this.socket.addVideoToQueue(parsed.service, parsed.id);
+		} else {
+			const noti = new Notification({ text: "Inavlid URL", time: 2000 });
+			noti.display(document.querySelector("w2-notifications"));
+		}
+	}
 
 	init() {
 		const socket = this.socket;
 		
 		socket.init();
 		
-		const input = document.querySelector(".addToQueueDialog input");
-		document.querySelector(".addToQueueDialog button").addEventListener("click", () => {
-			const link = input.value;
-			if(!link) return;
-
-			const parsed = parseVideoUrl(link);
-			if(parsed) {
-				socket.addVideoToQueue(parsed.service, parsed.id);
-			} else {
-				const noti = new Notification({ text: "Inavlid URL", time: 2000 });
-				noti.display(document.querySelector("w2-notifications"));
-			}
-			document.body.setAttribute("queue-add-dialog", "false");
-			input.value = "";
-		})
-
 		document.querySelector(".video-queue w2-videolist#queue").removeVideo = (index, vid) => {
 			socket.removeVideoFromQueue({ index, id: vid.id });
 		}

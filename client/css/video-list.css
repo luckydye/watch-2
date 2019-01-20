@@ -232,55 +232,8 @@ w2-videolist-item .delbtn:hover {
     [video-queue-open="true"] .video-queue {
         margin-left: 0;
     }
-    .video-queue .addToQueueDialog {
-        position: fixed;
-        top: 40%;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1000;
-    }
 }
 
 @keyframes slideIn {
     from { transform: translateY(-50%); opacity: 0; }
-}
-
-body:not([queue-add-dialog="true"]) .addToQueueDialog {
-    display: none;
-}
-
-.addToQueueDialog {
-    position: absolute;
-    top: 8px;
-    left: 210px;
-    background: #1c1c1c;
-    box-shadow: 1px 2px 7px rgba(0, 0, 0, 0.35);
-    min-width: 400px;
-    z-index: 100;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding: 10px 10px;
-}
-
-.addToQueueDialog .row {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.addToQueueDialog label {
-    font-size: 14px;
-}
-
-.addToQueueDialog input[type="checkbox"] {
-    width: auto;
-    margin-right: 10px;
-}
-
-.addToQueueDialog input {
-    padding: 8px 55px 8px 10px;
-}
-
-.addToQueueDialog button {
-    margin-left: -45px;
 }

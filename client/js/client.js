@@ -6,17 +6,19 @@ import './components/VideoList.js';
 import { Room } from './modules/Room.js';
 import { Notification } from './modules/Notifications.js';
 
-Notification.loadEmotes("https://api.frankerfacez.com/v1/room/shroud");
+Notification.loadEmotes("https://api.frankerfacez.com/v1/room/luckydye");
 
 window.addEventListener("DOMContentLoaded", onDomReady);
 window.addEventListener("load", onLoad);
+
+let room;
 
 function onYouTubeIframeAPIReady() {
 	onLoad();
 }
 
 function onLoad() {
-	const room = new Room();
+	room = new Room();
 }
 
 function onDomReady() {
@@ -32,16 +34,12 @@ function onDomReady() {
 	document.querySelector(".toggle-video-queue").onclick = () => bindButton("video-queue-open");
 
 	// video add button
-	const input = document.querySelector(".addToQueueDialog input");
-	document.querySelector(".video-queue .addVideo").addEventListener("click", () => {
-		document.body.setAttribute("queue-add-dialog", "true");
-		input.focus();
+	document.querySelector(".video-queue .addVideo").addEventListener("click", e => {
+		navigator.clipboard.readText().then(clipText => {
+			room.addVideo(clipText);
+		});
 	})
-	input.onblur = () => {
-		setTimeout(() => {
-			document.body.setAttribute("queue-add-dialog", "false");
-		}, 150);
-	}
+
 }
 
 window.parseVideoUrl = (url) => {
