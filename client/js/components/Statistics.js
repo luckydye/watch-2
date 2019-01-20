@@ -10,7 +10,7 @@ export class Statistics extends HTMLElement {
 	static temaplte(data) {
 		return `
 			<p>
-				<span>Video Played: </span><span>${data.videosPlayed}</span>
+				<span>Videos played: </span><span>${data.videosPlayed}</span>
 			</p>
 		`;
 	}
