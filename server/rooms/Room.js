@@ -8,7 +8,9 @@ if(global.usedPlugins) {
 
 function loadPlugins(pluginNameArr) {
 	for(let plugin of pluginNameArr) {
-		plugins[plugin] = require('../' + pluginsFolder + plugin + '.js');
+		const Plugin = require('../' + pluginsFolder + plugin + '.js');
+		plugins[plugin] = new Plugin();
+		console.log('Plugin >', plugin, 'enabled.');
 	}
 }
 
@@ -16,9 +18,8 @@ function usePluginsFor(room, callback) {
 	for(let pname in plugins) {
 		const plugin = plugins[pname];
 		
-		if (plugin.rooms != null || 
-			plugin.rooms.includes(room.id)) {
-
+		if (!plugin.rooms ||
+			plugin.rooms && plugin.rooms.includes(room.id)) {
 			callback(plugin);
 		}
 	}
@@ -92,6 +93,10 @@ module.exports = class Room {
 		});
 
 		this.resolveHost(socket);
+		
+		usePluginsFor(this, plugin => {
+			plugin.onJoined(socket.username);
+		});
 	}
 
 	socketDisconnected(socket) {
@@ -102,6 +107,14 @@ module.exports = class Room {
 			}
 		} else {
 			this.resolveHost(socket);
+
+			this.broadcast('message', {
+				message: socket.username + " left"
+			});
+
+			usePluginsFor(this, plugin => {
+				plugin.onLeft(socket.username);
+			});
 		}
 	}
 
@@ -148,10 +161,24 @@ module.exports = class Room {
 
 	playVideo() {
 		this.state.video.state = 0;
+		
+		usePluginsFor(this, plugin => {
+			plugin.onPlayVideo({
+				service: this.state.service,
+				id: this.state.video.id
+			});
+		});
 	}
 
 	pauseVideo() {
 		this.state.video.state = 1;
+		
+		usePluginsFor(this, plugin => {
+			plugin.onPauseVideo({
+				service: this.state.service,
+				id: this.state.video.id
+			});
+		});
 	}
 
 	addToHistory(video) {
@@ -188,6 +215,10 @@ module.exports = class Room {
 		this.loadVideo(service, id);
 
 		this.removeFromQueue(1);
+		
+		usePluginsFor(this, plugin => {
+			plugin.onSkipToVideo({service, id});
+		});
 	}
 
 	broadcastQueue() {

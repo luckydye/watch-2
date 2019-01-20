@@ -1,9 +1,36 @@
+import { Notification } from "./Notifications.js";
+import { Preferences } from "./Preferences.js";
+
+let reactions = {};
+
+fetch('/res/reactionEvents.json')
+	.then(res => res.json()
+	.then(json => {
+		reactions = json;
+	}))
+
+function displayNotification(text, time) {
+	const noti = new Notification({ type: Notification.TEXT, text, time });
+	noti.display(document.querySelector("w2-notifications"));
+}
+
+function displayReaction(emote) {
+	const noti = new Notification({ type: Notification.EMOTE, text: emote, time: 3000 });
+	noti.display(document.querySelector("w2-notifications.reactions"));
+}
+
 export class Socket {
 
 	get username() { return Preferences.get("username"); }
 
 	isHost() {
 		return this.host;
+	}
+
+	sendReaction(reaction) {
+		this.emit('reaction', {
+			message: reaction,
+		})
 	}
 
 	constructor() {
@@ -14,6 +41,10 @@ export class Socket {
 		this.updaterate = 500;
 		this.host = false;
 		this.connected = false;
+
+		window.sendReaction = (emote) => {
+			this.sendReaction(emote);
+		}
 	}
 
 	init() {
@@ -34,11 +65,16 @@ export class Socket {
 		this.events = {
 
 			'disconnect': () => {
-				displayNotification("ERROR: Disconnected", 20000)
+				displayReaction(reactions.clientError);
+				displayNotification("ERROR: Disconnected", 20000);
 			},
 
 			'message': msg => {
-				displayNotification(msg.message, 2500)
+				if(msg.reaction) {
+					displayReaction(msg.message);
+				} else {
+					displayNotification(msg.message, 2500);
+				}
 			},
 
 			'room state': msg => {

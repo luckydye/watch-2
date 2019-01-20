@@ -1,8 +1,21 @@
 w2-notifications {
-	position: absolute;
+    position: absolute;
     bottom: 50px;
     right: 0;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 5px 0;
+    z-index: 1000;
+}
+
+w2-notifications.reactions {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin: 5px 0;
     z-index: 1000;
 }
@@ -10,19 +23,25 @@ w2-notifications {
 w2-notification {
     padding: 10px 20px;
 	background: #1c1c1c;
-	border-right: 2px solid var(--accentColor);
     box-shadow: 1px 2px 5px hsla(0, 0%, 0%, 0.25);
     display: block;
 	color: #eee;
 	font-size: 12px;
 	opacity: 0.98;
 	min-width: 150px;
-	margin-bottom: 10px;
 	animation: slide-in .15s ease;
 	user-select: none;
 	cursor: pointer;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
+	margin-bottom: 10px;
+}
+
+w2-notification.emote {
+    padding: 5px;
+	background: transparent;
+	min-width: 0px;
+	margin-left: 20px;
+	margin-bottom: 0px;
+    box-shadow: none;
 }
 
 @keyframes slide-in {

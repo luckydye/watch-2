@@ -94,6 +94,10 @@ button.holo-button:hover {
     letter-spacing: 1px;
 }
 
+a[href] {
+    text-decoration: none;
+}
+
 /* Placeholders */
 
 .placeholder {

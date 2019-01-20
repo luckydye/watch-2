@@ -23,11 +23,11 @@ app.use((req, res, next) => {
 app.use('/node_modules/@webcomponents', express.static('node_modules/@webcomponents'));
 app.use('/js', express.static('./client/js'));
 app.use('/css', express.static('./client/css'));
-app.use('/res', express.static('./client/res'));
-
-app.use('/api/v1', watchApi(io));
+app.use('/res', express.static('./resources'));
 
 app.get('/', (req, res) => res.redirect("/r/" + randomRoomId()));
+
+app.use('/api/v1', watchApi(io));
 
 app.get('/r/:roomId', (req, res) => {
 	res.sendFile(path.resolve("./client/index.html"));

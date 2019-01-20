@@ -49,6 +49,7 @@ module.exports = (io) => io.on('connection', socket => {
 		room.socketConnected(socket);
 
 		broadcast('message', { message: username + " joined" });
+
 		room.broadcastUserlist();
 	});
 	
@@ -62,7 +63,6 @@ module.exports = (io) => io.on('connection', socket => {
 	on('disconnect').then(() => {
 		room.socketDisconnected(socket);
 		room.broadcastUserlist();
-		broadcast('message', { message: username + " left" });
 	});
 
 	on('queue add').then(msg => {
@@ -99,5 +99,12 @@ module.exports = (io) => io.on('connection', socket => {
 		if(socket.id === room.hostId) {
 			room.syncPlayerState(msg);
 		}
+	});
+
+	on('reaction').then(msg => {
+		room.broadcast('message', {
+			message: msg.message,
+			reaction: true,
+		});
 	});
 })

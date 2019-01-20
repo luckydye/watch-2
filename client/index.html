@@ -16,13 +16,7 @@
 	<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 
-	<script src="/js/lib.js"></script>
-
-	<script type="module" src="/js/components/Preference.js"></script>
-	<script type="module" src="/js/components/Player.js"></script>
-	<script type="module" src="/js/components/VideoList.js"></script>
-	<script type="module" src="/js/components/Userlist.js"></script>
-	<script type="module" src="/js/main.js"></script>
+	<script type="module" src="/js/client.js"></script>
 	
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="stylesheet" href="/css/notifications.css">
@@ -31,7 +25,7 @@
 	<link rel="stylesheet" href="/css/preferences.css">
 	<link rel="stylesheet" href="/css/content.css">
 	
-    <script>
+	<script>
 		window.addEventListener("load", () => document.documentElement.removeAttribute("loading"));
 	</script>
 </head>
@@ -63,6 +57,7 @@
 			
 			<div class="player-container">
 				<w2-notifications></w2-notifications>
+				<w2-notifications class="reactions"></w2-notifications>
 			</div>
 
 			<div class="room-details">

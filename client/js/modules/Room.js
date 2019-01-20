@@ -1,5 +1,6 @@
 import { Socket } from './Socket.js';
-import Player from './components/Player.js';
+import Player from '../components/Player.js';
+import { Notification } from './Notifications.js';
 
 export class Room {
 
@@ -61,7 +62,8 @@ export class Room {
 			if(parsed) {
 				socket.addVideoToQueue(parsed.service, parsed.id);
 			} else {
-				displayNotification("Inavlid URL", 2000);
+				const noti = new Notification({ text: "Inavlid URL", time: 2000 });
+				noti.display(document.querySelector("w2-notifications"));
 			}
 			document.body.setAttribute("queue-add-dialog", "false");
 			input.value = "";
