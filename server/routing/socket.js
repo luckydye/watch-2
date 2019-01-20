@@ -1,41 +1,6 @@
-const path = require('path');
-const express = require('express');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const Room = require('../rooms/Room.js');
 
-const Room = require('./Room.js');
-const { watchApi } = require('./api.js');
-const { randomRoomId } = require('./lib.js');
-
-// Server
-
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next();
-});
-
-app.use('/node_modules/@webcomponents', express.static('node_modules/@webcomponents'));
-app.use('/js', express.static('./src/client/js'));
-app.use('/css', express.static('./src/client/css'));
-app.use('/res', express.static('./src/client/res'));
-
-app.use('/api/v1', watchApi(io, Room));
-
-app.get('/', (req, res) => res.redirect("/r/" + randomRoomId()));
-
-app.get('/r/:roomId', (req, res) => {
-	res.sendFile(path.resolve("./src/client/index.html"));
-});
-
-app.get('/rooms', (req, res) => {
-	res.sendFile(path.resolve("./src/client/rooms.html"));
-});
-
-// Socket
-
-io.on('connection', socket => {
+module.exports = (io) => io.on('connection', socket => {
 
 	let room, 
 		username = "unknown";
@@ -135,7 +100,4 @@ io.on('connection', socket => {
 			room.syncPlayerState(msg);
 		}
 	});
-
-});
-
-http.listen(8080, () => console.log('App listening on port ' + 8080));
+})

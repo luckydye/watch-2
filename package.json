@@ -4,15 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server/server.js",
-    "dev": "nodemon src/server/server.js"
+    "start": "node server/main.js",
+    "dev": "nodemon server/main.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "express": "^4.16.3",
-    "node-fetch": "^2.3.0",
     "socket.io": "^2.1.1"
   }
 }

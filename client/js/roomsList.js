@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			<div class="thumbnail-container">
 				<div class="thumbnail-overlay">
 					<span class="${data.saved ? 'saved' : ''}"></span>
-					<span class="user-count">watching ${data.userCount}</span>
+					<span class="user-count">watching ${data.viewers}</span>
 				</div>
 				<img src="${ytidToThumbnailUrl(data.videoId)}"/>
 			</div>
@@ -43,7 +43,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				id: room.id,
 				videoId: room.state.video.id,
 				saved: room.state.saved,
-				userCount: room.userCount
+				viewers: room.viewers
 			});
 			listContainer.appendChild(ele);
 		}

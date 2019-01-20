@@ -1,5 +1,31 @@
-const rooms = new Map();
-const presets = require("./presets.js");
+// Plugins implementation
+const pluginsFolder = global.pluginsFolder || "";
+const plugins = {};
+
+if(global.usedPlugins) {
+	loadPlugins(global.usedPlugins);
+}
+
+function loadPlugins(pluginNameArr) {
+	for(let plugin of pluginNameArr) {
+		plugins[plugin] = require('../' + pluginsFolder + plugin + '.js');
+	}
+}
+
+function usePluginsFor(room, callback) {
+	for(let pname in plugins) {
+		const plugin = plugins[pname];
+		
+		if (plugin.rooms != null || 
+			plugin.rooms.includes(room.id)) {
+
+			callback(plugin);
+		}
+	}
+}
+
+global.rooms = global.rooms || new Map();
+const rooms = global.rooms;
 
 module.exports = class Room {
 
@@ -37,17 +63,9 @@ module.exports = class Room {
 			saved: false,
 		}
 
-		const preset = this.getPreset(this.id);
-		if(preset) {
-			presets[this.id].onCreate(this);
-		}
-	}
-
-	getPreset(id) {
-		if(presets[id]) {
-			const preset = presets[id];
-			return preset;
-		}
+		usePluginsFor(this, plugin => {
+			plugin.onCreate(this);
+		});
 	}
 
 	getRoomState() { return this.state; }
@@ -151,10 +169,9 @@ module.exports = class Room {
             this.loadVideo(service, id);
 		}
 
-		const preset = this.getPreset(this.id);
-		if(preset) {
-			presets[this.id].onNewVideo({service, id});
-		}
+		usePluginsFor(this, plugin => {
+			plugin.onNewVideo({service, id});
+		});
 	}
 
 	removeFromQueue(index) {
