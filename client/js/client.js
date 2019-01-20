@@ -2,6 +2,7 @@ import './components/Player.js';
 import './components/Preference.js';
 import './components/Userlist.js';
 import './components/VideoList.js';
+import './components/Statistics.js';
 
 import { Room } from './modules/Room.js';
 import { Notification } from './modules/Notifications.js';

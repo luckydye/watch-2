@@ -106,6 +106,7 @@ w2-player .player {
 footer {
     max-width: 1000px;
     margin: 0 auto 40px auto;
+    padding: 0 40px;
 }
 
 footer p {

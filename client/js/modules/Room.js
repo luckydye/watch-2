@@ -4,8 +4,12 @@ import { Notification } from './Notifications.js';
 
 export class Room {
 
+	static get id() {
+		return location.pathname.replace("/r/", "");
+	}
+
 	constructor() {
-		this.id = location.pathname.replace("/r/", "");
+		this.id = Room.id;
 
 		this.player = new Player();
 		document.querySelector(".player-container").appendChild(this.player);
