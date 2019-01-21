@@ -34,7 +34,7 @@
 	<main>
 		<div class="video-queue">
 			<div class="title">
-				<a>Queue</a>				
+				<a>Next up</a>				
 				<div class="addVideo">+</div>
 			</div>
 			<w2-videolist id="queue">
@@ -64,11 +64,6 @@
 						<a>History</a>
 					</div>
 					<w2-videolist id="history"></w2-videolist>
-
-					<div class="headline">
-						<a>Statistics</a>
-					</div>
-					<w2-statistics></w2-statistics>
 				</div>
 				
 				<div class="settings">
@@ -77,29 +72,30 @@
 						<a>Userlist</a>
 					</div>
 			
-					<div class="row">
-						<w2-itemlist class="userlist"></w2-itemlist>
-					</div>
+					<w2-itemlist class="userlist"></w2-itemlist>
 
 					<div class="headline">
 						<a>Room Settings</a>
 					</div>
 	
-					<w2-preferences class="row">
+					<w2-preferences>
 						<label>Save Room</label><br/>
 						<w2-preference-switch id="saveRoom" disabled>
 					</w2-preferences>
 
 					<div class="headline">
+						<a>Statistics</a>
+					</div>
+
+					<w2-statistics></w2-statistics>
+
+					<div class="headline">
 						<a>User Settings</a>
 					</div>
 						
-					<div class="row">
-						<w2-preferences>
-							<label>Username</label><br/>
-							<w2-preference key="username" placeholder="Username">
-						</w2-preferences>
-					</div>
+					<w2-preferences>
+						<w2-preference title="Username" key="username" placeholder="Username">
+					</w2-preferences>
 				</div>
 
 			</div>

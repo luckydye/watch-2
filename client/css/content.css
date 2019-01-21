@@ -83,17 +83,12 @@ w2-player .player {
 
 .room-details {
     position: relative;
-    padding: 20px 40px 0px 40px;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 2fr 1fr;
-    grid-gap: 20px 40px;
-    max-width: 1000px;
+    padding: 15px 40px 0px 40px;
     margin: auto;
 }
 
 .room-details .room-title {
-    grid-column: 1 / span 2;
+    margin-bottom: 15px;
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
     font-size: 22px;
@@ -103,8 +98,17 @@ w2-player .player {
     margin-bottom: 10px;
 }
 
+.room-details .settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 0 30px;
+}
+
+.room-details .headline {
+    grid-row: 1;
+}
+
 footer {
-    max-width: 1000px;
     margin: 0 auto 40px auto;
     padding: 0 40px;
 }

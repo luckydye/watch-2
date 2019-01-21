@@ -104,13 +104,18 @@
 }
 
 .history w2-videolist {
-    max-height: 400px;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px 0 20px;
+    overflow-x: scroll;
 }
 
-.history w2-videolist {
-    width: 100%;
-    grid-template-columns: 1fr 1fr;
-    box-sizing: border-box;
+.history w2-videolist-item {
+    margin-right: 10px;
+    min-width: 200px;
+    width: 200px;
+    border-radius: 2px;
 }
 
 .history w2-videolist .controls {
