@@ -36,10 +36,30 @@ function onDomReady() {
 
 	// video add button
 	document.querySelector(".video-queue .addVideo").addEventListener("click", e => {
-		navigator.clipboard.readText().then(clipText => {
-			room.addVideo(clipText);
-		});
+		if(navigator.clipboard.readText) {
+			navigator.clipboard.readText().then(clipText => {
+				room.addVideo(clipText);
+			});
+		} else {
+			new Notification({ 
+				type: Notification.TEXT, 
+				text: "Use Ctrl+V for adding Videos.", 
+				time: 5000
+			}).display(document.querySelector("w2-notifications"));
+
+			new Notification({
+				type: Notification.TEXT, 
+				text: "This browser does not support reading the Clipboard. \nUse Chrome for the best experience!", 
+				time: 6500
+			}).display(document.querySelector("w2-notifications"));
+		}
 	})
+
+	// support for stupid bvrowsers
+	window.addEventListener('paste', e => {
+		const pasteData = e.clipboardData.getData('text');
+		room.addVideo(pasteData);
+	});
 
 }
 

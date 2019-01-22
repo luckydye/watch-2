@@ -46,14 +46,9 @@ w2-notification.emote {
 }
 
 @keyframes slide-in {
-	from {
-		transform: translateY(100%);
-		opacity: 0;
-	}
+	from { transform: translateY(100%); opacity: 0; }
 }
 
 @keyframes fade-out {
-	to {
-		opacity: 0;
-	}
+	to { opacity: 0; }
 }

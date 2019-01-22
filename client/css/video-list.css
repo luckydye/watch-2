@@ -107,8 +107,9 @@
     width: 100%;
     display: flex;
     box-sizing: border-box;
-    padding: 10px 0 20px;
-    overflow-x: scroll;
+    padding: 10px 0 10px;
+    margin-bottom: 10px;
+    overflow-x: auto;
 }
 
 .history w2-videolist-item {
