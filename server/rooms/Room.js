@@ -1,23 +1,10 @@
 // Plugins implementation
-const pluginsFolder = global.pluginsFolder || "";
+const pluginsFolder = global.config.pluginsFolder || "";
 const plugins = {};
-
-if(global.usedPlugins) {
-	loadPlugins(global.usedPlugins);
-}
-
-function loadPlugins(pluginNameArr) {
-	for(let plugin of pluginNameArr) {
-		const Plugin = require('../' + pluginsFolder + plugin + '.js');
-		plugins[plugin] = new Plugin();
-		console.log('Plugin >', plugin, 'enabled.');
-	}
-}
 
 function usePluginsFor(room, callback) {
 	for(let pname in plugins) {
 		const plugin = plugins[pname];
-		
 		if (!plugin.rooms ||
 			plugin.rooms && plugin.rooms.includes(room.id)) {
 			callback(plugin);
@@ -29,6 +16,20 @@ global.rooms = global.rooms || new Map();
 const rooms = global.rooms;
 
 module.exports = class Room {
+
+	static loadPlugins(socket) {
+		const pluginNameArr = global.config.usedPlugins;
+		for(let plugin of pluginNameArr) {
+			const Plugin = require('../' + pluginsFolder + plugin + '.js');
+
+			plugins[plugin] = new Plugin({
+				socket: socket,
+				Room: Room
+			});
+
+			Plugin.log('enabled.');
+		}
+	}
 
 	static getRoomStore() {
 		return rooms;

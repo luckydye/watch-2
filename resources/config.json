@@ -1,0 +1,9 @@
+{
+	"discordBotLinkResponse": "https://watch.luckydye.de/",
+	"discordBotToken": "NTM3NzQ0MzYzMzUwOTE3MTQx.DypvOA.j9ZXjp04xbgIkPledvBH-yQzJBo",
+	"pluginsFolder": "./plugins/",
+	"usedPlugins": [
+		"Reactions",
+		"Discord"
+	]
+}

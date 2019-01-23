@@ -1,6 +1,3 @@
-global.pluginsFolder = './plugins/';
-global.usedPlugins = [ 
-	'Reactions'
-];
+global.config = require('../resources/config.json');
 
 require('./routing/server.js');

@@ -1,35 +1,30 @@
 module.exports = class Plugin {
 
-	get rooms() {
-		return null;
+	static log(...args) {
+		console.log('['+this.name+'] >', ...args);
+	}
+
+	get rooms() { return null; }
+
+	constructor(args = {}) {
+		for(let key in args) {
+			this[key] = args[key];
+		}
 	}
 
 	onCreate(room) {
 		this.room = room;
 	}
 
-	onJoined(username) {
-		
-	}
+	onJoined(username) { }
 
-	onLeft(username) {
+	onLeft(username) { }
 
-	}
+	onPlayVideo(video) { }
 
-	onPlayVideo(video) {
-		
-	}
+	onPauseVideo(video) { }
 
-	onPauseVideo(video) {
-		
-	}
+	onSkipToVideo(video) { }
 
-	onSkipToVideo(video) {
-		
-	}
-
-	onNewVideo(video) {
-		
-	}
-	
+	onNewVideo(video) { }
 }
