@@ -1,5 +1,6 @@
 const Plugin = require('../rooms/Plugin.js');
 const discord = require('discord.js');
+const { randomRoomId } = require('../helper.js');
 
 const client = new discord.Client();
 
@@ -30,12 +31,10 @@ class Discord extends Plugin {
 	scanMessage(msgString) {
 		const content = { room: null, link: null };
 		const split = msgString.split(" ");
-		if(split.length == 2) {
-			const parseUrl = this.parseLink(split[0]);
-			if(parseUrl) {
-				content.room = split[1];
-				content.link = parseUrl;
-			}
+		const parseUrl = this.parseLink(split[0]);
+		if(parseUrl) {
+			content.room = split[1] || randomRoomId();
+			content.link = parseUrl;
 		}
 		return content.room && content.link ? content : null;
 	}
