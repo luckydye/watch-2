@@ -61,7 +61,7 @@ export default class WatchMessageHandler extends MessageHandler {
     }
 
     broadcastQueue(room) {
-        this.braodcast(room, new Message('queue.list', room.queue));
+        this.broadcast(room, new Message('queue.list', room.queue));
     }
 
     broadcastUserlist(room) {
@@ -72,7 +72,7 @@ export default class WatchMessageHandler extends MessageHandler {
                 host: user[0] == room.hostId
             })
         }
-        this.braodcast(room, new Message('user.list', list));
+        this.broadcast(room, new Message('user.list', list));
     }
 
     handleLeaveMessage(message) {
@@ -83,7 +83,7 @@ export default class WatchMessageHandler extends MessageHandler {
         if (room) {
             room.socketDisconnected(message.socket);
 
-            this.braodcast(room, new Message('message', {
+            this.broadcast(room, new Message('message', {
                 message: message.socket.username + " left"
             }));
 
@@ -96,18 +96,17 @@ export default class WatchMessageHandler extends MessageHandler {
         if (room.hostId == socket.id) {
             room.state.saved = msg.data.saved;
         }
-        braodcast('room.state', room.getRoomState());
+        broadcast('room.state', room.getRoomState());
     }
 
     handleQueueAdd(msg) {
         const room = this.getRoom(msg.socket.room);
-        this.broadcastQueue(room);
 
         const vid = msg.data;
 
         room.addToQueue(vid.service, vid.id);
 
-        this.braodcast(room, new Message('message', {
+        this.broadcast(room, new Message('message', {
             message: vid.id + " added by " + msg.socket.username
         }));
 
@@ -119,12 +118,16 @@ export default class WatchMessageHandler extends MessageHandler {
         room.removeFromQueue(msg.data.index);
 
         const username = msg.socket.username;
-        this.braodcast(room, new Message('message', { message: username + " removed " + msg.data.id }));
+        this.broadcast(room, new Message('message', { message: username + " removed " + msg.data.id }));
+
+        this.broadcastQueue(room);
     }
 
     handleQueuePlay(msg) {
         const room = this.getRoom(msg.socket.room);
-        room.playFromQueue(msg.index, msg.id);
+        room.playFromQueue(msg.data.index, msg.data.id);
+
+        this.broadcastQueue(room);
     }
 
     handlePlayVideo(msg) {
@@ -133,8 +136,8 @@ export default class WatchMessageHandler extends MessageHandler {
 
         const username = msg.socket.username;
 
-        this.braodcast(room, new Message('play.video'));
-        this.braodcast(room, new Message('message', { message: username + " pressed play" }));
+        this.broadcast(room, new Message('play.video'));
+        this.broadcast(room, new Message('message', { message: username + " pressed play" }));
     }
 
     handlePauseVideo(msg) {
@@ -143,8 +146,8 @@ export default class WatchMessageHandler extends MessageHandler {
 
         const username = msg.socket.username;
 
-        this.braodcast(room, new Message('pause.video'));
-        this.braodcast(room, new Message('message', { message: username + " pressed pause" }));
+        this.broadcast(room, new Message('pause.video'));
+        this.broadcast(room, new Message('message', { message: username + " pressed pause" }));
     }
 
     handleSeekVideo(msg) {
@@ -156,8 +159,10 @@ export default class WatchMessageHandler extends MessageHandler {
         const room = this.getRoom(msg.socket.room);
         const socket = msg.socket;
 
-        if (socket.id === room.hostId) {
-            room.syncPlayerState(msg.data);
+        if (room) {
+            if (socket.uid === room.hostId) {
+                room.syncPlayerState(msg.data);
+            }
         }
     }
 

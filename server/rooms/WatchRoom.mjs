@@ -3,7 +3,7 @@ import { Room, Message } from '@uncut/hotel';
 export default class WatchRoom extends Room {
 
     broadcast(type, data) {
-        this.handler.braodcast(this, new Message(type, data));
+        this.handler.broadcast(this, new Message(type, data));
     }
 
     constructor() {
@@ -117,7 +117,6 @@ export default class WatchRoom extends Room {
 
     removeFromQueue(index) {
         this.queue.splice(index, 1);
-        this.broadcastQueue();
     }
 
     playFromQueue(index) {

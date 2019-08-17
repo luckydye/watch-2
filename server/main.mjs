@@ -19,8 +19,6 @@ const con = new Connection(wss, handler);
 
 // Routing
 
-server.listen(PORT, () => console.log('Watch 2 listening on port ' + PORT));
-
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -52,3 +50,5 @@ app.use((req, res, next) => {
     res.status(404);
     res.redirect("/");
 });
+
+server.listen(PORT, () => console.log('Watch 2 listening on port ' + PORT));
