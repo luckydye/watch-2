@@ -19,7 +19,7 @@ const con = new Connection(wss, handler);
 
 // Routing
 
-server.listen(8080, () => console.log('Watch 2 listening on port ' + 8080));
+server.listen(PORT, () => console.log('Watch 2 listening on port ' + PORT));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
