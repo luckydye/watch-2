@@ -1,14 +1,18 @@
 .video-queue {
-    position: relative;
-    background: var(--backgroundColor);
+    position: fixed;
     max-height: 100vh;
     height: 100%;
+    z-index: 1000;
+    padding: 0 15px;
+    left: 0;
+    top: 0;
+    /* background: linear-gradient(90deg, black, transparent); */
 }
 
 .video-queue .addVideo {
     position: absolute;
     top: 8px;
-    right: 13px;
+    right: 0;
     width: 25px;
     height: 25px;
     font-size: 25px;
@@ -67,12 +71,13 @@
 
 .video-queue .title {
     height: 40px;
-    padding: 0 13px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     color: rgba(238, 238, 238, 0.5);
-    text-transform: uppercase;
+    margin-top: 5px;
+    position: relative;
+    font-size: 16px;
 }
 
 .video-queue w2-videolist-item:first-child {
@@ -130,7 +135,7 @@
 w2-videolist {
     width: 180px;
     box-sizing: content-box;
-    padding: 10px;
+    padding: 10px 0;
     overflow-y: auto;
     overflow-x: hidden;
     display: grid;
@@ -145,7 +150,7 @@ w2-videolist-item {
     border-radius: 5px;
     overflow: hidden;
     position: relative;
-    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 }
 
 w2-videolist-item:last-child {
@@ -210,6 +215,7 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
     w2-videolist-item .controls {
         right: 0;
         flex-direction: row;
+        width: 100%;
     }
     w2-videolist-item .openbtn {
         display: none;
@@ -221,6 +227,7 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
         font-size: 30px;
     }
     .video-queue {
+        margin-top: 40px;
         margin-left: -140px;
         transition: margin .15s ease;
     }

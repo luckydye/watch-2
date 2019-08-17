@@ -1,29 +1,23 @@
 :root {
     --accentColor: rgb(235, 11, 11);
-    --backdropColor: #1c1c1c;
-    --backgroundColor: #171717;
+    --backdropColor: hsla(230, 5%, 7%, 1);
+    --backgroundColor: hsla(230, 5%, 10%, 1);
 }
 
 body {
-	margin: 0;
-	font-family: sans-serif;
-	color: #eee;
-	background: var(--backdropColor);
-	overflow: hidden;
+    margin: 0;
+    font-family: sans-serif;
+    color: #eee;
+    background: var(--backdropColor);
 }
 
 main {
     position: relative;
-    overflow: hidden;
-	height: 100vh;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas: "queue header";
+    height: 100vh;
 }
 
 button {
-	border: none;
+    border: none;
     background: var(--accentColor);
     color: white;
     padding: 8px 10px;
@@ -37,7 +31,7 @@ button:hover {
 }
 
 button:active {
-	transition: .01s ease;
+    transition: .01s ease;
     filter: brightness(0.9);
 }
 
@@ -53,11 +47,11 @@ input {
 }
 
 button, input {
-	outline-color: var(--accentColor);
+    outline-color: var(--accentColor);
 }
 
 button {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 button.holo-button {
@@ -84,14 +78,31 @@ button.holo-button:hover {
 }
 
 .headline {
-    color: rgba(238, 238, 238, 0.5);
+    position: relative;
+    color: white;
     padding: 5px 10px;
     margin: 0 -5px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 2px;
-    text-transform: uppercase;
-    font-size: 13px;
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
     letter-spacing: 1px;
+    overflow: hidden;
+}
+
+.headline:not(:first-child) {
+    margin-top: 15px;
+}
+
+.headline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.25;
+    background: var(--accentColor);
 }
 
 a[href] {
@@ -101,28 +112,30 @@ a[href] {
 /* Placeholders */
 
 .placeholder {
-	background: #444;
-	animation: fade-in .2s ease;
-	animation-fill-mode: both;
+    background: #444;
+    animation: fade-in .2s ease;
+    animation-fill-mode: both;
 }
 
 .placeholder:last-child:not(:first-child) {
-	opacity: 0.5;
+    opacity: 0.5;
 }
 
 [loading] w2-videolist .placeholder {
-	width: 180px;
-	height: 100px;
-	margin-bottom: 10px;
-	border-radius: 5px;
+    width: 180px;
+    height: 100px;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 [loading] w2-player .placeholder {
-	width: 100%;
-	height: 100%;
-	background: black;
+    width: 100%;
+    height: 100%;
+    background: black;
 }
 
 @keyframes fade-in {
-	from { opacity: 0 }
+    from {
+        opacity: 0
+    }
 }

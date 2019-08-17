@@ -67,13 +67,8 @@ export class Socket {
 			'room.state': msg => {
 				if (msg.host) {
 					this.host = true;
-					document.querySelector("#saveRoom").removeAttribute("disabled");
 				} else {
 					this.host = false;
-					document.querySelector("#saveRoom").setAttribute("disabled", "");
-				}
-				if (msg.saved != null) {
-					document.querySelector("#saveRoom input").checked = msg.saved;
 				}
 			},
 

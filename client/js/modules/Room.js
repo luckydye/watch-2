@@ -80,13 +80,6 @@ export class Room {
 			socket.loadVideo({ index: q.length, id: vid.id });
 		}
 
-		// Room state
-		document.querySelector("w2-preference-switch#saveRoom").onChange = (value) => {
-			this.setRoomState({
-				saved: value
-			})
-		}
-
 		socket.connect(this.id);
 	}
 
