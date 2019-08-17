@@ -13,7 +13,7 @@ export class Room {
 
 		this.player = new Player();
 		document.querySelector(".player-container").appendChild(this.player);
-		
+
 		this.socket = new Socket();
 
 		this.player.addEventListener("ready", () => {
@@ -28,33 +28,33 @@ export class Room {
 
 		const socket = this.socket;
 		const player = this.player;
-		
+
 		let lastState = 0;
-		
+
 		// player events
 		this.player.addEventListener("statechange", (e) => {
 			lastState = e.detail.state;
 		})
 
 		this.player.addEventListener("seek", (e) => {
-			socket.emit('seek video', { time: e.detail.time });
+			socket.emit('seek.video', { time: e.detail.time });
 		})
 
 		this.player.addEventListener("play", () => {
-			socket.emit('play video');
+			socket.emit('play.video');
 		})
 
 		this.player.addEventListener("pause", () => {
-			if(lastState !== Player.State.SEEKING) {
-				socket.emit('pause video');
-				socket.emit('seek video', { time: player.getCurrentTime() });
+			if (lastState !== Player.State.SEEKING) {
+				socket.emit('pause.video');
+				socket.emit('seek.video', { time: player.getCurrentTime() });
 			}
 		})
 	}
-	
+
 	addVideo(link) {
 		const parsed = parseVideoUrl(link);
-		if(parsed) {
+		if (parsed) {
 			this.socket.addVideoToQueue(parsed.service, parsed.id);
 		} else {
 			const noti = new Notification({ text: "Inavlid URL", time: 2000 });
@@ -64,9 +64,9 @@ export class Room {
 
 	init() {
 		const socket = this.socket;
-		
+
 		socket.init();
-		
+
 		document.querySelector(".video-queue w2-videolist#queue").removeVideo = (index, vid) => {
 			socket.removeVideoFromQueue({ index, id: vid.id });
 		}
@@ -91,7 +91,7 @@ export class Room {
 	}
 
 	setRoomState(obj) {
-		this.socket.emit('room state', obj);
+		this.socket.emit('room.state', obj);
 	}
 
 }

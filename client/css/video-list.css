@@ -19,19 +19,19 @@
     align-items: center;
     opacity: 0.5;
     cursor: pointer;
-    transition: .15s ease-out;
+    transition: .3s ease-out;
     user-select: none;
     box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
     color: rgba(255, 255, 255, 0.85);
 }
 
 .video-queue .addVideo::before {
-    content: "Add";
+    content: "Paste";
     text-transform: none;
     font-size: 13px;
     background: inherit;
     height: 100%;
-    padding: 0 10px;
+    padding: 0 15px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     display: flex;
@@ -43,10 +43,7 @@
     width: 20px;
     opacity: 1;
     max-width: 100px;
-    transition: border .3s ease, 
-                padding .3s ease, 
-                width .3s ease, 
-                opacity .1s ease;
+    transition: border .3s ease-out, padding .3s ease-out, width .3s ease, opacity .1s ease-out;
 }
 
 .video-queue .addVideo:not(:hover)::before {
@@ -61,11 +58,11 @@
 .video-queue .addVideo:hover {
     opacity: 1;
     border-radius: 25%;
+    transition: border .2s ease-out, padding .2s ease-out, width .2s ease, opacity .05s ease-out;
 }
 
 .video-queue .addVideo:active {
     opacity: 0.8;
-    transition-duration: .05s;
 }
 
 .video-queue .title {
@@ -126,8 +123,7 @@
     padding: 7px 0;
 }
 
-.video-queue w2-videolist-item .openbtn,
-.history w2-videolist-item .delbtn {
+.video-queue w2-videolist-item .openbtn, .history w2-videolist-item .delbtn {
     display: none;
 }
 
@@ -177,9 +173,7 @@ w2-videolist-item .controls {
     padding: 0 7px;
 }
 
-w2-videolist-item .openbtn,
-w2-videolist-item .playbtn,
-w2-videolist-item .delbtn {
+w2-videolist-item .openbtn, w2-videolist-item .playbtn, w2-videolist-item .delbtn {
     cursor: pointer;
     color: white;
     background: transparent;
@@ -201,9 +195,7 @@ w2-videolist-item .delbtn {
     font-size: 18px;
 }
 
-w2-videolist-item .openbtn:hover,
-w2-videolist-item .playbtn:hover,
-w2-videolist-item .delbtn:hover {
+w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist-item .delbtn:hover {
     transform: scale(1.15);
     opacity: 1;
 }
@@ -241,5 +233,8 @@ w2-videolist-item .delbtn:hover {
 }
 
 @keyframes slideIn {
-    from { transform: translateY(-50%); opacity: 0; }
+    from {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
 }

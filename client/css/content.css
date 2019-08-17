@@ -15,7 +15,7 @@
 }
 
 [video-queue-open="true"] .navigation button.toggle-video-queue i {
-	transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 @media (min-width: 740px) {
@@ -26,13 +26,13 @@
 
 @media (max-width: 740px) {
     body .navigation button.holo-button {
-		width: 30px;
-		height: 30px;
-	}
+        width: 30px;
+        height: 30px;
+    }
 }
 
 .content {
-	position: relative;
+    position: relative;
     overflow-y: scroll;
     outline: none;
 }
@@ -100,7 +100,7 @@ w2-player .player {
 
 .room-details .settings {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 0 30px;
 }
 

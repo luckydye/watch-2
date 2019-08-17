@@ -1,23 +1,13 @@
 import { Notification } from "./Notifications.js";
 import { Preferences } from "./Preferences.js";
-
-let reactions = {};
-
-fetch('/res/reactionEvents.json')
-	.then(res => res.json()
-	.then(json => {
-		reactions = json;
-	}))
+import WatchClient from "./WatchClient.js";
 
 function displayNotification(text, time) {
 	const noti = new Notification({ type: Notification.TEXT, text, time });
 	noti.display(document.querySelector("w2-notifications"));
 }
 
-function displayReaction(emote) {
-	const noti = new Notification({ type: Notification.EMOTE, text: emote, time: 3000 });
-	noti.display(document.querySelector("w2-notifications.reactions"));
-}
+let reconnecting;
 
 export class Socket {
 
@@ -27,32 +17,23 @@ export class Socket {
 		return this.host;
 	}
 
-	sendReaction(reaction) {
-		this.emit('reaction', {
-			message: reaction,
-		})
-	}
-
 	constructor() {
-		this.socket = io({
-			reconnection: true,
-		});
+		this.client = new WatchClient();
+
+		this.client.connect();
 
 		this.updaterate = 500;
 		this.host = false;
-		this.connected = false;
 
-		window.sendReaction = (emote) => {
-			this.sendReaction(emote);
-		}
+		this.room = null;
 	}
 
 	init() {
 		const player = document.querySelector("w2-player");
 
 		setInterval(() => {
-			if(player.loaded) {
-				this.socket.emit('player state', {
+			if (player.loaded) {
+				this.client.emit('player.state', {
 					service: player.service,
 					time: player.getCurrentTime(),
 					id: player.currentVideoId,
@@ -65,32 +46,38 @@ export class Socket {
 		this.events = {
 
 			'disconnect': () => {
-				displayReaction(reactions.clientError);
-				displayNotification("ERROR: Disconnected", 20000);
-			},
+				displayNotification("ERROR: Disconnected", 2000);
 
-			'message': msg => {
-				if(msg.reaction) {
-					displayReaction(msg.message);
-				} else {
-					displayNotification(msg.message, 2500);
+				if (!reconnecting) {
+					reconnecting = setInterval(() => {
+						if (!this.client.connectd) {
+							this.client.connect();
+						} else {
+							this.connect(585882);
+							clearInterval(reconnecting);
+						}
+					}, 1000);
 				}
 			},
 
-			'room state': msg => {
-				if(msg.host) {
+			'message': msg => {
+				displayNotification(msg.message, 2500);
+			},
+
+			'room.state': msg => {
+				if (msg.host) {
 					this.host = true;
 					document.querySelector("#saveRoom").removeAttribute("disabled");
 				} else {
 					this.host = false;
 					document.querySelector("#saveRoom").setAttribute("disabled", "");
 				}
-				if(msg.saved != null) {
+				if (msg.saved != null) {
 					document.querySelector("#saveRoom input").checked = msg.saved;
 				}
 			},
 
-			'user list': msg => {
+			'user.list': msg => {
 				const userlist = document.querySelector("w2-itemlist.userlist");
 				let users = msg.map(user => {
 					const a = document.createElement("a");
@@ -101,89 +88,90 @@ export class Socket {
 				userlist.display(users);
 			},
 
-			'queue list': msg=> {
+			'queue.list': msg => {
 				const queue = document.querySelector("w2-videolist#queue");
 				queue.list = msg;
 				queue.render();
 			},
 
-			'history list': msg => {
+			'history.list': msg => {
 				const history = document.querySelector("w2-videolist#history");
 				history.list = msg.reverse();
 				history.render();
 			},
 
-			'player state': msg => {
+			'player.state': data => {
 				player.loadVideo({
-					service: msg.service,
-					id: msg.id,
-					startSeconds: msg.time + (msg.timestamp ? 1 + ((Date.now() - msg.timestamp)/1000) : 0) + ((this.updaterate/2)/1000),
-				}, msg.state);
+					state: data.state,
+					service: data.service,
+					id: data.id,
+					startSeconds: data.time + (data.timestamp ? 1 + ((Date.now() - data.timestamp) / 1000) : 0) + ((this.updaterate / 2) / 1000),
+				}, data.state);
 			},
 
-			'play video': () => {
+			'play.video': () => {
 				player.play();
 			},
 
-			'pause video': () => {
+			'pause.video': () => {
 				player.pause();
 			},
 
-			'seek video': msg => {
+			'seek.video': msg => {
 				const currentTime = player.getCurrentTime();
 				const diff = msg.time - currentTime;
 
-				if(diff > 0.5 || diff < -0.5) {
+				if (diff > 0.5 || diff < -0.5) {
 					player.seekTo(msg.time);
 					displayNotification(`Seeked ${Math.floor(diff)} seconds`, 2000);
 				}
 			},
 		}
-		
+
 		this.initListeners(this.events);
 	}
 
 	initListeners(events) {
-		for(let event in events) {
-			this.socket.on(event, msg => {
+		for (let event in events) {
+			this.client.on(event, msg => {
 				events[event](msg);
 			});
 		}
 	}
 
 	emit(event, msg) {
-		this.socket.emit(event, msg);
+		this.client.emit(event, msg);
 	}
 
 	connect(roomId) {
-		const socket = this.socket;
+		const socket = this.client;
+
+		this.room = roomId;
 
 		socket.emit('join', {
-			room: roomId,
+			roomId: roomId,
 			username: this.username
 		});
 
 		displayNotification("Connected", 2500);
-
-		this.connected = true;
 	}
 
 	addVideoToQueue(service, id) {
-		this.socket.emit('queue add', { service, id });
-		
+		this.client.emit('queue.add', { service, id });
+
 		const queue = document.querySelector("w2-videolist#queue");
 		return queue.list;
 	}
 
 	removeVideoFromQueue(video) {
-		this.socket.emit('queue remove', {
+		this.client.emit('queue.remove', {
 			index: video.index,
 			id: video.id
 		});
 	}
 
 	loadVideo(video) {
-		this.socket.emit('queue play', {
+		this.client.emit('queue.play', {
 			index: video.index,
 			id: video.id,
 		});
