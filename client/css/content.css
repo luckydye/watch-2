@@ -89,20 +89,12 @@ w2-player .player {
 
 .room-details {
     position: relative;
-    padding: 40px 40px 0px 40px;
+    padding: 20px;
     margin: auto;
     display: grid;
     grid-gap: 0 30px;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto 1fr;
-}
-
-.room-details .room-title {
-    margin-bottom: 15px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 100;
-    font-size: 22px;
-    grid-column: 1 / span 2;
+    grid-template-rows: 1fr;
 }
 
 .room-details .headline {

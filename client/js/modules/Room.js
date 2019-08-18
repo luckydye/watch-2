@@ -1,6 +1,7 @@
-import { Socket } from './Socket.js';
+import { WatchClient } from './WatchClient.js';
 import Player from '../components/Player.js';
 import { Notification } from './Notifications.js';
+import { Service } from './Service.js';
 
 export class Room {
 
@@ -14,7 +15,7 @@ export class Room {
 		this.player = new Player();
 		document.querySelector(".player-container").appendChild(this.player);
 
-		this.socket = new Socket();
+		this.socket = new WatchClient();
 
 		this.player.addEventListener("ready", () => {
 			this.init();
@@ -53,7 +54,7 @@ export class Room {
 	}
 
 	addVideo(link) {
-		const parsed = parseVideoUrl(link);
+		const parsed = Service.parseServiceUrl(link);
 		if (parsed) {
 			this.socket.addVideoToQueue(parsed.service, parsed.id);
 		} else {

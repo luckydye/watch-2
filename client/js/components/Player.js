@@ -7,17 +7,19 @@ export default class Player extends HTMLElement {
 		`;
 	}
 
-	static get State() { return {
-		EMPTY: 0,
-		PLAYING: 1,
-		PAUSED: 2,
-		SEEKING: 3,
-	}}
+	static get State() {
+		return {
+			EMPTY: 0,
+			PLAYING: 1,
+			PAUSED: 2,
+			SEEKING: 3,
+		}
+	}
 
 	get player() {
-		if(this.currentService == "youtube.com") {
+		if (this.currentService == "youtube.com") {
 			return this.ytplayer;
-		} else if(this.currentService == "twitch.tv") {
+		} else if (this.currentService == "twitch.tv") {
 			return this.twitchplayer;
 		}
 	}
@@ -27,8 +29,8 @@ export default class Player extends HTMLElement {
 	}
 
 	play() {
-		if(this.state !== Player.State.PLAYING) {
-			switch(this.currentService) {
+		if (this.state !== Player.State.PLAYING) {
+			switch (this.currentService) {
 				case "youtube.com": return this.player.playVideo();
 				case "twitch.tv": return this.player.play();
 			}
@@ -36,25 +38,25 @@ export default class Player extends HTMLElement {
 	}
 
 	pause() {
-		if(this.state !== Player.State.PAUSED) {
-			switch(this.currentService) {
+		if (this.state !== Player.State.PAUSED) {
+			switch (this.currentService) {
 				case "youtube.com": return this.player.pauseVideo();
 				case "twitch.tv": return this.player.pause();
 			}
 		}
 	}
 
-	loadVideo({service, id, startSeconds}, state) {
-		if(this.loaded) {
+	loadVideo({ service, id, startSeconds }, state) {
+		if (this.loaded) {
 			this.pause();
 		}
-		
+
 		this.loaded = false;
-			
+
 		this.service = service;
 		this.currentService = service;
 
-		if(service == "youtube.com") {
+		if (service == "youtube.com") {
 			this.player.loadVideoById({
 				videoId: id,
 				startSeconds: startSeconds,
@@ -62,13 +64,13 @@ export default class Player extends HTMLElement {
 			this.querySelector("#ytplayer").classList.add("active");
 			this.querySelector("#twitchplayer").classList.remove("active");
 
-		} else if(service == "twitch.tv") {
+		} else if (service == "twitch.tv") {
 			this.player.setVideo("v" + id, startSeconds);
 			this.querySelector("#ytplayer").classList.remove("active");
 			this.querySelector("#twitchplayer").classList.add("active");
 		}
 
-		if(state == Player.State.PAUSED) {
+		if (state == Player.State.PAUSED) {
 			this.pause();
 		}
 
@@ -77,14 +79,14 @@ export default class Player extends HTMLElement {
 	}
 
 	seekTo(t) {
-		switch(this.currentService) {
+		switch (this.currentService) {
 			case "youtube.com": return this.player.seekTo(t);
 			case "twitch.tv": return this.player.seek(t);
 		}
 	}
 
 	getCurrentTime() {
-		if(this.player && this.player.getCurrentTime) {
+		if (this.player && this.player.getCurrentTime) {
 			return this.player.getCurrentTime();
 		} else {
 			return 0;
@@ -93,7 +95,7 @@ export default class Player extends HTMLElement {
 
 	constructor() {
 		super();
-		
+
 		this.currentService = "youtube.com";
 		this.loaded = false;
 
@@ -130,15 +132,15 @@ export default class Player extends HTMLElement {
 		this.twitchplayer.addEventListener(Twitch.Player.PLAYING, () => {
 			this.onStateChange(Player.State.PLAYING);
 		})
-		
+
 		let lastPlayerTime = 0;
 
 		const tick = () => {
 			const currentTime = this.getCurrentTime();
-			if(this.loaded) {
-				if(lastPlayerTime > 1) {
+			if (this.loaded) {
+				if (lastPlayerTime > 1) {
 					const diff = currentTime - lastPlayerTime;
-					if(Math.abs(diff) > 1) {
+					if (Math.abs(diff) > 1) {
 						this.dispatchEvent(new CustomEvent("seek", {
 							detail: { time: currentTime }
 						}));
@@ -158,8 +160,8 @@ export default class Player extends HTMLElement {
 	onStateChange(state) {
 		this.state = state;
 
-		if(this.loaded) {
-			switch(state) {
+		if (this.loaded) {
+			switch (state) {
 				case Player.State.PLAYING:
 					this.dispatchEvent(new CustomEvent("play"));
 					break;
@@ -173,7 +175,7 @@ export default class Player extends HTMLElement {
 			}));
 		}
 
-		if(state == Player.State.PLAYING) {
+		if (state == Player.State.PLAYING) {
 			this.loaded = true;
 		}
 	}

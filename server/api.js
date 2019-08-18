@@ -1,5 +1,4 @@
 const express = require('express');
-const { randomRoomId, parseVideoUrl } = require('./helper.js');
 
 function jsonResponse(data) {
 	if (data) {

@@ -1,3 +1,5 @@
+import { Service } from '../modules/Service.js';
+
 export class VideoList extends HTMLElement {
 
 	get Item() {
@@ -17,7 +19,7 @@ export class VideoList extends HTMLElement {
 	render() {
 		this.innerHTML = "";
 
-		for(let i = 0; i < this.list.length; i++) {
+		for (let i = 0; i < this.list.length; i++) {
 			const vid = this.list[i];
 			const item = new this.Item({
 				id: vid.id,
@@ -57,10 +59,10 @@ export class VideoListItem extends HTMLElement {
 
 	connectedCallback() {
 		this.innerHTML = "";
-		
+
 		const overlay = document.createElement("div");
 		overlay.className = "controls";
-		
+
 		const pbtn = document.createElement("button");
 		pbtn.innerHTML = "play_arrow";
 		pbtn.title = "Play this video";
@@ -86,37 +88,23 @@ export class VideoListItem extends HTMLElement {
 		this.appendChild(overlay);
 
 		const thumbnail = new Image();
-		switch(this.service) {
-			case "youtube.com":
-				thumbnail.src = `https://i1.ytimg.com/vi/${this.vidid}/hqdefault.jpg`;
-				break;
-			case "twitch.tv":
-				this.getTwitchThumbnail(this.vidid).then(url => {
-					thumbnail.src = url;
-				})
-				break;
-		}
-		this.append(thumbnail);
-	}
 
-	getTwitchThumbnail(id) {
-		const clientId = "mdn23u65h8g1mxrg0kr9yaw51vivmj";
-		const url = `https://api.twitch.tv/kraken/videos/${id}?client_id=${clientId}`;
-		return fetch(url).then(res => res.json().then(json => {
-			return json.thumbnails[0].url;
-		}));
+		const service = Service.getService(this.service);
+
+		service.getThumbnailURL(this.vidid).then(url => {
+			thumbnail.src = url;
+		})
+
+		this.append(thumbnail);
 	}
 
 	onOpen() {
 		const a = document.createElement("a");
-		switch(this.service) {
-			case "youtube.com":
-				a.href = "https://www.youtube.com/watch?v=" + this.vidid;
-				break;
-			case "twitch.tv":
-				a.href = "https://www.twitch.tv/videos/" + this.vidid;
-				break;
-		}
+
+		const service = Service.getService(this.service);
+		const videoURL = service.getVideoURL(this.vidid);
+
+		a.href = videoURL;
 		a.target = "blank";
 		a.click();
 	}

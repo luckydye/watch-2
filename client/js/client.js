@@ -1,10 +1,13 @@
 import './components/Player.js';
 import './components/Preference.js';
-import './components/Userlist.js';
+import './components/Itemlist.js';
 import './components/VideoList.js';
 
 import { Room } from './modules/Room.js';
 import { Notification } from './modules/Notifications.js';
+import { Service } from './modules/Service.js';
+import { YouTube } from './services/ServiceYouTube.js';
+import { Twitch } from './services/ServiceTwitch.js';
 
 window.addEventListener("DOMContentLoaded", onDomReady);
 window.addEventListener("load", onLoad);
@@ -16,13 +19,14 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onLoad() {
+	Service.registerService(YouTube);
+	Service.registerService(Twitch);
+
 	room = new Room();
 }
 
 function onDomReady() {
 	// UI stuff
-	document.querySelector(".room-title").innerText = location.pathname.split("/").reverse()[0];
-
 	function bindButton(attr) {
 		const state = document.body.getAttribute(attr) == "true" ? false : true;
 		document.body.setAttribute(attr, state);
@@ -57,25 +61,4 @@ function onDomReady() {
 		const pasteData = e.clipboardData.getData('text');
 		room.addVideo(pasteData);
 	});
-
-}
-
-window.parseVideoUrl = (url) => {
-	const youtubeId = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-	const twithcId = url.match(/(?:twitch.tv\/videos\/)([^\s&]+)/);
-
-	if (youtubeId != null) {
-		return {
-			id: youtubeId[1],
-			service: "youtube.com",
-			link: url,
-		};
-	} else if (twithcId != null) {
-		return {
-			id: twithcId[1],
-			service: "twitch.tv",
-			link: url,
-		};
-	}
-	return null;
 }
