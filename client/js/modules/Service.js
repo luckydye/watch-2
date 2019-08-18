@@ -14,14 +14,18 @@ export class Service {
         return services.get(name) || Service;
     }
 
+    static filterServiceId(url) {
+        return url;
+    }
+
     static parseServiceUrl(url) {
         const ids = [];
         let currentService = null;
 
         for (let service of services) {
-            const id = url.match(service[1].UrlExpression);
+            const id = service[1].filterServiceId(url);
             if (id) {
-                ids.push(id[1]);
+                ids.push(id);
                 currentService = service[1];
             }
         }
@@ -40,10 +44,6 @@ export class Service {
 
     static get serviceName() {
         return "unknown";
-    }
-
-    static get UrlExpression() {
-        return /.*/;
     }
 
     static async getThumbnailURL(id) {

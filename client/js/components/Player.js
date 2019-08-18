@@ -45,8 +45,8 @@ export default class Player extends HTMLElement {
 		return this.video.id;
 	}
 
-	play() {
-		if (this.state !== Player.State.PLAYING) {
+	play(force) {
+		if (this.state !== Player.State.PLAYING || force) {
 			switch (this.currentService) {
 				case "youtube.com": return this.player.playVideo();
 				case "twitch.tv": return this.player.play();
@@ -54,8 +54,8 @@ export default class Player extends HTMLElement {
 		}
 	}
 
-	pause() {
-		if (this.state !== Player.State.PAUSED) {
+	pause(force) {
+		if (this.state !== Player.State.PAUSED || force) {
 			switch (this.currentService) {
 				case "youtube.com": return this.player.pauseVideo();
 				case "twitch.tv": return this.player.pause();
@@ -94,7 +94,7 @@ export default class Player extends HTMLElement {
 
 			this.querySelector("#iframe").innerHTML = `
 				<iframe
-					src="https://clips.twitch.tv/embed?clip=${id}"
+					src="${Service.getService(service).getVideoURL(id)}"
 					frameborder="none"
 				</iframe>
 			`;
@@ -106,7 +106,9 @@ export default class Player extends HTMLElement {
 		}
 
 		if (state == Player.State.PAUSED) {
-			this.pause();
+			this.pause(true);
+		} else if (state == Player.State.PLAYING) {
+			this.play(true);
 		}
 
 		this.video.id = id;

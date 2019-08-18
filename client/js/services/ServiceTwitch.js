@@ -6,8 +6,9 @@ export class Twitch extends Service {
         return "twitch.tv";
     }
 
-    static get UrlExpression() {
-        return /(?:twitch.tv\/videos\/)([^\s&]+)/;
+    static filterServiceId(url) {
+        const match = url.match(/(?:twitch.tv\/videos\/)([^\s&]+)/);
+        return match ? match[1] : null;
     }
 
     static async getThumbnailURL(id) {

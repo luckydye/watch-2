@@ -6,8 +6,9 @@ export class YouTube extends Service {
         return "youtube.com";
     }
 
-    static get UrlExpression() {
-        return /(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/;
+    static filterServiceId(url) {
+        const match = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+        return match ? match[1] : null;
     }
 
     static async getThumbnailURL(id) {

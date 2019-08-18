@@ -8,7 +8,7 @@ import { Notification } from './modules/Notifications.js';
 import { Service } from './modules/Service.js';
 import { YouTube } from './services/ServiceYouTube.js';
 import { Twitch } from './services/ServiceTwitch.js';
-import { IFrame } from './services/ServiceIframe.js';
+import { IFrames } from './services/ServiceIframe.js';
 
 window.addEventListener("DOMContentLoaded", onDomReady);
 window.addEventListener("load", onLoad);
@@ -22,7 +22,7 @@ function onYouTubeIframeAPIReady() {
 function onLoad() {
 	Service.registerService(YouTube);
 	Service.registerService(Twitch);
-	Service.registerService(IFrame);
+	Service.registerService(IFrames);
 
 	room = new Room();
 }
