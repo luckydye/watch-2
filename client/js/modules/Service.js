@@ -16,18 +16,20 @@ export class Service {
 
     static parseServiceUrl(url) {
         const ids = [];
+        let currentService = null;
 
         for (let service of services) {
             const id = url.match(service[1].UrlExpression);
             if (id) {
                 ids.push(id[1]);
+                currentService = service[1];
             }
         }
 
         if (ids.length > 0) {
             return {
                 id: ids[0],
-                service: "youtube.com",
+                service: currentService.serviceName,
                 link: url,
             }
         }

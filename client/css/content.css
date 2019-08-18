@@ -59,6 +59,7 @@ w2-player {
     max-height: calc(100vh - 10px);
     position: relative;
     z-index: 10;
+    overflow: hidden;
 }
 
 w2-player::after {
