@@ -2,6 +2,10 @@ const services = new Map();
 
 export class Service {
 
+    static valueOf() {
+        return this.serviceName;
+    }
+
     static registerService(service) {
         services.set(service.serviceName, service);
     }

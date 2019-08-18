@@ -3,7 +3,15 @@ export default class Player extends HTMLElement {
 	static get template() {
 		return `
 			<div class="player" id="ytplayer"></div>
-			<div class="active player" id="twitchplayer"></div>
+			<div class="player" id="twitchplayer"></div>
+			<div class="active player" id="placeholder">
+				<h3>
+					1. Copy Video URL
+				</h3>
+				<h3>
+					2. Press the "Paste" button on the top left or press Ctrl+V, to insert the video.
+				</h3>
+			</div>
 		`;
 	}
 
@@ -62,11 +70,13 @@ export default class Player extends HTMLElement {
 				startSeconds: startSeconds,
 			});
 			this.querySelector("#ytplayer").classList.add("active");
+			this.querySelector("#placeholder").classList.remove("active");
 			this.querySelector("#twitchplayer").classList.remove("active");
 
 		} else if (service == "twitch.tv") {
 			this.player.setVideo("v" + id, startSeconds);
 			this.querySelector("#ytplayer").classList.remove("active");
+			this.querySelector("#placeholder").classList.remove("active");
 			this.querySelector("#twitchplayer").classList.add("active");
 		}
 
