@@ -130,6 +130,10 @@ export default class Player extends HTMLElement {
 		}
 	}
 
+	getDuration() {
+		return this.player.getDuration();
+	}
+
 	constructor() {
 		super();
 

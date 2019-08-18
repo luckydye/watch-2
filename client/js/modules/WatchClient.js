@@ -39,6 +39,15 @@ export class WatchClient {
 					timestamp: Date.now(),
 					state: player.state
 				});
+
+				if (queue.list.length > 1 && this.host &&
+					Math.floor(player.getCurrentTime()) == Math.floor(player.getDuration())) {
+					const queue = document.querySelector("w2-videolist#queue");
+					this.loadVideo({
+						index: 1,
+						id: queue.list[1].id,
+					});
+				}
 			}
 		}, this.updaterate);
 
