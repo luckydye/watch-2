@@ -1,6 +1,6 @@
 :root {
     --accentColor: rgb(11, 152, 235);
-    --backdropColor: hsl(0, 0%, 8%);
+    --backdropColor: hsl(0, 0%, 4%);
     --backgroundColor: hsla(230, 0%, 10%, 1);
 }
 
