@@ -1,7 +1,7 @@
 :root {
-    --accentColor: rgb(235, 11, 11);
-    --backdropColor: hsla(230, 5%, 7%, 1);
-    --backgroundColor: hsla(230, 5%, 10%, 1);
+    --accentColor: rgb(11, 152, 235);
+    --backdropColor: hsl(0, 0%, 8%);
+    --backgroundColor: hsla(230, 0%, 10%, 1);
 }
 
 body {
