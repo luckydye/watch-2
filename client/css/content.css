@@ -32,19 +32,16 @@
     }
 }
 
-.content {
-    position: relative;
-    overflow: auto;
-}
-
 @media (min-width: 740px) {
     .content {
         margin-left: 210px;
     }
-}
-
-.content .row {
-    margin: 15px 0;
+    .player-container {
+        padding: 0 20px 0 0;
+    }
+    .room-details {
+        padding: 20px;
+    }
 }
 
 .player-container {
@@ -96,7 +93,7 @@ w2-player .player {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #0c0c0c;
+    background: var(--backgroundColor);
 }
 
 .player#placeholder h3 {
@@ -111,32 +108,15 @@ w2-player .player {
 
 .room-details {
     position: relative;
-    padding: 20px;
+    padding: 20px 20px 20px 0;
     margin: auto;
     display: grid;
-    grid-gap: 0 30px;
+    grid-gap: 0 20px;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "history userlist" "history settings";
 }
 
-.room-details .headline {
-    margin-bottom: 10px;
-}
-
-footer {
-    margin: 0 auto 40px auto;
-    padding: 0 40px;
-}
-
-footer p {
-    color: #cacaca;
-    opacity: 0.35;
-    font-size: 14px;
-    text-align: right;
-}
-
-a[href] {
-    text-transform: none;
-    text-decoration: underline;
-    color: inherit;
+.history {
+    grid-area: history;
 }

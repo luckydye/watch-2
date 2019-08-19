@@ -6,6 +6,39 @@ function displayNotification(text, time) {
 	noti.display(document.querySelector("w2-notifications"));
 }
 
+function displayReloadPrompt() {
+	const ele = document.createElement('div');
+	ele.className = "reload-prompt";
+	ele.innerHTML = `
+		<style>
+			.reload-prompt {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 10000;
+				padding: 20px;
+				box-sizing: border-box;
+				border-radius: 4px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+				background: rgba(0, 0, 0, 0.75);
+				padding-bottom: 100px;
+			}
+		</style>
+		<p>
+			<h2>Something went wrong.</h2>
+			<a>Please reload the page.</a>
+		</p>
+		<button onclick="location.reload()">Reload</button>
+	`;
+	document.body.appendChild(ele);
+	return ele;
+}
+
 let reconnecting;
 
 export class WatchClient {
@@ -61,10 +94,13 @@ export class WatchClient {
 						if (!this.client.connectd) {
 							this.client.connect();
 						} else {
-							this.connect(585882);
+							this.connect(location.pathname);
 							clearInterval(reconnecting);
+							reconnecting = null;
 						}
 					}, 1000);
+				} else {
+					displayReloadPrompt();
 				}
 			},
 
@@ -198,6 +234,8 @@ export default class HotelClient {
 	constructor() {
 		this.connectd = false;
 		this.listeners = new Map();
+		this.pingRate = 5000;
+		this.pingTimer = null;
 	}
 
 	send(data) {
@@ -221,14 +259,23 @@ export default class HotelClient {
 		}
 	}
 
+	ping() {
+		this.send({ type: 'ping' });
+
+		clearTimeout(this.pingTimer);
+		this.pingTimer = setTimeout(this.ping.bind(this), this.pingRate);
+	}
+
 	onConnect(e) {
 		console.log('[WebSocket] connected to', this.socket.url);
+
+		this.ping();
 	}
 
 	onError(e) {
 		console.log('[WebSocket] error on socket', e);
 
-		this.onClose(e);
+		displayReloadPrompt();
 	}
 
 	onClose(e) {

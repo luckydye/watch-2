@@ -1,7 +1,7 @@
 :root {
     --accentColor: rgb(11, 152, 235);
     --backdropColor: hsl(0, 0%, 4%);
-    --backgroundColor: hsla(230, 0%, 10%, 1);
+    --backgroundColor: hsla(0, 0%, 6%, 1);
 }
 
 body {
@@ -77,35 +77,30 @@ button.holo-button:hover {
     opacity: 1;
 }
 
-.headline {
-    position: relative;
-    color: white;
-    padding: 5px 10px;
+.card {
+    padding: 10px;
+    background: var(--backgroundColor);
     border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.card .headline {
+    margin-bottom: 20px;
+}
+
+.headline {
+    display: block;
+    color: #eee;
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 100;
-    letter-spacing: 1px;
-    overflow: hidden;
-}
-
-.headline:not(:first-child) {
-    margin-top: 15px;
-}
-
-.headline::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.25;
-    background: var(--accentColor);
+    font-size: 16px;
+    font-weight: 300;
+    opacity: 0.75;
 }
 
 a[href] {
-    text-decoration: none;
+    text-transform: none;
+    text-decoration: underline;
+    color: inherit;
 }
 
 /* Placeholders */
@@ -137,4 +132,18 @@ a[href] {
     from {
         opacity: 0
     }
+}
+
+/* Footer */
+
+footer {
+    margin: 0 auto 40px auto;
+    padding: 0 40px;
+}
+
+footer p {
+    color: #cacaca;
+    opacity: 0.35;
+    font-size: 14px;
+    text-align: right;
 }

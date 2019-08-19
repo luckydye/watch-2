@@ -12,19 +12,18 @@
 	<script src="https://player.twitch.tv/js/embed/v1.js"></script>
 
 	<link preload href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link preload href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
+	<link preload href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
 
 	<script type="module" src="/js/client.js"></script>
 
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="stylesheet" href="/css/notifications.css">
-	<link rel="stylesheet" href="/css/placeholders.css">
 	<link rel="stylesheet" href="/css/video-list.css">
 	<link rel="stylesheet" href="/css/preferences.css">
 	<link rel="stylesheet" href="/css/content.css">
 
 	<script>
-		window.addEventListener("load", () => document.documentElement.removeAttribute("loading"));
+		// window.addEventListener("load", () => document.documentElement.removeAttribute("loading"));
 	</script>
 </head>
 
@@ -33,7 +32,7 @@
 	<main>
 		<div class="video-queue">
 			<div class="title">
-				<a>Playlist</a>
+				<a class="headline">Playlist</a>
 				<div class="addVideo">
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
 						<path d="M0 0h24v24H0z" fill="none" />
@@ -61,24 +60,19 @@
 
 			<div class="room-details">
 
-				<div class="history">
-					<div class="headline">
-						<a>History</a>
-					</div>
+				<div class="history card">
+					<a class="headline">History</a>
 					<w2-videolist id="history"></w2-videolist>
 				</div>
 
-				<div class="settings">
-
-					<div class="headline">
-						<a>Userlist</a>
-					</div>
+				<div class="card">
+					<a class="headline">Userlist</a>
 
 					<w2-itemlist class="userlist"></w2-itemlist>
+				</div>
 
-					<div class="headline">
-						<a>User Settings</a>
-					</div>
+				<div class="card">
+					<a class="headline">User Settings</a>
 
 					<w2-preferences>
 						<w2-preference title="Username" key="username" placeholder="Username">

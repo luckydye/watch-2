@@ -16,6 +16,7 @@ export default class WatchMessageHandler extends MessageHandler {
 
     get messageTypes() {
         return Object.assign(super.messageTypes, {
+            'ping': msg => { },
             'room.state': msg => this.handleRoomState(msg),
             'queue.add': msg => this.handleQueueAdd(msg),
             'queue.remove': msg => this.handleQueueRemove(msg),
