@@ -34,7 +34,9 @@
 
 @media (min-width: 740px) {
     .content {
-        margin-left: 210px;
+        padding-left: 210px;
+        width: 100%;
+        box-sizing: border-box;
     }
     .player-container {
         padding: 0 20px 0 0;
@@ -107,16 +109,15 @@ w2-player .player {
 }
 
 .room-details {
-    position: relative;
-    padding: 20px 20px 20px 0;
-    margin: auto;
-    display: grid;
-    grid-gap: 0 20px;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto auto;
-    grid-template-areas: "history userlist" "history settings";
+    padding: 20px 0;
+    display: flex;
+}
+
+.card-column {
+    margin: 0 20px;
+    width: 25%;
 }
 
 .history {
-    grid-area: history;
+    width: 75%;
 }

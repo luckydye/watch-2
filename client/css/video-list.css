@@ -1,3 +1,5 @@
+.videolist-wrapper {}
+
 .video-queue {
     position: fixed;
     max-height: 100vh;
