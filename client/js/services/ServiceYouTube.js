@@ -7,8 +7,23 @@ export class YouTube extends Service {
     }
 
     static filterServiceId(url) {
-        const match = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-        return match ? match[1] : null;
+
+        const parsedURL = new URL(url);
+
+        if (parsedURL.origin.match("youtu.be")) {
+            return parsedURL.pathname.substring(1);
+        }
+
+        if (parsedURL.origin.match("www.youtube.com")) {
+            const split = parsedURL.search.substring(1).split("&");
+            for (let part of split) {
+                if (part[0] == "v") {
+                    return part.split("=")[1];
+                }
+            }
+        }
+
+        return null;
     }
 
     static async getThumbnailURL(id) {

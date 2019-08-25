@@ -17,19 +17,21 @@
 	<script type="module" src="/js/client.js"></script>
 
 	<link rel="stylesheet" href="/css/main.css">
-	<link rel="stylesheet" href="/css/notifications.css">
 	<link rel="stylesheet" href="/css/video-list.css">
 	<link rel="stylesheet" href="/css/preferences.css">
 	<link rel="stylesheet" href="/css/content.css">
 
 	<script>
-		// window.addEventListener("load", () => document.documentElement.removeAttribute("loading"));
+		window.addEventListener("load", () => document.documentElement.removeAttribute("loading"));
 	</script>
 </head>
 
 <body>
 
 	<main>
+
+		<w2-notifications></w2-notifications>
+
 		<div class="video-queue">
 			<div class="title">
 				<a class="headline">Playlist</a>
@@ -48,15 +50,14 @@
 		</div>
 
 		<div class="content">
+
 			<div class="navigation">
 				<button class="holo-button toggle-video-queue">
 					<i class="material-icons">keyboard_arrow_right</i>
 				</button>
 			</div>
 
-			<div class="player-container">
-				<w2-notifications></w2-notifications>
-			</div>
+			<div class="player-container"></div>
 
 			<div class="room-details">
 
