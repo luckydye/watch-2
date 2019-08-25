@@ -73,8 +73,8 @@ export class WatchClient {
 				});
 
 				if (queue.list.length > 1 &&
-					Preferences.get('autoplay') == "true" &&
-					Math.floor(player.getCurrentTime()) == Math.floor(player.getDuration())) {
+					Preferences.get('autoplay') &&
+					Math.floor(player.getCurrentTime()) >= Math.floor(player.getDuration())) {
 					const queue = document.querySelector("w2-videolist#queue");
 					this.loadVideo({
 						index: 1,
