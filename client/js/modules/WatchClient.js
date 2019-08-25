@@ -46,7 +46,7 @@ export class WatchClient {
 	get username() { return Preferences.get("username"); }
 
 	isHost() {
-		return this.host;
+		return this.id === this.host;
 	}
 
 	constructor() {
@@ -55,7 +55,6 @@ export class WatchClient {
 		this.client.connect();
 
 		this.updaterate = 500;
-		this.host = false;
 
 		this.room = null;
 	}
@@ -73,7 +72,8 @@ export class WatchClient {
 					state: player.state
 				});
 
-				if (queue.list.length > 1 && this.host &&
+				if (queue.list.length > 1 &&
+					Preferences.get('autoplay') == "true" &&
 					Math.floor(player.getCurrentTime()) == Math.floor(player.getDuration())) {
 					const queue = document.querySelector("w2-videolist#queue");
 					this.loadVideo({
@@ -104,15 +104,21 @@ export class WatchClient {
 				}
 			},
 
+			'join': msg => {
+				this.id = msg.id;
+			},
+
 			'message': msg => {
 				displayNotification(msg.message, 2500);
 			},
 
 			'room.state': msg => {
-				if (msg.host) {
-					this.host = true;
+				this.host = msg.host;
+
+				if (this.isHost()) {
+					document.querySelector('main').setAttribute('host', '');
 				} else {
-					this.host = false;
+					document.querySelector('main').removeAttribute('host');
 				}
 			},
 

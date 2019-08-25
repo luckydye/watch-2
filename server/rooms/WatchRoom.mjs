@@ -14,7 +14,7 @@ export default class WatchRoom extends Room {
         this.userlist = new Map();
 
         this.state = {
-            service: null,
+            host: null,
             video: {},
             saved: false,
         }
@@ -65,6 +65,8 @@ export default class WatchRoom extends Room {
                 console.log("Found new host from " + hostSocket.uid + " to " + next + " for " + this.id);
             }
         }
+
+        this.state.host = this.hostId;
     }
 
     syncPlayerState({ timestamp, time, id, service, state }) {

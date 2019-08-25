@@ -38,7 +38,7 @@ function onDomReady() {
 	document.querySelector(".toggle-video-queue").onclick = () => bindButton("video-queue-open");
 
 	// video add button
-	document.querySelector(".video-queue .addVideo").addEventListener("click", e => {
+	document.querySelector(".video-queue .add-video").addEventListener("click", e => {
 		if (navigator.clipboard.readText) {
 			navigator.clipboard.readText().then(clipText => {
 				room.addVideo(clipText);

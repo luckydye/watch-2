@@ -17,8 +17,7 @@
 	<script type="module" src="/js/client.js"></script>
 
 	<link rel="stylesheet" href="/css/main.css">
-	<link rel="stylesheet" href="/css/video-list.css">
-	<link rel="stylesheet" href="/css/preferences.css">
+	<link rel="stylesheet" href="/css/components.css">
 	<link rel="stylesheet" href="/css/content.css">
 
 	<script>
@@ -35,12 +34,26 @@
 		<div class="video-queue">
 			<div class="title">
 				<a class="headline">Playlist</a>
-				<div class="addVideo">
+				<div class="room-button add-video">
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
 						<path d="M0 0h24v24H0z" fill="none" />
 						<path fill="white"
 							d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z" />
 					</svg>
+				</div>
+				<div class="room-button room-settings-button" tabindex="0">
+					<input type="checkbox" class="toggle" />
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+						<path d="M0 0h24v24H0z" fill="none" />
+						<path fill="white"
+							d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
+					</svg>
+					<div class="room-settings">
+						<div class="row">
+							<label>Autoplay</label>
+							<w2-preference-switch key="autoplay"></w2-preference-switch>
+						</div>
+					</div>
 				</div>
 			</div>
 			<w2-videolist id="queue">

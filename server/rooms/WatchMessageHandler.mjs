@@ -53,10 +53,8 @@ export default class WatchMessageHandler extends MessageHandler {
 
         room.socketConnected(message.socket);
 
-        message.reply(new Message('room.state', {
-            host: room.hostId == message.socket.uid,
-            saved: room.state.saved
-        }));
+        message.reply(new Message('join', { id: message.socket.uid }));
+        message.reply(new Message('room.state', room.getRoomState()));
 
         this.broadcastUserlist(room);
     }

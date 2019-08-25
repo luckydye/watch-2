@@ -1,0 +1,257 @@
+w2-videolist {
+    width: 180px;
+    box-sizing: content-box;
+    padding: 10px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: grid;
+    grid-gap: 10px;
+}
+
+w2-videolist-item {
+    display: block;
+    width: 100%;
+    height: 100px;
+    background: #333;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+}
+
+w2-videolist-item:last-child {
+    animation: slideIn .15s;
+}
+
+w2-videolist-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+w2-videolist-item .controls {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: auto;
+    padding: 0 7px;
+}
+
+w2-videolist-item .openbtn, w2-videolist-item .playbtn, w2-videolist-item .delbtn {
+    cursor: pointer;
+    color: white;
+    background: transparent;
+    border: none;
+    opacity: 0.95;
+    padding: 0;
+    transition: .05s ease;
+}
+
+w2-videolist-item .openbtn {
+    font-size: 18px;
+}
+
+w2-videolist-item .playbtn {
+    font-size: 25px;
+}
+
+w2-videolist-item .delbtn {
+    font-size: 18px;
+}
+
+w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist-item .delbtn:hover {
+    transform: scale(1.15);
+    opacity: 1;
+}
+
+@media (max-width: 740px) {
+    w2-videolist {
+        width: 120px;
+    }
+    w2-videolist-item {
+        height: 65px;
+    }
+    w2-videolist-item .controls {
+        right: 0;
+        flex-direction: row;
+        width: 100%;
+    }
+    w2-videolist-item .openbtn {
+        display: none;
+    }
+    w2-videolist-item .playbtn {
+        font-size: 40px;
+    }
+    w2-videolist-item .delbtn {
+        font-size: 30px;
+    }
+    .video-queue {
+        margin-top: 40px;
+        margin-left: -140px;
+        transition: margin .15s ease;
+    }
+    .video-queue .title {
+        font-size: 14px;
+    }
+    [video-queue-open="true"] .video-queue {
+        margin-left: 0;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+}
+
+/* Preferences */
+
+.usertag {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.usertag.host {
+    background: red;
+}
+
+w2-itemlist {
+    display: block;
+}
+
+w2-itemlist .item {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+w2-preferences {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+w2-preferences input {
+    margin: 5px 0 10px 0;
+}
+
+w2-preferences label {
+    margin: 5px 0;
+    line-height: 20px;
+    opacity: 0.8;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+w2-preference-switch {
+    display: block;
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 5px 0;
+    position: relative;
+    --onColor: #0d6f20;
+    --offColor: #3c3c3c;
+    --handleColor: #e8e8e8;
+}
+
+w2-preference-switch[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+w2-preference-switch input {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    z-index: 100;
+    cursor: pointer;
+}
+
+w2-preference-switch input[type="checkbox"]:checked~.handle {
+    left: 50%;
+}
+
+w2-preference-switch .handle {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: var(--handleColor);
+    border-radius: 50%;
+    position: relative;
+    left: 0;
+    transition: left .1s ease;
+}
+
+w2-preference-switch .handle::before, w2-preference-switch .handle::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 200%;
+    height: 20px;
+}
+
+w2-preference-switch .handle::before {
+    right: 50%;
+    background: var(--onColor);
+}
+
+w2-preference-switch .handle::after {
+    left: 50%;
+    background: var(--offColor);
+}
+
+/* Notifications */
+
+w2-notifications {
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 5px 0;
+    z-index: 100000;
+}
+
+w2-notification {
+    padding: 10px 20px;
+    background: var(--backdropColor);
+    box-shadow: 1px 2px 5px hsla(0, 0%, 0%, 0.25);
+    display: block;
+    color: #eee;
+    font-size: 12px;
+    opacity: 0.98;
+    min-width: 150px;
+    animation: slide-in .15s ease;
+    user-select: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes fade-out {
+    to {
+        opacity: 0;
+    }
+}

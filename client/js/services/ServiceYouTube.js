@@ -8,19 +8,23 @@ export class YouTube extends Service {
 
     static filterServiceId(url) {
 
-        const parsedURL = new URL(url);
+        try {
+            const parsedURL = new URL(url);
 
-        if (parsedURL.origin.match("youtu.be")) {
-            return parsedURL.pathname.substring(1);
-        }
+            if (parsedURL.origin.match("youtu.be")) {
+                return parsedURL.pathname.substring(1);
+            }
 
-        if (parsedURL.origin.match("www.youtube.com")) {
-            const split = parsedURL.search.substring(1).split("&");
-            for (let part of split) {
-                if (part[0] == "v") {
-                    return part.split("=")[1];
+            if (parsedURL.origin.match("www.youtube.com")) {
+                const split = parsedURL.search.substring(1).split("&");
+                for (let part of split) {
+                    if (part[0] == "v") {
+                        return part.split("=")[1];
+                    }
                 }
             }
+        } catch (err) {
+            return null;
         }
 
         return null;

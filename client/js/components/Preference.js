@@ -14,11 +14,23 @@ class Preference extends HTMLElement {
 		super();
 
 		this.key = null;
-		
+
 		this.input = document.createElement("input");
 		this.input.onblur = () => this.onChange(this.input.value);
+		this.input.onchange = () => this.onChange(this.input.value);
+
+		Preferences.subscribe((key, value) => {
+			if (this.key == key) {
+				if (this.type == "checkbox") {
+					this.input.checked = value;
+				}
+				if (value && value.length > 2) {
+					this.input.value = value;
+				}
+			}
+		})
 	}
-	
+
 	attributeChangedCallback(name, oldValue, newValue) {
 		this[name] = newValue;
 	}
@@ -33,7 +45,10 @@ class Preference extends HTMLElement {
 	get checked() { return this.input.checked; }
 
 	onChange(value) {
-		if(value.length > 2) {
+		if (this.type == "checkbox") {
+			Preferences.set(this.key, this.input.checked);
+		}
+		if (value && value.length > 2) {
 			Preferences.set(this.key, value);
 		}
 	}
@@ -43,11 +58,11 @@ class Preference extends HTMLElement {
 		this.appendChild(this.input);
 
 		let value = Preferences.get(this.key);
-		if(!value && this.key == "username") {
+		if (!value && this.key == "username") {
 			// gen random username
 			value = Preferences.set(this.key, randomUsername());
 		}
-		if(value) {
+		if (value) {
 			this.input.value = value;
 		}
 	}
@@ -58,19 +73,17 @@ class PreferenceSwitch extends Preference {
 		super();
 		this.type = "checkbox";
 		this.input.checked = false;
-		this.input.onblur = () => {};
+		this.input.onblur = () => { };
 		this.input.onchange = () => this.onChange(this.input.checked);
 	}
 
-	onChange(value) {
-		this.input.checked = value;
-	}
-	
 	connectedCallback() {
 		super.connectedCallback();
 		const handle = document.createElement("span");
 		handle.className = "handle";
 		this.appendChild(handle);
+
+		this.onChange();
 	}
 }
 

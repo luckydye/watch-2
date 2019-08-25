@@ -1,7 +1,9 @@
 :root {
     --accentColor: rgb(11, 152, 235);
+    --accentColor-highlight: rgb(65, 174, 236);
     --backdropColor: hsl(0, 0%, 4%);
     --backgroundColor: hsla(0, 0%, 6%, 1);
+    --backgroundColor2: hsla(0, 0%, 12%, 1);
 }
 
 body {
@@ -103,6 +105,11 @@ a[href] {
     color: inherit;
 }
 
+.row {
+    display: flex;
+    align-items: center;
+}
+
 /* Placeholders */
 
 .placeholder {
@@ -146,45 +153,4 @@ footer p {
     opacity: 0.35;
     font-size: 14px;
     text-align: right;
-}
-
-/* Notifications */
-
-w2-notifications {
-    position: fixed;
-    bottom: 5px;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 5px 0;
-    z-index: 1000;
-}
-
-w2-notification {
-    padding: 10px 20px;
-    background: var(--backdropColor);
-    box-shadow: 1px 2px 5px hsla(0, 0%, 0%, 0.25);
-    display: block;
-    color: #eee;
-    font-size: 12px;
-    opacity: 0.98;
-    min-width: 150px;
-    animation: slide-in .15s ease;
-    user-select: none;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-@keyframes slide-in {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-}
-
-@keyframes fade-out {
-    to {
-        opacity: 0;
-    }
 }
