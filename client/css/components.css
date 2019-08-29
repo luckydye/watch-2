@@ -6,6 +6,7 @@ w2-videolist {
     overflow-x: hidden;
     display: grid;
     grid-gap: 10px;
+    align-content: flex-start;
 }
 
 w2-videolist-item {
@@ -102,6 +103,7 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
     }
     [video-queue-open="true"] .video-queue {
         margin-left: 0;
+        background: var(--backdropColor);
     }
 }
 

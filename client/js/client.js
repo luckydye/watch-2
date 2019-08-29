@@ -18,10 +18,6 @@ window.addEventListener("load", onLoad);
 
 let room;
 
-function onYouTubeIframeAPIReady() {
-	onLoad();
-}
-
 function onLoad() {
 	Service.registerService(YouTube);
 	Service.registerService(Twitch);
@@ -46,6 +42,7 @@ function onDomReady() {
 
 	// Video Queue toggle button
 	document.querySelector(".toggle-video-queue").onclick = () => bindButton("video-queue-open");
+	document.querySelector(".toggle-history").onclick = () => bindButton("video-history-open");
 
 	// video add button
 	document.querySelector(".video-queue .add-video").addEventListener("click", e => {

@@ -5,11 +5,6 @@ export default class Player extends HTMLElement {
 
 	static get template() {
 		return `
-			<div class="player" id="ytplayer"></div>
-			<div class="player" id="twitchplayer"></div>
-			<div class="player" id="flowplayer"></div>
-			<div class="player" id="iframe"></div>
-
 			<div class="player" id="placeholder">
 				<h3>
 					1. Copy Video URL
@@ -52,6 +47,13 @@ export default class Player extends HTMLElement {
 
 	registerPlayerInterface(interfaceInstance) {
 		this.players[interfaceInstance.service] = interfaceInstance;
+
+		const container = document.createElement('div');
+		container.className = 'player';
+		container.id = interfaceInstance.containerId;
+		this.insertBefore(container, this.querySelector('#placeholder'));
+
+		interfaceInstance.setup();
 
 		interfaceInstance.onStateChange = state => {
 			this.onStateChange(state);

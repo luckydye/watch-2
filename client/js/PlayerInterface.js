@@ -12,8 +12,6 @@ export class PlayerInterface {
     constructor(containerId) {
         this.containerId = containerId;
         this.player = null;
-
-        this.setup();
     }
 
     onStateChange(state) {
