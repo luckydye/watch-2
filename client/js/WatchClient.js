@@ -115,6 +115,14 @@ export class WatchClient {
 			'room.state': msg => {
 				this.host = msg.host;
 
+				if (msg.hostonly) {
+					document.querySelector('main').setAttribute('host-only', '');
+				} else {
+					document.querySelector('main').removeAttribute('host-only');
+				}
+
+				Preferences.set('hostonly', msg.hostonly);
+
 				if (this.isHost()) {
 					document.querySelector('main').setAttribute('host', '');
 				} else {

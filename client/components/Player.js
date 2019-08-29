@@ -73,6 +73,8 @@ export default class Player extends HTMLElement {
 			this.pause();
 		}
 
+		if (!service) return;
+
 		this.loaded = false;
 
 		const playerInterface = this.players[service];

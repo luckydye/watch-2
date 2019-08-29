@@ -3,6 +3,14 @@ import Player from '../components/Player.js';
 import { Notification } from './Notifications.js';
 import { Service } from './Service.js';
 import { PlayerInterface } from './PlayerInterface.js';
+import { YouTube } from './services/ServiceYouTube.js';
+import { Twitch } from './services/ServiceTwitch.js';
+import { IFrames } from './services/ServiceIframe.js';
+import { YouTubePlayer } from './players/YouTubePlayer.js';
+import { TwitchPlayer } from './players/TwitchPlayer.js';
+import { FlowPlayer } from './players/FlowPlayer.js';
+import { IFramePlayer } from './players/IFramePlayer.js';
+import { Preferences } from './Preferences.js';
 
 export class Room {
 
@@ -13,8 +21,17 @@ export class Room {
 	constructor() {
 		this.id = Room.id;
 
+		Service.registerService(YouTube);
+		Service.registerService(Twitch);
+		Service.registerService(IFrames);
+
 		this.player = new Player();
 		document.querySelector(".player-container").appendChild(this.player);
+
+		this.player.registerPlayerInterface(new YouTubePlayer('ytplayer'));
+		this.player.registerPlayerInterface(new TwitchPlayer('twitchplayer'));
+		this.player.registerPlayerInterface(new FlowPlayer('flowplayer'));
+		this.player.registerPlayerInterface(new IFramePlayer('iframe'));
 
 		this.socket = new WatchClient();
 
@@ -83,6 +100,10 @@ export class Room {
 		}
 
 		socket.connect(this.id);
+
+		Preferences.subscribe((key, value) => {
+			this.setRoomState({ hostonly: Preferences.get('hostonly') });
+		})
 	}
 
 	setRoomState(obj) {

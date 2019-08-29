@@ -17,15 +17,23 @@ export default class WatchMessageHandler extends MessageHandler {
     get messageTypes() {
         return Object.assign(super.messageTypes, {
             'ping': msg => { },
-            'room.state': msg => this.handleRoomState(msg),
-            'queue.add': msg => this.handleQueueAdd(msg),
-            'queue.remove': msg => this.handleQueueRemove(msg),
-            'queue.play': msg => this.handleQueuePlay(msg),
-            'play.video': msg => this.handlePlayVideo(msg),
-            'pause.video': msg => this.handlePauseVideo(msg),
-            'seek.video': msg => this.handleSeekVideo(msg),
-            'player.state': msg => this.handlePlayerState(msg),
+            'room.state': msg => this.filterRequest(msg, () => this.handleRoomState(msg)),
+            'queue.add': msg => this.filterRequest(msg, () => this.handleQueueAdd(msg)),
+            'queue.remove': msg => this.filterRequest(msg, () => this.handleQueueRemove(msg)),
+            'queue.play': msg => this.filterRequest(msg, () => this.handleQueuePlay(msg)),
+            'play.video': msg => this.filterRequest(msg, () => this.handlePlayVideo(msg)),
+            'pause.video': msg => this.filterRequest(msg, () => this.handlePauseVideo(msg)),
+            'seek.video': msg => this.filterRequest(msg, () => this.handleSeekVideo(msg)),
+            'player.state': msg => this.filterRequest(msg, () => this.handlePlayerState(msg)),
         });
+    }
+
+    filterRequest(message, callback) {
+        const room = this.getRoom(message.socket.room);
+
+        if (!room.state.hostonly || (room.state.hostonly && room.state.host === message.socket.uid)) {
+            callback();
+        }
     }
 
     handleJoinMessage(message) {
@@ -92,10 +100,10 @@ export default class WatchMessageHandler extends MessageHandler {
 
     handleRoomState(msg) {
         const room = this.getRoom(msg.socket.room);
-        if (room.hostId == socket.id) {
-            room.state.saved = msg.data.saved;
+        if (room.state.host == msg.socket.uid && room.state.hostonly != msg.data.hostonly) {
+            room.state.hostonly = msg.data.hostonly;
+            this.broadcast(room, new Message('room.state', room.getRoomState()));
         }
-        broadcast('room.state', room.getRoomState());
     }
 
     handleQueueAdd(msg) {

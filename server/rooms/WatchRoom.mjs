@@ -15,8 +15,8 @@ export default class WatchRoom extends Room {
 
         this.state = {
             host: null,
+            hostonly: false,
             video: {},
-            saved: false,
         }
     }
 
@@ -70,11 +70,11 @@ export default class WatchRoom extends Room {
     }
 
     syncPlayerState({ timestamp, time, id, service, state }) {
-        this.state.video.service = service;
-        this.state.video.id = id;
-        this.state.video.time = time;
-        this.state.video.timestamp = timestamp;
-        this.state.video.state = state;
+        this.state.video.service = service ? service : this.state.video.service;
+        this.state.video.id = id ? id : this.state.video.id;
+        this.state.video.time = time ? time : this.state.video.time;
+        this.state.video.timestamp = timestamp ? timestamp : this.state.video.timestamp;
+        this.state.video.state = state ? state : this.state.video.state;
     }
 
     loadVideo(service, id) {
@@ -84,8 +84,10 @@ export default class WatchRoom extends Room {
             time: 0,
             state: 1,
         });
+
         // set video state
-        this.syncPlayerState({ service, id, time: 0, timestamp: 0, });
+        this.syncPlayerState({ service, id, time: 0, timestamp: 0, state: 1 });
+
         // add to history
         this.addToHistory({ service, id });
     }
