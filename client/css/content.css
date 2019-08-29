@@ -48,10 +48,6 @@ main:not([host]) .host-only {
     opacity: 0.5;
 }
 
-main:not([host])[host-only] {
-    pointer-events: none;
-}
-
 .player-container {
     position: relative;
 }
