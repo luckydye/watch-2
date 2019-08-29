@@ -1,14 +1,17 @@
-import './components/Player.js';
-import './components/Preference.js';
-import './components/Itemlist.js';
-import './components/VideoList.js';
+import '../components/Preference.js';
+import '../components/Itemlist.js';
+import '../components/VideoList.js';
 
-import { Room } from './modules/Room.js';
-import { Notification } from './modules/Notifications.js';
-import { Service } from './modules/Service.js';
+import { Room } from './Room.js';
+import { Notification } from './Notifications.js';
+import { Service } from './Service.js';
 import { YouTube } from './services/ServiceYouTube.js';
 import { Twitch } from './services/ServiceTwitch.js';
 import { IFrames } from './services/ServiceIframe.js';
+import { YouTubePlayer } from './players/YouTubePlayer.js';
+import { TwitchPlayer } from './players/TwitchPlayer.js';
+import { FlowPlayer } from './players/FlowPlayer.js';
+import { IFramePlayer } from './players/IFramePlayer.js';
 
 window.addEventListener("DOMContentLoaded", onDomReady);
 window.addEventListener("load", onLoad);
@@ -25,6 +28,13 @@ function onLoad() {
 	Service.registerService(IFrames);
 
 	room = new Room();
+
+	const player = document.querySelector('w2-player');
+
+	player.registerPlayerInterface(new YouTubePlayer('ytplayer'));
+	player.registerPlayerInterface(new TwitchPlayer('twitchplayer'));
+	player.registerPlayerInterface(new FlowPlayer('flowplayer'));
+	player.registerPlayerInterface(new IFramePlayer('iframe'));
 }
 
 function onDomReady() {

@@ -85,13 +85,6 @@ w2-player .player {
     right: 0;
     left: 0;
     top: 0;
-}
-
-.player:not(.active) {
-    visibility: hidden;
-}
-
-.player.active {
     z-index: 100;
 }
 

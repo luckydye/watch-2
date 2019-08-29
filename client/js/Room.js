@@ -2,6 +2,7 @@ import { WatchClient } from './WatchClient.js';
 import Player from '../components/Player.js';
 import { Notification } from './Notifications.js';
 import { Service } from './Service.js';
+import { PlayerInterface } from './PlayerInterface.js';
 
 export class Room {
 
@@ -46,7 +47,7 @@ export class Room {
 		})
 
 		this.player.addEventListener("pause", () => {
-			if (lastState !== Player.State.SEEKING) {
+			if (lastState !== PlayerInterface.SEEKING) {
 				socket.emit('pause.video');
 				socket.emit('seek.video', { time: player.getCurrentTime() });
 			}

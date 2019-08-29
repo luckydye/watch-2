@@ -1,4 +1,4 @@
-import { Service } from "../modules/Service.js";
+import { Service } from "../Service.js";
 
 export class Twitch extends Service {
 

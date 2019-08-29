@@ -1,4 +1,4 @@
-import { Service } from '../modules/Service.js';
+import { Service } from '../js/Service.js';
 
 export class VideoList extends HTMLElement {
 
