@@ -8,12 +8,20 @@ export class IFramePlayer extends PlayerInterface {
     }
 
     loadVideo({ service, id, startSeconds }, state) {
+        const playerService = Service.getService(service);
+
+        if (!playerService) return;
+
         document.querySelector('#' + this.containerId).innerHTML = `
             <iframe
-                src="${Service.getService(service).getVideoURL(id)}"
+                src="${playerService.getVideoURL(id)}"
                 frameborder="none"
             </iframe>
         `;
+    }
+
+    unloadVideo() {
+        document.querySelector('#' + this.containerId).innerHTML = "";
     }
 
 }

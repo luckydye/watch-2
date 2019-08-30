@@ -50,4 +50,8 @@ export class PlayerInterface {
         // load video by id
     }
 
+    unloadVideo() {
+        // on unload video or video change
+    }
+
 }

@@ -69,21 +69,23 @@ export default class Player extends HTMLElement {
 	}
 
 	loadVideo({ service, id, startSeconds }, state) {
+		if (!service || !id) return;
+
 		if (this.loaded) {
 			this.pause();
 		}
-
-		if (!service) return;
-
 		this.loaded = false;
+
+		const currentPlayer = this.players[this.video.service];
+
+		if (currentPlayer) {
+			currentPlayer.unloadVideo();
+			document.querySelector('#' + currentPlayer.containerId).removeAttribute('style');
+		}
 
 		const playerInterface = this.players[service];
 		playerInterface.loadVideo({ service, id, startSeconds }, state);
 
-		const currentPlayer = this.players[this.video.service];
-		if (currentPlayer) {
-			document.querySelector('#' + currentPlayer.containerId).removeAttribute('style');
-		}
 		document.querySelector('#' + playerInterface.containerId).style.zIndex = 1000;
 
 		this.video.id = id;

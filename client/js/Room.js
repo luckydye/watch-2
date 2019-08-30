@@ -8,7 +8,6 @@ import { Twitch } from './services/ServiceTwitch.js';
 import { IFrames } from './services/ServiceIframe.js';
 import { YouTubePlayer } from './players/YouTubePlayer.js';
 import { TwitchPlayer } from './players/TwitchPlayer.js';
-import { FlowPlayer } from './players/FlowPlayer.js';
 import { IFramePlayer } from './players/IFramePlayer.js';
 import { Preferences } from './Preferences.js';
 
@@ -30,7 +29,6 @@ export class Room {
 
 		this.player.registerPlayerInterface(new YouTubePlayer('ytplayer'));
 		this.player.registerPlayerInterface(new TwitchPlayer('twitchplayer'));
-		this.player.registerPlayerInterface(new FlowPlayer('flowplayer'));
 		this.player.registerPlayerInterface(new IFramePlayer('iframe'));
 
 		this.socket = new WatchClient();

@@ -6,7 +6,7 @@ import http from 'http';
 import WatchMessageHandler from './rooms/WatchMessageHandler.mjs';
 import Connection from '@uncut/hotel/src/Connection.mjs';
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5500;
 
 const app = express();
 const server = http.Server(app);
