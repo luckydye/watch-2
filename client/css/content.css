@@ -131,6 +131,7 @@ main:not([host]) .host-only {
     opacity: 1;
     pointer-events: all;
     transform: translate(0, 0);
+    clip-path: circle(75%);
 }
 
 .room-settings {
@@ -150,6 +151,7 @@ main:not([host]) .host-only {
     display: grid;
     z-index: 100000;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.125);
+    clip-path: circle(50% at 0 50%);
 }
 
 .room-settings label {

@@ -1,10 +1,5 @@
 export class PlayerInterface {
 
-    static EMPTY = 0;
-    static PLAYING = 1;
-    static PAUSED = 2;
-    static SEEKING = 3;
-
     get service() {
         return "player_service";
     }
@@ -55,3 +50,8 @@ export class PlayerInterface {
     }
 
 }
+
+PlayerInterface.EMPTY = 0;
+PlayerInterface.PLAYING = 1;
+PlayerInterface.PAUSED = 2;
+PlayerInterface.SEEKING = 3;

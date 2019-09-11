@@ -146,7 +146,6 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
         font-size: 30px;
     }
     .sidebar {
-        margin-top: 40px;
         margin-left: -140px;
         transition: margin .15s ease;
     }
