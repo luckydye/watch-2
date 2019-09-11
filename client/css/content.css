@@ -35,8 +35,6 @@
 @media (min-width: 740px) {
     .content {
         padding-left: 210px;
-        width: 100%;
-        box-sizing: border-box;
     }
     .room-details {
         padding: 20px;
@@ -48,41 +46,15 @@ main:not([host]) .host-only {
     opacity: 0.5;
 }
 
-.player-container {
-    position: relative;
-}
-
-w2-player {
-    box-sizing: border-box;
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: calc(100vh - 10px);
-    position: relative;
-    z-index: 10;
-    overflow: hidden;
-}
-
-w2-player::after {
-    content: "";
-    padding-bottom: 56.3%;
-    width: 100%;
-    display: block;
-}
-
-w2-player iframe {
+.content {
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
 }
 
-w2-player .player {
-    position: absolute;
-    z-index: 10;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 0;
-    z-index: 100;
+.player-container {
+    width: 100%;
+    height: 100%;
 }
 
 .player#placeholder {
@@ -163,6 +135,7 @@ w2-player .player {
 
 .room-settings {
     opacity: 0;
+    cursor: default;
     pointer-events: none;
     background: var(--backgroundColor2);
     position: absolute;
@@ -284,11 +257,11 @@ w2-player .player {
 }
 
 [video-history-open="true"] .history {
-    height: 50%;
+    height: 69%;
 }
 
 [video-history-open="true"] .toggle-history::after {
-    content: "▼";
+    content: "keyboard_arrow_down";
 }
 
 .toggle-history {
@@ -305,10 +278,13 @@ w2-player .player {
 }
 
 .toggle-history::after {
-    content: "▲";
+    content: "keyboard_arrow_up";
+    font-family: "Material Icons";
+    font-display: block;
+    font-size: 24px;
     transform: translate(-50%, -50%);
     position: absolute;
-    left: 50%;
+    right: 10px;
     top: 50%;
 }
 
@@ -317,9 +293,23 @@ w2-player .player {
 }
 
 .history {
-    height: 40px;
+    height: 35px;
     padding-top: 10px;
     transition: height .1s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.history .headline:not(:first-child), .history w2-itemlist {
+    padding: 0 15px;
+}
+
+.history .headline {
+    margin-bottom: 10px;
+}
+
+.history w2-itemlist {
+    margin-bottom: 15px;
 }
 
 .history w2-videolist .controls {
@@ -327,6 +317,15 @@ w2-player .player {
     top: auto;
     flex-direction: row;
     padding: 7px 0;
+}
+
+.history w2-videolist w2-videolist-item {
+    height: 69px;
+}
+
+.history w2-videolist w2-videolist-item .controls {
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .video-queue #queue w2-videolist-item .openbtn, .history w2-videolist-item .delbtn {

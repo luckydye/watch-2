@@ -2,8 +2,10 @@ import { Notification } from "./Notifications.js";
 import { Preferences } from "./Preferences.js";
 
 function displayNotification(text, time) {
-	const noti = new Notification({ type: Notification.TEXT, text, time });
-	noti.display(document.querySelector("w2-notifications"));
+	if (!Preferences.get('hide_notifictions')) {
+		const noti = new Notification({ type: Notification.TEXT, text, time });
+		noti.display(document.querySelector("w2-notifications"));
+	}
 }
 
 function displayReloadPrompt() {

@@ -53,19 +53,25 @@ export class Room {
 			lastState = e.detail.state;
 		})
 
+		function debounce(callback) {
+			callback();
+		}
+
 		this.player.addEventListener("seek", (e) => {
-			socket.emit('seek.video', { time: e.detail.time });
+			debounce(() => socket.emit('seek.video', { time: e.detail.time }));
 		})
 
 		this.player.addEventListener("play", () => {
-			socket.emit('play.video');
+			debounce(() => socket.emit('play.video'));
 		})
 
 		this.player.addEventListener("pause", () => {
-			if (lastState !== PlayerInterface.SEEKING) {
-				socket.emit('pause.video');
-				socket.emit('seek.video', { time: player.getCurrentTime() });
-			}
+			debounce(() => {
+				if (lastState !== PlayerInterface.SEEKING) {
+					socket.emit('pause.video');
+					socket.emit('seek.video', { time: player.getCurrentTime() });
+				}
+			});
 		})
 	}
 

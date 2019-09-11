@@ -40,12 +40,18 @@ button:active {
 input {
     padding: 8px 10px;
     font-size: 14px;
-    background: #313131;
-    border: 1px solid #000000;
-    border-radius: 3px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
     color: #eee;
     width: 100%;
     box-sizing: border-box;
+    outline: none;
+    text-align: right;
+}
+
+input:focus {
+    border-color: var(--accentColor);
 }
 
 button, input {
@@ -79,22 +85,11 @@ button.holo-button:hover {
     opacity: 1;
 }
 
-.card {
-    padding: 10px;
-    background: var(--backgroundColor);
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-
-.card .headline {
-    margin-bottom: 20px;
-}
-
 .headline {
     display: block;
     color: #eee;
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
     opacity: 0.75;
 }
@@ -139,18 +134,4 @@ a[href] {
     from {
         opacity: 0
     }
-}
-
-/* Footer */
-
-footer {
-    margin: 0 auto 40px auto;
-    padding: 0 40px;
-}
-
-footer p {
-    color: #cacaca;
-    opacity: 0.35;
-    font-size: 14px;
-    text-align: right;
 }

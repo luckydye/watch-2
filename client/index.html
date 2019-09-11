@@ -49,6 +49,7 @@
 							d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
 					</svg>
 					<div class="room-settings">
+						<a class="headline" style="margin-bottom: 10px">Settings</a>
 						<div class="row">
 							<label>Autoplay</label>
 							<w2-preference-switch key="autoplay"></w2-preference-switch>
@@ -56,6 +57,16 @@
 						<div class="row host-only">
 							<label>Host only controls</label>
 							<w2-preference-switch key="hostonly"></w2-preference-switch>
+						</div>
+						<div class="row">
+							<label>Hide notifications</label>
+							<w2-preference-switch key="hide_notifictions"></w2-preference-switch>
+						</div>
+						<div class="row">
+							<label>Username</label>
+							<w2-preferences>
+								<w2-preference title="Username" key="username" placeholder="Username">
+							</w2-preferences>
 						</div>
 					</div>
 				</div>
@@ -67,7 +78,11 @@
 			</w2-videolist>
 
 			<div class="history">
-				<a class="headline toggle-history">History</a>
+				<a class="headline toggle-history">Room Info</a>
+
+				<a class="headline">Userlist</a>
+				<w2-itemlist class="userlist"></w2-itemlist>
+				<a class="headline">History</a>
 				<w2-videolist id="history"></w2-videolist>
 			</div>
 		</div>
@@ -81,28 +96,6 @@
 			</div>
 
 			<div class="player-container"></div>
-
-			<div class="room-details">
-
-				<div class="card">
-					<a class="headline">Userlist</a>
-
-					<w2-itemlist class="userlist"></w2-itemlist>
-				</div>
-
-				<div class="card">
-					<a class="headline">User Settings</a>
-
-					<w2-preferences>
-						<w2-preference title="Username" key="username" placeholder="Username">
-					</w2-preferences>
-				</div>
-
-			</div>
-
-			<footer>
-				<p>Made by <a target="blank" href="https://twitter.com/timh4v">luckydye</a></p>
-			</footer>
 		</div>
 	</main>
 
