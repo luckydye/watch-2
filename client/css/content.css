@@ -15,12 +15,12 @@
     pointer-events: all;
 }
 
-[video-queue-open="true"] .navigation button.toggle-video-queue i {
+[sidebar-open="true"] .navigation button.toggle-sidebar i {
     transform: rotate(180deg);
 }
 
 @media (min-width: 740px) {
-    .navigation button.toggle-video-queue {
+    .navigation button.toggle-sidebar {
         visibility: hidden;
     }
 }
@@ -139,9 +139,9 @@ main:not([host]) .host-only {
     pointer-events: none;
     background: var(--backgroundColor2);
     position: absolute;
-    top: 0;
+    top: -5px;
     left: calc(100% + 20px);
-    border-radius: 3px;
+    border-radius: 4px;
     transform: translate(-15px, 0);
     transform-origin: 0 0;
     transition: .1s ease-out;
@@ -159,7 +159,7 @@ main:not([host]) .host-only {
 .room-settings::after {
     content: "";
     position: absolute;
-    top: 0;
+    top: 5px;
     left: 0;
     width: 14px;
     height: 14px;
@@ -207,7 +207,7 @@ main:not([host]) .host-only {
     border-bottom-left-radius: 20px;
 }
 
-.video-queue {
+.sidebar {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -218,12 +218,12 @@ main:not([host]) .host-only {
     z-index: 1000;
 }
 
-.video-queue w2-videolist {
+.sidebar w2-videolist {
     flex: 1;
     padding: 0 15px;
 }
 
-.video-queue .title {
+.sidebar .title {
     height: 40px;
     display: flex;
     justify-content: flex-start;
@@ -235,12 +235,12 @@ main:not([host]) .host-only {
     padding: 0 15px;
 }
 
-.video-queue #queue w2-videolist-item:first-child {
+.sidebar #queue w2-videolist-item:first-child {
     box-shadow: none;
     opacity: 0.75;
 }
 
-.video-queue #queue w2-videolist-item:first-child:after {
+.sidebar #queue w2-videolist-item:first-child:after {
     content: "";
     position: absolute;
     right: 0;
@@ -252,12 +252,12 @@ main:not([host]) .host-only {
     background: var(--backgroundColor);
 }
 
-.video-queue #queue w2-videolist-item:first-child .controls {
+.sidebar #queue w2-videolist-item:first-child .controls {
     display: none;
 }
 
 [video-history-open="true"] .history {
-    height: 69%;
+    height: 50%;
 }
 
 [video-history-open="true"] .toggle-history::after {
@@ -288,7 +288,7 @@ main:not([host]) .host-only {
     top: 50%;
 }
 
-.video-queue w2-videolist {
+.sidebar w2-videolist {
     max-height: calc(100% - 60px);
 }
 
@@ -328,6 +328,6 @@ main:not([host]) .host-only {
     box-sizing: border-box;
 }
 
-.video-queue #queue w2-videolist-item .openbtn, .history w2-videolist-item .delbtn {
+.sidebar #queue w2-videolist-item .openbtn, .history w2-videolist-item .delbtn {
     display: none;
 }

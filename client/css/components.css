@@ -125,15 +125,15 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
     w2-videolist-item .delbtn {
         font-size: 30px;
     }
-    .video-queue {
+    .sidebar {
         margin-top: 40px;
         margin-left: -140px;
         transition: margin .15s ease;
     }
-    .video-queue .title {
+    .sidebar .title {
         font-size: 14px;
     }
-    [video-queue-open="true"] .video-queue {
+    [sidebar-open="true"] .sidebar {
         margin-left: 0;
         background: var(--backdropColor);
     }
@@ -155,7 +155,7 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
 }
 
 .usertag.host {
-    background: red;
+    background: var(--accentColor);
 }
 
 w2-itemlist {
@@ -191,7 +191,7 @@ w2-preference-switch {
     overflow: hidden;
     margin: 5px 0;
     position: relative;
-    --onColor: #0d6f20;
+    --onColor: var(--accentColor);
     --offColor: #3c3c3c;
     --handleColor: #e8e8e8;
 }
@@ -249,8 +249,8 @@ w2-preference-switch .handle::after {
 
 w2-notifications {
     position: fixed;
-    bottom: 60px;
-    left: 210px;
+    top: 10px;
+    right: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

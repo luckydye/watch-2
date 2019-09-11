@@ -1,9 +1,9 @@
 :root {
     --accentColor: rgb(11, 152, 235);
     --accentColor-highlight: rgb(65, 174, 236);
-    --backdropColor: hsl(0, 0%, 4%);
-    --backgroundColor: hsla(0, 0%, 6%, 1);
-    --backgroundColor2: hsla(0, 0%, 12%, 1);
+    --backdropColor: hsl(0, 0%, 5%);
+    --backgroundColor: hsla(0, 0%, 10%, 1);
+    --backgroundColor2: hsla(0, 0%, 15%, 1);
 }
 
 body {

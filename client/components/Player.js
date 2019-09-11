@@ -12,6 +12,9 @@ export default class Player extends HTMLElement {
 				<h3>
 					2. Press the "Paste" button on the top left or press Ctrl+V, to insert the video.
 				</h3>
+				<h3>
+					3. Watch the video in sync with your friends.
+				</h3>
 
 				<p>
 					<a style="color: grey; font-size: 14px;">

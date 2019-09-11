@@ -23,11 +23,11 @@ function onDomReady() {
 	}
 
 	// Video Queue toggle button
-	document.querySelector(".toggle-video-queue").onclick = () => bindButton("video-queue-open");
+	document.querySelector(".toggle-sidebar").onclick = () => bindButton("sidebar-open");
 	document.querySelector(".toggle-history").onclick = () => bindButton("video-history-open");
 
 	// video add button
-	document.querySelector(".video-queue .add-video").addEventListener("click", e => {
+	document.querySelector(".sidebar .add-video").addEventListener("click", e => {
 		if (navigator.clipboard.readText) {
 			navigator.clipboard.readText().then(clipText => {
 				room.addVideo(clipText);

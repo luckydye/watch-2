@@ -90,11 +90,11 @@ export class Room {
 
 		socket.init();
 
-		document.querySelector(".video-queue w2-videolist#queue").removeVideo = (index, vid) => {
+		document.querySelector(".sidebar w2-videolist#queue").removeVideo = (index, vid) => {
 			socket.removeVideoFromQueue({ index, id: vid.id });
 		}
 
-		document.querySelector(".video-queue w2-videolist").playVideo = (index, vid) => {
+		document.querySelector(".sidebar w2-videolist").playVideo = (index, vid) => {
 			socket.loadVideo({ index, id: vid.id });
 		}
 
