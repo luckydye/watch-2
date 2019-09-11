@@ -77,6 +77,26 @@ w2-videolist-item .controls {
     padding: 0 7px;
 }
 
+w2-videolist-item .statistics {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    font-size: 12px;
+    text-shadow: 0 0 4px black;
+}
+
+w2-videolist-item .statistics a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    line-height: 18px;
+}
+
+w2-videolist-item .statistics i {
+    margin-right: 5px;
+}
+
 w2-videolist-item .openbtn, w2-videolist-item .playbtn, w2-videolist-item .delbtn {
     cursor: pointer;
     color: white;

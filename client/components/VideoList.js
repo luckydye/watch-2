@@ -95,6 +95,31 @@ export class VideoListItem extends HTMLElement {
 			thumbnail.src = url;
 		})
 
+		if (this.parentNode.hasAttribute('show-statistics')) {
+			service.getVideoMetaData(this.vidid).then(stats => {
+				this.statistics = stats;
+
+				const statsEle = document.createElement('div');
+				statsEle.className = "statistics";
+
+				const opts = {
+					style: "decimal",
+					minimumIntegerDigits: 3,
+					minimumSignificantDigits: 3,
+				};
+
+				const rating = new Intl.NumberFormat('en-EN', opts).format(this.statistics.likeCount - this.statistics.dislikeCount);
+				const views = new Intl.NumberFormat('en-EN', opts).format(this.statistics.viewCount);
+
+				statsEle.innerHTML = `
+					<a><i class="material-icons" style="font-size: 12px;">thumb_up_alt</i> ${rating}</a>
+					<a><i class="material-icons" style="font-size: 12px;">remove_red_eye</i> ${views}</a>
+				`;
+
+				this.appendChild(statsEle);
+			})
+		}
+
 		this.append(thumbnail);
 	}
 

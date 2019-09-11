@@ -50,6 +50,10 @@ export class Service {
         return `/res/thumb.png`;
     }
 
+    static async getVideoMetaData(id) {
+        return null;
+    }
+
     static getVideoURL(id) {
         console.warn("can't open, unknown service"); r
         return null;
