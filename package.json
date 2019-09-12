@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "rollup ./client/js/client.js --file ./client/js/client.min.js --format cjs --compact",
     "start": "node --experimental-modules server/main.mjs",
     "dev": "nodemon --experimental-modules server/main.mjs"
   },
@@ -13,5 +14,8 @@
     "@uncut/hotel": "git+https://github.com/luckydye/hotel.git#1.0.0",
     "express": "^4.17.1",
     "ws": "^7.1.2"
+  },
+  "devDependencies": {
+    "rollup": "^1.21.2"
   }
 }
