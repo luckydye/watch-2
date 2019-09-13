@@ -75,26 +75,12 @@ main:not([host]) .host-only {
     color: rgb(200, 200, 200);
 }
 
-.room-details {
-    padding: 20px 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-}
-
-.card-column {
-    margin: 0 20px;
-    width: 25%;
-}
-
 .room-button {
-    position: absolute;
-    top: 8px;
-    right: 15px;
-    width: 25px;
+    position: relative;
+    min-width: 25px;
     height: 25px;
     font-size: 25px;
-    border-radius: 50%;
+    border-radius: 12px;
     background: var(--accentColor);
     display: flex;
     justify-content: center;
@@ -105,6 +91,11 @@ main:not([host]) .host-only {
     color: rgba(255, 255, 255, 0.85);
     outline: none;
     cursor: pointer;
+}
+
+.room-button a {
+    font-size: 12px;
+    padding: 0 4px 0 8px;
 }
 
 .room-button:hover {
@@ -132,6 +123,7 @@ main:not([host]) .host-only {
     pointer-events: all;
     transform: translate(0, 0);
     clip-path: circle(75%);
+    transition: .15s ease;
 }
 
 .room-settings {
@@ -145,13 +137,13 @@ main:not([host]) .host-only {
     border-radius: 4px;
     transform: translate(-15px, 0);
     transform-origin: 0 0;
-    transition: .1s ease-out;
+    transition: .1s ease;
     padding: 10px;
     font-size: 14px;
     display: grid;
     z-index: 100000;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.125);
-    clip-path: circle(50% at 0 50%);
+    clip-path: circle(50% at 0 0);
 }
 
 .room-settings label {
@@ -171,44 +163,6 @@ main:not([host]) .host-only {
     pointer-events: none;
 }
 
-.add-video {
-    right: 50px;
-}
-
-.add-video:hover {
-    border-radius: 25%;
-}
-
-.add-video::before {
-    content: "Paste";
-    text-transform: none;
-    font-size: 13px;
-    background: inherit;
-    height: 100%;
-    padding: 0 15px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 20px;
-    overflow: hidden;
-    width: 20px;
-    opacity: 1;
-    max-width: 100px;
-    transition: border .3s ease-out, padding .3s ease-out, width .3s ease, opacity .1s ease-out;
-}
-
-.add-video:not(:hover)::before {
-    padding: 0;
-    width: 0;
-    opacity: 0;
-    max-width: 0;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
-
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -220,20 +174,27 @@ main:not([host]) .host-only {
     z-index: 1000;
 }
 
-.sidebar w2-videolist {
-    flex: 1;
-    padding: 0 15px;
+.sidebar-header-right .room-button {
+    margin-left: 10px;
 }
 
-.sidebar .title {
-    height: 40px;
+.sidebar-header-left, .sidebar-header-right {
     display: flex;
-    justify-content: flex-start;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     color: rgba(238, 238, 238, 0.5);
-    margin: 5px 0;
-    position: relative;
     font-size: 16px;
+    margin: 0 15px 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--backgroundColor);
+}
+
+.sidebar w2-videolist {
+    flex: 1;
     padding: 0 15px;
 }
 
@@ -256,14 +217,6 @@ main:not([host]) .host-only {
 
 .sidebar #queue w2-videolist-item:first-child .controls {
     display: none;
-}
-
-[video-history-open="true"] .history {
-    height: 50%;
-}
-
-[video-history-open="true"] .toggle-history::after {
-    content: "keyboard_arrow_down";
 }
 
 .toggle-history {
@@ -297,15 +250,23 @@ main:not([host]) .host-only {
 }
 
 .sidebar w2-videolist {
-    max-height: calc(100% - 60px);
+    max-height: calc(100% - 64px);
 }
 
 .history {
-    height: 40px;
-    padding-top: 10px;
-    transition: height .1s ease-out;
+    height: 55%;
     display: flex;
     flex-direction: column;
+    transition: .1s ease-out;
+}
+
+[video-history-open="false"] .history {
+    transform: translate(0, calc(100% - 40px));
+    height: 40px;
+}
+
+[video-history-open="true"] .toggle-history::after {
+    content: "keyboard_arrow_down";
 }
 
 .history .headline:not(:first-child), .history w2-itemlist {

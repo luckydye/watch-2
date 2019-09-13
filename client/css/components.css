@@ -50,9 +50,11 @@ w2-videolist-item {
     overflow: hidden;
     position: relative;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    z-index: 100;
 }
 
 w2-videolist-item:last-child {
+    z-index: 10;
     animation: slideIn .15s;
 }
 
@@ -146,8 +148,8 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
         font-size: 30px;
     }
     .sidebar {
-        margin-left: -140px;
-        transition: margin .15s ease;
+        transform: translate(-100%, 0);
+        transition: transform .15s ease;
     }
     .sidebar .title {
         font-size: 14px;
@@ -168,9 +170,9 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
 /* Preferences */
 
 .usertag {
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
 }
 
 .usertag.host {
@@ -272,15 +274,13 @@ w2-notifications {
     right: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     margin: 5px 0;
     z-index: 100000;
 }
 
 w2-notification {
     padding: 10px 20px;
-    background: var(--backdropColor);
-    box-shadow: 1px 2px 5px hsla(0, 0%, 0%, 0.25);
     display: block;
     color: #eee;
     font-size: 12px;
@@ -290,11 +290,14 @@ w2-notification {
     user-select: none;
     cursor: pointer;
     margin-bottom: 10px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
 }
 
 @keyframes slide-in {
     from {
-        transform: translateY(100%);
+        transform: translateY(-100%);
         opacity: 0;
     }
 }

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rollup ./client/js/client.js --file ./client/js/client.min.js --format cjs --compact",
+    "build:w": "rollup ./client/js/client.js -w --file ./client/js/client.min.js --format cjs --compact",
     "start": "node --experimental-modules server/main.mjs",
     "dev": "nodemon --experimental-modules server/main.mjs"
   },
