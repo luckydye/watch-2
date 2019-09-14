@@ -32,14 +32,7 @@
     }
 }
 
-@media (min-width: 740px) {
-    .content {
-        padding-left: 210px;
-    }
-    .room-details {
-        padding: 20px;
-    }
-}
+@media (min-width: 740px) {}
 
 main:not([host]) .host-only {
     pointer-events: none;
@@ -47,9 +40,8 @@ main:not([host]) .host-only {
 }
 
 .content {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 .player-container {
@@ -166,12 +158,11 @@ main:not([host]) .host-only {
 .sidebar {
     display: flex;
     flex-direction: column;
-    position: fixed;
-    left: 0;
-    top: 0;
     max-height: 100vh;
     height: 100%;
     z-index: 1000;
+    border-radius: 6px;
+    background: var(--backdropColor);
 }
 
 .sidebar-header-right .room-button {
