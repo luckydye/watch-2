@@ -1,16 +1,16 @@
 :root {
     --accentColor: rgb(11, 152, 235);
     --accentColor-highlight: rgb(65, 174, 236);
-    --backdropColor: hsl(0, 0%, 5%);
-    --backgroundColor: hsla(0, 0%, 10%, 1);
-    --backgroundColor2: hsla(0, 0%, 15%, 1);
+    --backgroundColor: hsla(220, 6%, 8%, 1);
+    --backgroundColor1: hsla(220, 6%, 11%, 1);
+    --backgroundColor2: hsla(220, 6%, 15%, 1);
 }
 
 body {
     margin: 0;
     font-family: sans-serif;
     color: #eee;
-    background: black;
+    background: var(--backgroundColor);
 }
 
 main {
@@ -21,8 +21,8 @@ main {
     bottom: 0;
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-gap: 8px;
-    margin: 8px;
+    grid-gap: 6px;
+    margin: 6px;
     overflow: hidden;
 }
 
