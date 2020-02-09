@@ -1,0 +1,18 @@
+{
+	"apps": [{
+		"name"      : "watch-2",
+		"script"    : "./server/main.js",
+		"instances" : 1,
+		"exec_mode" : "cluster"
+	}],
+	"deploy": {
+		"prod": {
+			"user": "ubuntu",
+			"host": ["auth.luckydye.de"],
+			"ref" : "origin/master",
+			"repo": "git@github.com:luckydye/watch-2.git",
+			"path": "/srv/watch-2",
+			"post-deploy": "npm install; npm run build; npm start"
+		}
+	}
+}
