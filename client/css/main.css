@@ -1,9 +1,9 @@
 :root {
-    --accentColor: rgb(11, 152, 235);
-    --accentColor-highlight: rgb(65, 174, 236);
-    --backgroundColor: hsla(220, 6%, 8%, 1);
-    --backgroundColor1: hsla(220, 6%, 11%, 1);
-    --backgroundColor2: hsla(220, 6%, 15%, 1);
+    --accentColor: hsl(202, 91%, 40%);
+    --accentColor-highlight: hsl(202, 82%, 50%);
+    --backgroundColor: hsla(220, 0%, 8%, 1);
+    --backgroundColor1: hsla(220, 0%, 8%, 1);
+    --backgroundColor2: hsla(220, 0%, 13%, 1);
 }
 
 body {
@@ -21,8 +21,8 @@ main {
     bottom: 0;
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-gap: 6px;
-    margin: 6px;
+    grid-gap: 4px;
+    /* margin: 4px; */
     overflow: hidden;
 }
 

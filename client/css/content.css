@@ -40,7 +40,7 @@ main:not([host]) .host-only {
 }
 
 .content {
-    border-radius: 6px;
+    border-radius: 3px;
     overflow: hidden;
 }
 
@@ -126,7 +126,7 @@ main:not([host]) .host-only {
     position: absolute;
     top: -5px;
     left: calc(100% + 20px);
-    border-radius: 4px;
+    border-radius: 3px;
     transform: translate(-15px, 0);
     transform-origin: 0 0;
     transition: .1s ease;
@@ -161,7 +161,7 @@ main:not([host]) .host-only {
     max-height: 100vh;
     height: 100%;
     z-index: 1000;
-    border-radius: 6px;
+    border-radius: 3px;
     background: var(--backgroundColor1);
 }
 

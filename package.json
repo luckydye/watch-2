@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "deploy": "pm2 deploy production",
+    "start": "node --experimental-modules server/main.mjs",
     "build": "rollup ./client/js/client.js --file ./client/js/client.min.js --format cjs --compact",
     "build:w": "rollup ./client/js/client.js -w --file ./client/js/client.min.js --format cjs --compact",
-    "start": "node --experimental-modules server/main.mjs",
-    "dev": "nodemon --experimental-modules server/main.mjs"
+    "debug": "nodemon --experimental-modules server/main.mjs"
   },
   "author": "",
   "license": "ISC",
