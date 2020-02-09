@@ -147,16 +147,8 @@ w2-videolist-item .openbtn:hover, w2-videolist-item .playbtn:hover, w2-videolist
     w2-videolist-item .delbtn {
         font-size: 30px;
     }
-    .sidebar {
-        transform: translate(-100%, 0);
-        transition: transform .15s ease;
-    }
     .sidebar .title {
         font-size: 14px;
-    }
-    [sidebar-open="true"] .sidebar {
-        margin-left: 0;
-        background: var(--backdropColor);
     }
 }
 
@@ -270,7 +262,7 @@ w2-preference-switch .handle::after {
 
 w2-notifications {
     position: fixed;
-    top: 10px;
+    top: 40px;
     right: 0;
     display: flex;
     flex-direction: column;
@@ -286,7 +278,7 @@ w2-notification {
     font-size: 12px;
     opacity: 0.98;
     min-width: 150px;
-    animation: slide-in .15s ease;
+    animation: slide-in .1s ease;
     user-select: none;
     cursor: pointer;
     margin-bottom: 10px;

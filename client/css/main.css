@@ -1,6 +1,7 @@
 :root {
     --accentColor: hsl(202, 91%, 40%);
     --accentColor-highlight: hsl(202, 82%, 50%);
+    --backgroundColor-bg: #0c0c0c;
     --backgroundColor: hsla(220, 0%, 8%, 1);
     --backgroundColor1: hsla(220, 0%, 8%, 1);
     --backgroundColor2: hsla(220, 0%, 13%, 1);
@@ -21,9 +22,57 @@ main {
     bottom: 0;
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-gap: 4px;
-    /* margin: 4px; */
+    grid-template-rows: auto 1fr;
     overflow: hidden;
+    grid-template-areas: "sidebar header"
+                         "sidebar content";
+}
+
+[layout-header] {
+    grid-area: header;
+}
+
+[layout-sidebar] {
+    grid-area: sidebar;
+}
+
+[layout-content] {
+    grid-area: content;
+}
+
+.header {
+    background: var(--backgroundColor2);
+    display: flex;
+}
+
+.logo {
+    width: 36px;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.header .meta {
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    height: 45px;
+}
+
+.header .meta .tab {
+    font-size: 13px;
+    padding: 0 10px;
+    color: #aaa;
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+    font-family: Roboto;
+}
+
+.header .meta .tab:hover {
+    text-decoration: underline;
+    color: #eee;
 }
 
 button {

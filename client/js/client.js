@@ -23,7 +23,6 @@ function onDomReady() {
 	}
 
 	// Video Queue toggle button
-	document.querySelector(".toggle-sidebar").onclick = () => bindButton("sidebar-open");
 	document.querySelector(".toggle-history").onclick = () => bindButton("video-history-open");
 
 	// video add button

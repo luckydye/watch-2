@@ -1,39 +1,3 @@
-.navigation {
-    position: fixed;
-    top: 8px;
-    left: 10px;
-    right: 10px;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    transition: margin-right .15s ease;
-    pointer-events: none;
-    z-index: 10000;
-}
-
-.navigation button {
-    pointer-events: all;
-}
-
-[sidebar-open="true"] .navigation button.toggle-sidebar i {
-    transform: rotate(180deg);
-}
-
-@media (min-width: 740px) {
-    .navigation button.toggle-sidebar {
-        visibility: hidden;
-    }
-}
-
-@media (max-width: 740px) {
-    body .navigation button.holo-button {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-@media (min-width: 740px) {}
-
 main:not([host]) .host-only {
     pointer-events: none;
     opacity: 0.5;
@@ -54,7 +18,7 @@ main:not([host]) .host-only {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: var(--backgroundColor1);
+    background: var(--backgroundColor-bg);
 }
 
 .player#placeholder h3 {
@@ -79,7 +43,6 @@ main:not([host]) .host-only {
     align-items: center;
     transition: .3s ease-out;
     user-select: none;
-    box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
     color: rgba(255, 255, 255, 0.85);
     outline: none;
     cursor: pointer;
@@ -91,6 +54,7 @@ main:not([host]) .host-only {
 }
 
 .room-button:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
     transition: .2s ease-out;
 }
 
@@ -124,10 +88,10 @@ main:not([host]) .host-only {
     pointer-events: none;
     background: var(--backgroundColor2);
     position: absolute;
-    top: -5px;
-    left: calc(100% + 20px);
+    top: 180%;
+    left: calc(100% - 30px);
     border-radius: 3px;
-    transform: translate(-15px, 0);
+    transform: translate(0, -15px);
     transform-origin: 0 0;
     transition: .1s ease;
     padding: 10px;
@@ -135,7 +99,7 @@ main:not([host]) .host-only {
     display: grid;
     z-index: 100000;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.125);
-    clip-path: circle(50% at 0 0);
+    clip-path: circle(50% at 50% 0);
 }
 
 .room-settings label {
@@ -145,8 +109,8 @@ main:not([host]) .host-only {
 .room-settings::after {
     content: "";
     position: absolute;
-    top: 5px;
-    left: 0;
+    bottom: 100%;
+    left: 17px;
     width: 14px;
     height: 14px;
     transform: rotate(45deg) translate(0, 10px);
@@ -161,7 +125,6 @@ main:not([host]) .host-only {
     max-height: 100vh;
     height: 100%;
     z-index: 1000;
-    border-radius: 3px;
     background: var(--backgroundColor1);
 }
 
@@ -179,9 +142,9 @@ main:not([host]) .host-only {
     align-items: center;
     color: rgba(238, 238, 238, 0.5);
     font-size: 16px;
-    margin: 0 15px 15px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--backgroundColor2);
+    margin: 0 0 15px 0;
+    padding: 10px 15px;
+    background: var(--backgroundColor2);
 }
 
 .sidebar w2-videolist {

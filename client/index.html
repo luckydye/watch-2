@@ -12,7 +12,7 @@
 	<script src="https://player.twitch.tv/js/embed/v1.js"></script>
 
 	<link preload href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link preload href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
+	<link preload href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
 
 	<script type="module" src="/js/client.min.js"></script>
 
@@ -31,10 +31,18 @@
 
 		<w2-notifications></w2-notifications>
 
-		<div class="sidebar">
+		<div class="header" layout-header>
+			<div class="header-content"></div>
+			<div class="meta">
+				<a class="tab" target="blank" href="https://luckydye.de/">Homepage</a>
+				<a class="tab" target="blank" href="https://twitter.com/timh4v">@timh4v</a>
+			</div>
+		</div>
+
+		<div class="sidebar" layout-sidebar>
 			<div class="sidebar-header">
 				<div class="sidebar-header-left">
-					<a class="headline">Playlist</a>
+					<img class="logo" src="/res/watch2.svg" title="Watch2">
 				</div>
 				<div class="sidebar-header-right">
 					<div class="room-button add-video">
@@ -92,14 +100,7 @@
 			</div>
 		</div>
 
-		<div class="content">
-
-			<div class="navigation">
-				<button class="holo-button toggle-sidebar">
-					<i class="material-icons">keyboard_arrow_right</i>
-				</button>
-			</div>
-
+		<div class="content" layout-content>
 			<div class="player-container"></div>
 		</div>
 	</main>
