@@ -12,7 +12,7 @@
 			"ref" : "origin/master",
 			"repo": "git@github.com:luckydye/watch-2.git",
 			"path": "/srv/watch-2",
-			"post-deploy": "npm install; npm run build; npm start"
+			"post-deploy": "npm install; npm run build; export PORT=8081; npm start"
 		}
 	}
 }
