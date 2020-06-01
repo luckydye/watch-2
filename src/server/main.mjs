@@ -29,16 +29,14 @@ app.use((req, res, next) => {
 });
 
 app.use('/node_modules/@webcomponents', express.static('node_modules/@webcomponents'));
-app.use('/js', express.static('./client/js'));
-app.use('/css', express.static('./client/css'));
-app.use('/components', express.static('./client/components'));
-app.use('/res', express.static('./resources'));
+app.use('/js', express.static('./public/js'));
+app.use('/css', express.static('./public/css'));
+app.use('/components', express.static('./components'));
+app.use('/res', express.static('./public'));
+
+app.use('/', express.static('./public'));
 
 app.get('/', (req, res) => res.redirect("/" + randomRoomId()));
-
-app.get('/rooms', (req, res) => {
-    res.sendFile(path.resolve("./client/rooms.html"));
-});
 
 app.use('/api/v1', watchApi());
 
@@ -47,7 +45,7 @@ app.get('/r/:roomId', (req, res) => {
 });
 
 app.get('/:roomId', (req, res) => {
-    res.sendFile(path.resolve("./client/index.html"));
+    res.sendFile(path.resolve("./public/index.html"));
 });
 
 app.use((req, res, next) => {

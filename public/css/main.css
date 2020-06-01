@@ -1,9 +1,24 @@
 :root {
+    --gyro-pallate-background: #191919;
+    --gyro-pallate-highlight: #4A4A4A;
+    --gyro-pallate-panel-bg: #212121;
+    --gyro-pallate-panel-content: #2A2A2A;
+    --gyro-pallate-panel-header: #333333;
+    --gyro-pallate-btn-bg: #1F1F1F;
+    --gyro-pallate-text: #E6E6E6;
+    --gyro-pallate-accent: #3D77AA;
+    
+    --color-scrollbar-thumb: var(--gyro-pallate-panel-header);
+    --color-scrollbar-thumb-hover: var(--gyro-pallate-highlight);
+    --color-icon: var(--gyro-pallate-text);
+}
+
+:root {
     --accentColor: hsl(202, 91%, 40%);
     --accentColor-highlight: hsl(202, 82%, 50%);
-    --backgroundColor-bg: #0c0c0c;
-    --backgroundColor: hsla(220, 0%, 8%, 1);
-    --backgroundColor1: hsla(220, 0%, 8%, 1);
+    --backgroundColor-bg: var(--gyro-pallate-panel-bg);
+    --backgroundColor: var(--gyro-pallate-background);
+    --backgroundColor1: var(--gyro-pallate-background);
     --backgroundColor2: hsla(220, 0%, 13%, 1);
 }
 
@@ -21,11 +36,18 @@ main {
     right: 0;
     bottom: 0;
     display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: auto auto 1fr;
     overflow: hidden;
-    grid-template-areas: "sidebar header"
-                         "sidebar content";
+    grid-gap: 2px;
+    grid-template-areas: "menubar sidebar content";
+}
+
+main gyro-menubar {
+    width: 45px;
+}
+
+[layout-menubar] {
+    grid-area: menubar;
 }
 
 [layout-header] {
