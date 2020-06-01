@@ -7,7 +7,10 @@ export class TwitchPlayer extends PlayerInterface {
     }
 
     setup() {
-        this.player = new Twitch.Player(this.containerId);
+        const options = {
+            channel: "luckydye",
+        }
+        this.player = new Twitch.Player(this.containerId, options);
         this.player.addEventListener(Twitch.Player.PAUSE, () => {
             this.onStateChange(PlayerInterface.PAUSED);
         })

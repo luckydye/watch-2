@@ -18,10 +18,10 @@ export class IFrames extends Service {
             return "twitchchannelclip:" + split[split.length - 1].split("?")[0];
         }
 
-        if (url.match(/\.twitch.tv\/.+/g)) {
-            const split = url.split("/");
-            return "twitch:" + split[split.length - 1];
-        }
+        // if (url.match(/\.twitch.tv\/.+/g)) {
+        //     const split = url.split("/");
+        //     return "twitch:" + split[split.length - 1];
+        // }
     }
 
     static getVideoURL(id) {
