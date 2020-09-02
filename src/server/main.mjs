@@ -44,6 +44,9 @@ app.get('/r/:roomId', (req, res) => {
     res.redirect("/" + req.params.roomId);
 });
 
+console.log('Dirname:', process.cwd());
+console.log('Root:', path.resolve("./"));
+
 app.get('/:roomId', (req, res) => {
     res.sendFile(path.resolve("./public/index.html"));
 });
