@@ -1,10 +1,10 @@
-import '../../components/Preference.js';
-import '../../components/Itemlist.js';
-import '../../components/VideoList.js';
+import './components/Preference.js';
+import './components/Itemlist.js';
+import './components/VideoList.js';
 
 import { Room } from './Room.js';
-import { Notification } from './Notifications.js';
-import { Service } from './Service.js';
+import { Notification } from './lib/Notifications.js';
+import { Service } from './services/Service.js';
 import '@uncut/gyro/components/menu-bar/Menubar.js';
 import '@uncut/gyro/components/Icon.js';
 import '@uncut/gyro/components/settings/Settings.js';

@@ -1,5 +1,5 @@
-import { Service } from '../src/client/Service.js';
-import { PlayerInterface } from '../src/client/PlayerInterface.js';
+import { Service } from '../services/Service';
+import { PlayerInterface } from '../players/PlayerInterface';
 
 export default class Player extends HTMLElement {
 

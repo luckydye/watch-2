@@ -1,4 +1,4 @@
-import { PlayerInterface } from '../PlayerInterface.js';
+import { PlayerInterface } from './PlayerInterface.js';
 
 export class YouTubePlayer extends PlayerInterface {
 

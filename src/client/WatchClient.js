@@ -1,5 +1,5 @@
-import { Notification } from "./Notifications.js";
-import { Preferences } from "./Preferences.js";
+import { Notification } from "./lib/Notifications";
+import { Preferences } from "./lib/Preferences";
 
 function displayNotification(text, time) {
 	if (!Preferences.get('hide_notifictions')) {

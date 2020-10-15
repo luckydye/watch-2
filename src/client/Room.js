@@ -1,15 +1,18 @@
-import { WatchClient } from './WatchClient.js';
-import Player from '../../components/Player.js';
-import { Notification } from './Notifications.js';
-import { Service } from './Service.js';
-import { PlayerInterface } from './PlayerInterface.js';
-import { YouTube } from './services/ServiceYouTube.js';
-import { Twitch } from './services/ServiceTwitch.js';
-import { IFrames } from './services/ServiceIframe.js';
-import { YouTubePlayer } from './players/YouTubePlayer.js';
-import { TwitchPlayer } from './players/TwitchPlayer.js';
+import Player from './components/Player.js';
+import NetworkManager from './net/NetworkManager.js';
+import { Notification } from './lib/Notifications.js';
+import { PlayerInterface } from './players/PlayerInterface.js';
 import { IFramePlayer } from './players/IFramePlayer.js';
-import { Preferences } from './Preferences.js';
+import { TwitchPlayer } from './players/TwitchPlayer.js';
+import { YouTubePlayer } from './players/YouTubePlayer.js';
+import { Preferences } from './lib/Preferences.js';
+import { Service } from './services/Service.js';
+import { IFrames } from './services/ServiceIframe.js';
+import { Twitch } from './services/ServiceTwitch.js';
+import { YouTube } from './services/ServiceYouTube.js';
+import { WatchClient } from './WatchClient.js';
+
+const networkManager = new NetworkManager();
 
 export class Room {
 
@@ -24,6 +27,7 @@ export class Room {
 		Service.registerService(Twitch);
 		Service.registerService(IFrames);
 
+		this.client = new Client();
 		this.player = new Player();
 		document.querySelector(".player-container").appendChild(this.player);
 
@@ -33,9 +37,11 @@ export class Room {
 
 		this.socket = new WatchClient();
 
+		networkManager.setClient(this.client, player);
+
 		this.player.addEventListener("ready", () => {
 			this.init();
-		})
+		});
 
 		this.initPlayer();
 	}
@@ -43,7 +49,6 @@ export class Room {
 	initPlayer() {
 		this.player.setupPlayer();
 
-		const socket = this.socket;
 		const player = this.player;
 
 		let lastState = 0;
@@ -58,27 +63,32 @@ export class Room {
 		}
 
 		this.player.addEventListener("seek", (e) => {
-			debounce(() => socket.emit('seek.video', { time: e.detail.time }));
+			debounce(() => networkManager.seekVideo(e.detail.time));
+			// debounce(() => socket.emit('seek.video', { time: e.detail.time }));
 		})
 
 		this.player.addEventListener("play", () => {
-			debounce(() => socket.emit('play.video'));
+			debounce(() => networkManager.playVideo());
+			// debounce(() => socket.emit('play.video'));
 		})
 
 		this.player.addEventListener("pause", () => {
 			debounce(() => {
 				if (lastState !== PlayerInterface.SEEKING) {
-					socket.emit('pause.video');
-					socket.emit('seek.video', { time: player.getCurrentTime() });
+					networkManager.pauseVideo()
+					networkManager.seekVideo(player.getCurrentTime());
+					// socket.emit('pause.video');
+					// socket.emit('seek.video', { time: player.getCurrentTime() });
 				}
 			});
-		})
+		});
 	}
 
 	addVideo(link) {
 		const parsed = Service.parseServiceUrl(link);
 		if (parsed) {
-			this.socket.addVideoToQueue(parsed.service, parsed.id);
+			networkManager.addVideoToQueue(parsed.service, parsed.id);
+			// this.socket.addVideoToQueue(parsed.service, parsed.id);
 		} else {
 			const noti = new Notification({ text: "Inavlid URL", time: 2000 });
 			noti.display(document.querySelector("w2-notifications"));
@@ -88,30 +98,33 @@ export class Room {
 	init() {
 		const socket = this.socket;
 
-		socket.init();
-
 		document.querySelector(".sidebar w2-videolist#queue").removeVideo = (index, vid) => {
-			socket.removeVideoFromQueue({ index, id: vid.id });
+			networkManager.removeVideoFromQueue({ index, id: vid.id });
+			// socket.removeVideoFromQueue({ index, id: vid.id });
 		}
 
 		document.querySelector(".sidebar w2-videolist").playVideo = (index, vid) => {
-			socket.loadVideo({ index, id: vid.id });
+			networkManager.loadVideo({ index, id: vid.id });
+			// socket.loadVideo({ index, id: vid.id });
 		}
 
 		document.querySelector(".history w2-videolist").playVideo = (index, vid) => {
-			const q = socket.addVideoToQueue(vid.service, vid.id);
-			socket.loadVideo({ index: q.length, id: vid.id });
+			const q = networkManager.addVideoToQueue(vid.service, vid.id);
+			networkManager.loadVideo({ index: q.length, id: vid.id });
+			// const q = socket.addVideoToQueue(vid.service, vid.id);
+			// socket.loadVideo({ index: q.length, id: vid.id });
 		}
 
-		socket.connect(this.id);
+		networkManager.connect(this.id);
 
 		Preferences.subscribe((key, value) => {
 			this.setRoomState({ hostonly: Preferences.get('hostonly') });
-		})
+		});
 	}
 
 	setRoomState(obj) {
-		this.socket.emit('room.state', obj);
+		networkManager.roomState(obj);
+		// this.socket.emit('room.state', obj);
 	}
 
 }

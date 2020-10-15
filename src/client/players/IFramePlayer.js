@@ -1,5 +1,5 @@
-import { PlayerInterface } from '../PlayerInterface.js';
-import { Service } from '../Service.js';
+import { PlayerInterface } from './PlayerInterface.js';
+import { Service } from '../services/Service.js';
 
 export class IFramePlayer extends PlayerInterface {
 
