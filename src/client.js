@@ -1,6 +1,6 @@
-import '../../components/Preference.js';
-import '../../components/Itemlist.js';
-import '../../components/VideoList.js';
+import './components/Preference.js';
+import './components/Itemlist.js';
+import './components/VideoList.js';
 
 import { Room } from './Room.js';
 import { Notification } from './Notifications.js';

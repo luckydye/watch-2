@@ -10,7 +10,7 @@ module.exports = {
         new webpack.BannerPlugin(banner),
     ],
     entry: {
-        'client': "./src/client/client.js",
+        'client': "./src/client.js",
     },
     output: {
         globalObject: 'self',

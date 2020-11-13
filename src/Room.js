@@ -1,5 +1,5 @@
 import { WatchClient } from './WatchClient.js';
-import Player from '../../components/Player.js';
+import Player from './components/Player.js';
 import { Notification } from './Notifications.js';
 import { Service } from './Service.js';
 import { PlayerInterface } from './PlayerInterface.js';
